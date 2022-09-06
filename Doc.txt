@@ -1,0 +1,10 @@
+******* Documentación de proyecto Front End ********
+
+- Fuentes a utilizar: San Francisco
+
+- Paleta de colores: 
+
+Se crea el index con su barra de navegación y footer. Modo oscuro switcheable.
+Se implementa react router dom para el manejo multi pagina.
+
+Para el nombramiento de assets(resources) se utiliza el formato camelCase "nombreDeRecurso" 
