@@ -15,5 +15,9 @@ Se crea el login
 Primer push a repo
 
 
+git config --global user.email "dpj.agustin@gmail.com"
+> git config --global user.name "dpjagustin"
+
 A realizar:
 - Implementar NavLink
+- Solucionar Pull Request
