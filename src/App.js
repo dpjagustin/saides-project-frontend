@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
 import Home from "./pages/Home";
+import Login from "./pages/Login";
 
 
 function App() {
@@ -11,6 +12,8 @@ function App() {
         <Route path="/index" element={<Home />}/>
 
         <Route path="/putas" element={<h1>LA PUTA MADRE HARRY</h1>}/>
+
+        <Route path="/login" element={<Login/>}/>
       </Routes>
     </BrowserRouter>
   );

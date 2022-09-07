@@ -1,0 +1,18 @@
+{
+    "usuarios":[
+        {
+            "id": 1,
+            "apellido":"Miho",
+            "nombre":"Alvaro",
+            "username":"amiho",
+            "password":"12345"
+        },
+        {
+            "id": 2,
+            "apellido":"Perez",
+            "nombre":"Agustin",
+            "username":"aperez",
+            "password":"54321"
+        }
+    ]
+}
