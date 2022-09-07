@@ -2,16 +2,19 @@ import React from "react";
 import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import Solicitudes from "./pages/Solicitudes";
+import NotFoundPage from "./pages/NotFoundPage";
 
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        
         <Route path="/index" element={<Home />}/>
 
-        <Route path="/putas" element={<h1>LA PUTA MADRE HARRY</h1>}/>
+        <Route path="/solicitudes" element={<Solicitudes />}/>
+
+        <Route path="*" element={<NotFoundPage />} />
 
         <Route path="/login" element={<Login/>}/>
       </Routes>

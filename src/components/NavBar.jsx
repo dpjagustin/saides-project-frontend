@@ -23,7 +23,7 @@ import {
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 import { logDOM } from "@testing-library/react";
 
-const Links = ['Inicio', 'Sistemas', 'Solicitudes', 'Comida', 'Agenda']; // Links a paginas
+const Links = [<Link href="/index">Inicio</Link>, <Link href="/solicitudes">Solicitudes</Link>, <Link href="/comida">Comida</Link>, <Link href="/agenda">Agenda</Link>, <Link href="/sistemas">Sistema gestión</Link>,]; // Links a paginas
 
 const NavLink = ({ children }: { children: ReactNode }) => (
   <Link
@@ -41,9 +41,7 @@ const NavLink = ({ children }: { children: ReactNode }) => (
 
 // Que el nombre en el despegable de usuario sea personalizado
 
-
-
-export default function Nav() {
+export default function NavBar() {
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
@@ -103,9 +101,9 @@ export default function Nav() {
                   </Center>
                   <br />
                   <MenuDivider />
-                  <MenuItem>Mi panel</MenuItem>
-                  <MenuItem>Configuración</MenuItem>
-                  <MenuItem>Cerrar sesión</MenuItem>
+                  <MenuItem><Link href="/panel">Mi panel</Link></MenuItem>
+                  <MenuItem><Link href="/configuracion">Configuración</Link></MenuItem>
+                  <MenuItem><Link href="/login">Cerrar sesión</Link></MenuItem>
                 </MenuList>
               </Menu>
             </Stack>
