@@ -7,12 +7,11 @@
 Para el nombramiento de assets(resources) se utiliza el formato camelCase "nombreDeRecurso" 
 
 ## Configuración de nodemodules
-npx create-react-app
-npm i @chakra-ui/react @emotion/react @emotion/styled framer-motion
-npm i @chakra-ui/icons
+- npx create-react-app 
+- npm i @chakra-ui/react @emotion/react @emotion/styled framer-motion
+- npm i @chakra-ui/icons
 
-
-Secciones: 
+## Secciones de la webapp: 
 - Login
 - Home: (Inicio, Sistema, Solicitudes, Comida, Agenda)
 
