@@ -33,7 +33,7 @@ export default function CargaComida() {
   return (
     <Box>
       {fechas.map((dia) => (
-        <Box m="5">
+        <Box m="5" bg="blue.400">
 
         
         <FormControl as="fieldset">
