@@ -1,0 +1,34 @@
+.containerFormSelector {
+  padding: 3rem;
+  width: 50%;
+  height: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.formListTitle {
+  margin-bottom: 3rem;
+  font-size: 2rem;
+}
+
+.formList {
+  list-style: none;
+}
+
+.formList li {
+  margin-bottom: 1rem;
+}
+
+.containerForms {
+  padding: 3rem;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+}
+
+.containerSolicitudes {
+  width: 100%;
+  display: flex;
+}

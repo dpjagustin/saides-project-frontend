@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
 import Home from "./pages/Home";
+import Login from "./pages/Login";
 import Solicitudes from "./pages/Solicitudes";
 import NotFoundPage from "./pages/NotFoundPage";
 import Comida from "./pages/Comida";
@@ -18,6 +19,8 @@ function App() {
         <Route path="/comida" element={<Comida />}/>
 
         <Route path="*" element={<NotFoundPage />} />
+
+        <Route path="/login" element={<Login/>}/>
       </Routes>
     </BrowserRouter>
   );
