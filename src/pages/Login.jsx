@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import {
     Box,
     Heading,
@@ -16,13 +16,18 @@ import {
 import axios from "axios";
 import md5 from "md5";
 import Cookies from "universal-cookie";
+import swal from 'sweetalert';
 
 const baseUrl="http://localhost:3001/usuarios";
 const cookies = new Cookies();
 
 
 
+
+
 class Login extends Component{
+
+
     state={
         form:{
             username:"",
@@ -51,16 +56,26 @@ class Login extends Component{
                 cookies.set("apellido", respuesta.apellido, {path: "/"});
                 cookies.set("nombre", respuesta.nombre, {path: "/"});
                 cookies.set("username", respuesta.username, {path: "/"});
-                alert(`Bienvenido ${respuesta.nombre} ${respuesta.apellido}`);
+                cookies.set("img", respuesta.img,{path:"/"} );
+                window.location.href="./index";
+                
 
             }else{
-                alert("el usuario o la contraseña no son correctos")
+                swal("Error","El usuario o la contraseña son incorrectos", "error");
             }
 
         })
         .catch(error=>{
             console.log(error);
         })
+    }
+
+    
+    
+    componentDidMount() {
+        if(cookies.get('username')){
+            window.location.href="./index";
+        }
     }
 
     render(){
