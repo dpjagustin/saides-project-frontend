@@ -52,6 +52,8 @@ class Login extends Component{
                 cookies.set("nombre", respuesta.nombre, {path: "/"});
                 cookies.set("username", respuesta.username, {path: "/"});
                 alert(`Bienvenido ${respuesta.nombre} ${respuesta.apellido}`);
+                window.location.href="./index";
+                
 
             }else{
                 alert("el usuario o la contraseña no son correctos")

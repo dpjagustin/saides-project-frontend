@@ -13,6 +13,13 @@
             "nombre":"Agustin",
             "username":"aperez",
             "password":"54321"
+        },
+        {
+            "id": 3,
+            "apellido":"Lardani",
+            "nombre":"Ignacio",
+            "username":"ilardani",
+            "password":"123"
         }
     ]
 }
