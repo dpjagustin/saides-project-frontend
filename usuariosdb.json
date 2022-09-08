@@ -5,14 +5,72 @@
             "apellido":"Miho",
             "nombre":"Alvaro",
             "username":"amiho",
-            "password":"12345"
+            "password":"amiho",
+            "rol":"DePLM",
+            "img":"https://media-exp1.licdn.com/dms/image/C4E03AQFgUFdY-yo4BA/profile-displayphoto-shrink_800_800/0/1652104846309?e=1668038400&v=beta&t=4CPMQjdvjLc_4NEISLNlN1YuR3sD_bDa3N4vf5s4oE8"
         },
         {
             "id": 2,
             "apellido":"Perez",
             "nombre":"Agustin",
             "username":"aperez",
-            "password":"54321"
+            "password":"aperez",
+            "rol":"DePLM",
+            "img":"https://media-exp1.licdn.com/dms/image/C4D03AQGbU8SwKFCMZg/profile-displayphoto-shrink_800_800/0/1654645771305?e=1668038400&v=beta&t=VoaQ1HLZ1TDh0YCMiyDqlga898ZfbvM3mlHUQzC3ol8"
+        },
+        {
+            "id": 3,
+            "apellido":"Lardani",
+            "nombre":"Ignacio",
+            "username":"ilardani",
+            "password":"ilardani",
+            "rol":"DePLM",
+            "img":"https://media-exp1.licdn.com/dms/image/C4D03AQFae363XQHEPg/profile-displayphoto-shrink_800_800/0/1623339650732?e=1668038400&v=beta&t=3kL9iOKNYc_wyekXFcKs1YuDuqNnS1MEbE6m37GOxjQ"
+        },
+        {
+            "id": 4,
+            "apellido":"Escalante",
+            "nombre":"Tomas",
+            "username":"tescalante",
+            "password":"tescalante",
+            "rol":"DePLM",
+            "img":"https://www.fundacion-affinity.org/sites/default/files/los-10-sonidos-principales-del-perro.jpg"
+        },
+        {
+            "id": 5,
+            "apellido":"Viti",
+            "nombre":"Francisco",
+            "username":"fviti",
+            "password":"fviti",
+            "rol":"DePLM",
+            "img":"https://media-exp1.licdn.com/dms/image/C4D03AQFe2fGGDGzyUQ/profile-displayphoto-shrink_800_800/0/1521225047895?e=1668038400&v=beta&t=UxpFVMHPnDvBBKi3GhZw8hQ1H5cyE84fhUyOSHCJmWI"
+        },
+        {
+            "id": 6,
+            "apellido":"Carrera",
+            "nombre":"Francisco",
+            "username":"fcarrera",
+            "password":"fcarrera",
+            "rol":"DePLM",
+            "img":"https://media-exp1.licdn.com/dms/image/C4E03AQFaopl6Qbf4IA/profile-displayphoto-shrink_800_800/0/1623678182492?e=1668038400&v=beta&t=pxMJDj_n5rBb3Y10UGYTXJZxN7y8lTGgYtE77f-l_HY"
+        },
+        {
+            "id": 7,
+            "apellido":"Carrera",
+            "nombre":"Matias",
+            "username":"mcarrera",
+            "password":"mcarrera",
+            "rol":"DePLM",
+            "img":"https://media-exp1.licdn.com/dms/image/C4D03AQHqLn9qeUf4Yw/profile-displayphoto-shrink_800_800/0/1652231064376?e=1668038400&v=beta&t=SeWY6m6JbbkbVZ1Tde2LICcUnUFAKfIVVFEegrFpZk0"
+        },
+        {
+            "id": 8,
+            "apellido":"Payen",
+            "nombre":"Martin",
+            "username":"mpayen",
+            "password":"mpayen",
+            "rol":"DePLM",
+            "img":"https://media-exp1.licdn.com/dms/image/C4E22AQHtUGY7S9RYzw/feedshare-shrink_2048_1536/0/1628261430255?e=2147483647&v=beta&t=P-BvG--nJKl_AGyiqwmWQBza-tCX_A8xGqjeuocBqpY"
         }
     ]
 }
