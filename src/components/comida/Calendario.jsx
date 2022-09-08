@@ -1,7 +1,9 @@
 import React from "react";
 import { useState } from 'react';
 
+
 import Calendar from 'react-calendar';
+import "../styles/solicitudes/Calendario.css"
 
 
 import {
@@ -14,7 +16,6 @@ export default function Calendario() {
   return (
     <Box>
     <div className='app'>
-        <h1 className='text-center'>React Calendar</h1>
         <div className='calendar-container'>
           <Calendar onChange={setDate} value={date} />
         </div>
