@@ -12,6 +12,7 @@ Para el nombramiento de assets(resources) se utiliza el formato camelCase "nombr
 - npm i @chakra-ui/icons
 - npm i react-router-dom
 - npm i react-calendar
+- npm install --save styled-components
 
 
 
