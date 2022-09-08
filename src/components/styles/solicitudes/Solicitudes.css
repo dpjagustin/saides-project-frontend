@@ -22,13 +22,43 @@
 }
 
 .containerForms {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+}
+
+
+.containerForm1 {
   padding: 3rem;
   width: 50%;
   display: flex;
   justify-content: center;
 }
 
+
+.containerForm2 {
+  padding: 3rem;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  display: none;
+}
+
+
+.containerForm3 {
+  padding: 3rem;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  display: none;
+}
+
 .containerSolicitudes {
   width: 100%;
   display: flex;
+}
+
+.displayForm {
+  display: block;
 }
