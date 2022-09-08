@@ -1,6 +1,7 @@
 import React, { ReactNode} from "react";
 import ChakraComponent from "@chakra-ui/react";
 import { Image } from '@chakra-ui/react';
+import Cookies from "universal-cookie";
 
 import {
   Box,
@@ -23,7 +24,10 @@ import {
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 import { logDOM } from "@testing-library/react";
 
+ 
 const Links = [<Link href="/index">Inicio</Link>, <Link href="/solicitudes">Solicitudes</Link>, <Link href="/comida">Comida</Link>, <Link href="/agenda">Agenda</Link>, <Link href="/sistemas">Sistema gestión</Link>,]; // Links a paginas
+
+const cookies = new Cookies();
 
 const NavLink = ({ children }: { children: ReactNode }) => (
   <Link
@@ -39,11 +43,24 @@ const NavLink = ({ children }: { children: ReactNode }) => (
   </Link>
 );
 
+function cerrarSesion(){
+  cookies.remove("id", {path:"/"});
+  cookies.remove("nombre", {path:"/"});
+  cookies.remove("apellido", {path:"/"});
+  cookies.remove("username", {path:"/"});
+  cookies.remove("img", {path:"/"});
+  window.location.href="./login"
+}
+
 // Que el nombre en el despegable de usuario sea personalizado
 
 export default function NavBar() {
+
+
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+
   return (
     <>
       <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
@@ -81,7 +98,7 @@ export default function NavBar() {
                   minW={0}>
                   <Avatar
                     size={'sm'}
-                    src={'/fotoperfil.jpg'}
+                    src={cookies.get("img")}
                   />
                 </MenuButton>
                 <MenuList alignItems={'center'}>
@@ -89,12 +106,12 @@ export default function NavBar() {
                   <Center>
                     <Avatar
                       size={'2xl'}
-                      src={'/fotoPerfil.jpg'}
+                      src={cookies.get('img')}
                     />
                   </Center>
                   <br />
                   <Center>
-                    <p>Agustín Perez</p>
+                    <p>{cookies.get('nombre')} {cookies.get('apellido')}</p>
                   </Center>
                   <Center>
                     <p>DePLM</p>
@@ -103,7 +120,7 @@ export default function NavBar() {
                   <MenuDivider />
                   <MenuItem><Link href="/panel">Mi panel</Link></MenuItem>
                   <MenuItem><Link href="/configuracion">Configuración</Link></MenuItem>
-                  <MenuItem><Link href="/login">Cerrar sesión</Link></MenuItem>
+                  <MenuItem><Button colorScheme='red' onClick={()=> cerrarSesion()}>Cerrar sesión</Button></MenuItem>
                 </MenuList>
               </Menu>
             </Stack>
