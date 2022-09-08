@@ -6,6 +6,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import Comida from "./pages/Comida";
 
 
+
 function App() {
   return (
     <BrowserRouter>
