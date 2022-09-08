@@ -4,6 +4,8 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Solicitudes from "./pages/Solicitudes";
 import NotFoundPage from "./pages/NotFoundPage";
+import Comida from "./pages/Comida";
+
 
 
 function App() {
@@ -13,6 +15,8 @@ function App() {
         <Route path="/index" element={<Home />}/>
 
         <Route path="/solicitudes" element={<Solicitudes />}/>
+
+        <Route path="/comida" element={<Comida />}/>
 
         <Route path="*" element={<NotFoundPage />} />
 

@@ -16,6 +16,9 @@ Para el nombramiento de assets(resources) se utiliza el formato camelCase "nombr
 - npm i md5
 - npm i universal-cookie
 - npm i sweetalert
+- npm i react-calendar
+
+
 
 ## Secciones de la webapp: 
 - Login
