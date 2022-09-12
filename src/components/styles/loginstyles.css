@@ -1,0 +1,5 @@
+.videologin{
+    position: fixed !important;
+    z-index: -1 !important;
+    filter: blur(2px);
+}

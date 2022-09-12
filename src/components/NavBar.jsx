@@ -2,6 +2,7 @@ import React, { ReactNode} from "react";
 import ChakraComponent from "@chakra-ui/react";
 import { Image } from '@chakra-ui/react';
 import Cookies from "universal-cookie";
+import Micuenta from "../pages/Micuenta";
 
 import {
   Box,
@@ -67,7 +68,7 @@ export default function NavBar() {
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <HStack spacing={8} alignItems={'center'}>
               <Box >
-                <a href="#">
+                <a href="/index">
                 <Image src='/logoSaidesHundido.png' width="60px"  alt='Logo Descar' id='logoDescar' />
                 </a>
               </Box>
@@ -118,7 +119,7 @@ export default function NavBar() {
                   </Center>
                   <br />
                   <MenuDivider />
-                  <MenuItem><Link href="/panel">Mi panel</Link></MenuItem>
+                  <MenuItem><Button colorScheme="blue"><Link href="/micuenta">Mi cuenta</Link></Button></MenuItem>
                   <MenuItem><Link href="/configuracion">Configuración</Link></MenuItem>
                   <MenuItem><Button colorScheme='red' onClick={()=> cerrarSesion()}>Cerrar sesión</Button></MenuItem>
                 </MenuList>
