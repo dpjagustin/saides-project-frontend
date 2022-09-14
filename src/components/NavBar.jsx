@@ -50,6 +50,7 @@ function cerrarSesion(){
   cookies.remove("apellido", {path:"/"});
   cookies.remove("username", {path:"/"});
   cookies.remove("img", {path:"/"});
+  cookies.remove("rol", {path:"/"});
   window.location.href="./login"
 }
 
@@ -120,7 +121,6 @@ export default function NavBar() {
                   <br />
                   <MenuDivider />
                   <MenuItem><Button colorScheme="blue"><Link href="/micuenta">Mi cuenta</Link></Button></MenuItem>
-                  <MenuItem><Link href="/configuracion">Configuración</Link></MenuItem>
                   <MenuItem><Button colorScheme='red' onClick={()=> cerrarSesion()}>Cerrar sesión</Button></MenuItem>
                 </MenuList>
               </Menu>

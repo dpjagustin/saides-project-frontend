@@ -12,7 +12,6 @@ import {
     Button,
     Image,
     Center,
-    useCheckbox
 } from "@chakra-ui/react";
 import axios from "axios";
 import md5 from "md5";
@@ -24,7 +23,6 @@ import videoplanta from "../resources/videoplanta.mp4"
 const baseUrl="http://localhost:3001/usuarios";
 const cookies = new Cookies();
 
-let checkbox = false
 
 class Login extends Component{
 
@@ -54,7 +52,7 @@ class Login extends Component{
       // localStorage.getItem("check") 
     }
     guardarUsuario(estaCheck, usuario){
-    
+        
         console.log(estaCheck)
         if (estaCheck) {
             
@@ -65,7 +63,7 @@ class Login extends Component{
             
         }else{
             localStorage.setItem("check", estaCheck)
-        
+            localStorage.removeItem("usuario", usuario)
             console.log("no lo guardo")
             
         }
@@ -87,8 +85,9 @@ class Login extends Component{
                 cookies.set("nombre", respuesta.nombre, {path: "/"});
                 cookies.set("username", respuesta.username, {path: "/"}); 
                 cookies.set("img", respuesta.img,{path:"/"} );
-                //window.location.href="./index";
-            }else{
+                cookies.set("rol", respuesta.rol,{path:"/"} );
+                window.location.href="./index";
+            } else {
                 swal("Error","El usuario o la contraseña son incorrectos", "error");
             }
         })
@@ -125,14 +124,15 @@ class Login extends Component{
                         </VStack>
                         <FormControl>
                             <FormLabel>Usuario</FormLabel>
-                            <Input rounded="none" variant="filled" name="username" onChange={this.handleChange} id="inputlogin"/>
+                            <Input rounded="none" variant="filled" name="username" value={localStorage.getItem("usuario")} onChange={this.handleChange} id="inputlogin" />
                         </FormControl>
                         <FormControl>
                             <FormLabel>Contraseña</FormLabel>
                             <Input rounded="none" variant="filled" type="password" name="password" onChange={this.handleChange}/>
                         </FormControl>
                         <HStack w="full" justify="space-between">
-                            <Checkbox id="check" onChange={(e) => this.guardarUsuario(e.target.checked, document.getElementById("inputlogin").value)} defaultChecked={JSON.parse(localStorage.getItem("check"))} >Recordar usuario</Checkbox>
+                            <Checkbox id="check" onChange={(e) => this.guardarUsuario(e.target.checked, document.getElementById("inputlogin").value)} 
+                            defaultChecked={JSON.parse(localStorage.getItem("check"))} >Recordar usuario</Checkbox>
                             <Button variant="link" colorScheme="blue">
                                 Olvide mi contraseña
                             </Button>

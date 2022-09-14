@@ -62,8 +62,16 @@ export default function Micuenta(){
                     type="text"
                 />
                 </FormControl>
-                <FormControl id="email" isRequired>
-                <FormLabel>Direccion Email</FormLabel>
+                <FormControl id="apellido" isRequired>
+                <FormLabel>{cookies.get('apellido')}</FormLabel>
+                <Input
+                    placeholder="your-email@example.com"
+                    _placeholder={{ color: 'gray.500' }}
+                    type="email"
+                />
+                </FormControl>
+                <FormControl id="rol" isRequired>
+                <FormLabel>{cookies.get('rol')}</FormLabel>
                 <Input
                     placeholder="your-email@example.com"
                     _placeholder={{ color: 'gray.500' }}
