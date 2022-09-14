@@ -2,6 +2,7 @@ import React, { ReactNode} from "react";
 import ChakraComponent from "@chakra-ui/react";
 import { Image } from '@chakra-ui/react';
 import Cookies from "universal-cookie";
+import Micuenta from "../pages/Micuenta";
 
 import {
   Box,
@@ -49,6 +50,7 @@ function cerrarSesion(){
   cookies.remove("apellido", {path:"/"});
   cookies.remove("username", {path:"/"});
   cookies.remove("img", {path:"/"});
+  cookies.remove("rol", {path:"/"});
   window.location.href="./login"
 }
 
@@ -118,8 +120,7 @@ export default function NavBar() {
                   </Center>
                   <br />
                   <MenuDivider />
-                  <MenuItem><Link href="/panel">Mi panel</Link></MenuItem>
-                  <MenuItem><Link href="/configuracion">Configuración</Link></MenuItem>
+                  <MenuItem><Button colorScheme="blue"><Link href="/micuenta">Mi cuenta</Link></Button></MenuItem>
                   <MenuItem><Button colorScheme='red' onClick={()=> cerrarSesion()}>Cerrar sesión</Button></MenuItem>
                 </MenuList>
               </Menu>

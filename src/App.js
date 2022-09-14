@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Solicitudes from "./pages/Solicitudes";
 import NotFoundPage from "./pages/NotFoundPage";
 import Comida from "./pages/Comida";
+import Micuenta from "./pages/Micuenta";
 
 
 
@@ -21,6 +22,8 @@ function App() {
         <Route path="*" element={<NotFoundPage />} />
 
         <Route path="/login" element={<Login/>}/>
+
+        <Route path="/micuenta" element={<Micuenta/>}/>
       </Routes>
     </BrowserRouter>
   );

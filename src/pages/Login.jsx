@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component } from "react";
 import {
     Box,
     Heading,
@@ -11,17 +11,26 @@ import {
     Checkbox,
     Button,
     Image,
-    Center 
+    Center,
 } from "@chakra-ui/react";
 import axios from "axios";
 import md5 from "md5";
 import Cookies from "universal-cookie";
 import swal from 'sweetalert';
+import "../components/styles/loginstyles.css"
+import videoplanta from "../resources/videoplanta.mp4"
 
 const baseUrl="http://localhost:3001/usuarios";
 const cookies = new Cookies();
 
+<<<<<<< HEAD
 class Login extends Component{
+=======
+
+class Login extends Component{
+
+    
+>>>>>>> 22317b730de8db4ac3ac670491bec97ce09b3d81
     state={
         form:{
             username:"",
@@ -37,6 +46,33 @@ class Login extends Component{
             }
         });
     }
+    estaCheckeado(){
+        if(localStorage.getItem("check")){
+            return true
+        }else if(localStorage.getItem("check") === null){
+            return false
+        }else{
+            return false
+        }
+      // localStorage.getItem("check") 
+    }
+    guardarUsuario(estaCheck, usuario){
+        
+        console.log(estaCheck)
+        if (estaCheck) {
+            
+            localStorage.setItem("check", estaCheck)
+            localStorage.setItem("usuario", usuario)
+            
+            console.log("lo guardo  ", usuario)
+            
+        }else{
+            localStorage.setItem("check", estaCheck)
+            localStorage.removeItem("usuario", usuario)
+            console.log("no lo guardo")
+            
+        }
+    }
 
     iniciarSesion= async () =>{
         await axios.get(baseUrl, {params: {username: this.state.form.username, password: this.state.form.password}})
@@ -46,23 +82,33 @@ class Login extends Component{
         })
         .then(response=>{
             if(response.length > 0 ){
-                var respuesta=response[0];
+
+                let respuesta=response[0];
+                console.log(respuesta)
                 cookies.set("id", respuesta.id, {path: "/"});
                 cookies.set("apellido", respuesta.apellido, {path: "/"});
                 cookies.set("nombre", respuesta.nombre, {path: "/"});
-                cookies.set("username", respuesta.username, {path: "/"});
+                cookies.set("username", respuesta.username, {path: "/"}); 
                 cookies.set("img", respuesta.img,{path:"/"} );
+                cookies.set("rol", respuesta.rol,{path:"/"} );
                 window.location.href="./index";
+<<<<<<< HEAD
             }else{
+=======
+            } else {
+>>>>>>> 22317b730de8db4ac3ac670491bec97ce09b3d81
                 swal("Error","El usuario o la contraseña son incorrectos", "error");
             }
-
         })
         .catch(error=>{
             console.log(error);
         })
     }
 
+<<<<<<< HEAD
+=======
+    
+>>>>>>> 22317b730de8db4ac3ac670491bec97ce09b3d81
     componentDidMount() {
         if(cookies.get('username')){
             window.location.href="./index";
@@ -71,15 +117,42 @@ class Login extends Component{
 
     render(){
         return(
-            <Box w={["full", "md"]} p={[8, 10]} mt={[20, "10vh"]} mx="auto" border={["none", "1px"]} borderColor={["", "gray.300"]} borderRadius={[10]}>
-                <VStack spacing={4} align="flex-start" w="full">
-                    <VStack>
-                        <Center>
-                            <Image src="/LogoSaides.png" w="30%"></Image>
+        <Box>
+            <video className='videologin' autoPlay loop muted>
+                <source src={videoplanta} type='video/mp4' />
+            </video> 
+            <Center h="950">
+                <Box w={["full", "md"]} p={[8, 10]} mx="auto" border={["none", "1px"]} borderColor={["", "gray.300"]} borderRadius={[10]} bg="gray.700">
+                    <VStack spacing={4} align="flex-start" w="full">
+                        <VStack>
+                            <Center>
+                                <Image src="/LogoSaides.png" w="30%"></Image>
 
-                        </Center>
+                            </Center>
+                        </VStack>
+                        <VStack spacing={1} align={["flex-start", "center"]} w="full">
+                            <Heading>Login</Heading>
+                            <Text>Ingresa tu usuario</Text>  
+                        </VStack>
+                        <FormControl>
+                            <FormLabel>Usuario</FormLabel>
+                            <Input rounded="none" variant="filled" name="username" value={localStorage.getItem("usuario")} onChange={this.handleChange} id="inputlogin" />
+                        </FormControl>
+                        <FormControl>
+                            <FormLabel>Contraseña</FormLabel>
+                            <Input rounded="none" variant="filled" type="password" name="password" onChange={this.handleChange}/>
+                        </FormControl>
+                        <HStack w="full" justify="space-between">
+                            <Checkbox id="check" onChange={(e) => this.guardarUsuario(e.target.checked, document.getElementById("inputlogin").value)} 
+                            defaultChecked={JSON.parse(localStorage.getItem("check"))} >Recordar usuario</Checkbox>
+                            <Button variant="link" colorScheme="blue">
+                                Olvide mi contraseña
+                            </Button>
+                        </HStack>
+                        <Button rounded="none" colorScheme="blue" w="full" alignSelf="end" onClick={()=> this.iniciarSesion()}>Login</Button>
                     </VStack>
 
+<<<<<<< HEAD
                     <VStack spacing={1} align={["flex-start", "center"]} w="full">
                         <Heading>Login</Heading>
                         <Text>Ingresa tu usuario</Text>  
@@ -105,19 +178,16 @@ class Login extends Component{
                     <Button rounded="none" colorScheme="blue" w="full" alignSelf="end" onClick={()=> this.iniciarSesion()}>Login</Button>
                 </VStack>
             </Box>
+=======
+                </Box>
+            </Center>
+        </Box>
+>>>>>>> 22317b730de8db4ac3ac670491bec97ce09b3d81
         )
     }
 }
 
 export default Login;
-
-
-
-
-
-
-
-
 
 
 
