@@ -21,19 +21,14 @@ import swal from 'sweetalert';
 const baseUrl="http://localhost:3001/usuarios";
 const cookies = new Cookies();
 
-
-
-
-
 class Login extends Component{
-
-
     state={
         form:{
             username:"",
             password:"",
         }
     }
+
     handleChange= async e=>{
         await this.setState({
             form:{
@@ -58,8 +53,6 @@ class Login extends Component{
                 cookies.set("username", respuesta.username, {path: "/"});
                 cookies.set("img", respuesta.img,{path:"/"} );
                 window.location.href="./index";
-                
-
             }else{
                 swal("Error","El usuario o la contraseña son incorrectos", "error");
             }
@@ -70,8 +63,6 @@ class Login extends Component{
         })
     }
 
-    
-    
     componentDidMount() {
         if(cookies.get('username')){
             window.location.href="./index";
@@ -88,31 +79,35 @@ class Login extends Component{
 
                         </Center>
                     </VStack>
+
                     <VStack spacing={1} align={["flex-start", "center"]} w="full">
                         <Heading>Login</Heading>
                         <Text>Ingresa tu usuario</Text>  
                     </VStack>
+
                     <FormControl>
                         <FormLabel>Usuario</FormLabel>
                         <Input rounded="none" variant="filled" name="username" onChange={this.handleChange}/>
                     </FormControl>
+
                     <FormControl>
                         <FormLabel>Contraseña</FormLabel>
                         <Input rounded="none" variant="filled" type="password" name="password" onChange={this.handleChange}/>
                     </FormControl>
+
                     <HStack w="full" justify="space-between">
                         <Checkbox>Recordar usuario</Checkbox>
                         <Button variant="link" colorScheme="blue">
                             Olvide mi contraseña
                         </Button>
                     </HStack>
+
                     <Button rounded="none" colorScheme="blue" w="full" alignSelf="end" onClick={()=> this.iniciarSesion()}>Login</Button>
                 </VStack>
             </Box>
         )
     }
 }
-
 
 export default Login;
 

@@ -67,7 +67,7 @@ export default function NavBar() {
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <HStack spacing={8} alignItems={'center'}>
               <Box >
-                <a href="#">
+                <a href="/index">
                 <Image src='/logoSaidesHundido.png' width="60px"  alt='Logo Descar' id='logoDescar' />
                 </a>
               </Box>
@@ -85,10 +85,10 @@ export default function NavBar() {
           <Flex alignItems={'center'}>
             <Stack direction={'row'} spacing={7}>
               <Button onClick={toggleColorMode}>
-              {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+                {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
               {/* {colorMode === 'light' ? document.getElementById("logoDescar").style.backgroundColor = 'grey' : document.getElementById("logoDescar").style.backgroundColor = 'white'} */}
-
               </Button>
+
               <Menu>
                 <MenuButton
                   as={Button}
