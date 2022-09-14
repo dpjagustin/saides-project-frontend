@@ -87,10 +87,10 @@ export default function NavBar() {
           <Flex alignItems={'center'}>
             <Stack direction={'row'} spacing={7}>
               <Button onClick={toggleColorMode}>
-              {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+                {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
               {/* {colorMode === 'light' ? document.getElementById("logoDescar").style.backgroundColor = 'grey' : document.getElementById("logoDescar").style.backgroundColor = 'white'} */}
-
               </Button>
+
               <Menu>
                 <MenuButton
                   as={Button}

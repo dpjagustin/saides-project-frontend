@@ -33,6 +33,7 @@ class Login extends Component{
             password:"",
         }
     }
+
     handleChange= async e=>{
         await this.setState({
             form:{
@@ -146,7 +147,6 @@ class Login extends Component{
         )
     }
 }
-
 
 export default Login;
 
