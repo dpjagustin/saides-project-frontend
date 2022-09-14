@@ -23,14 +23,10 @@ import videoplanta from "../resources/videoplanta.mp4"
 const baseUrl="http://localhost:3001/usuarios";
 const cookies = new Cookies();
 
-<<<<<<< HEAD
-class Login extends Component{
-=======
 
 class Login extends Component{
 
     
->>>>>>> 22317b730de8db4ac3ac670491bec97ce09b3d81
     state={
         form:{
             username:"",
@@ -92,11 +88,7 @@ class Login extends Component{
                 cookies.set("img", respuesta.img,{path:"/"} );
                 cookies.set("rol", respuesta.rol,{path:"/"} );
                 window.location.href="./index";
-<<<<<<< HEAD
-            }else{
-=======
             } else {
->>>>>>> 22317b730de8db4ac3ac670491bec97ce09b3d81
                 swal("Error","El usuario o la contraseña son incorrectos", "error");
             }
         })
@@ -105,10 +97,7 @@ class Login extends Component{
         })
     }
 
-<<<<<<< HEAD
-=======
     
->>>>>>> 22317b730de8db4ac3ac670491bec97ce09b3d81
     componentDidMount() {
         if(cookies.get('username')){
             window.location.href="./index";
@@ -152,37 +141,9 @@ class Login extends Component{
                         <Button rounded="none" colorScheme="blue" w="full" alignSelf="end" onClick={()=> this.iniciarSesion()}>Login</Button>
                     </VStack>
 
-<<<<<<< HEAD
-                    <VStack spacing={1} align={["flex-start", "center"]} w="full">
-                        <Heading>Login</Heading>
-                        <Text>Ingresa tu usuario</Text>  
-                    </VStack>
-
-                    <FormControl>
-                        <FormLabel>Usuario</FormLabel>
-                        <Input rounded="none" variant="filled" name="username" onChange={this.handleChange}/>
-                    </FormControl>
-
-                    <FormControl>
-                        <FormLabel>Contraseña</FormLabel>
-                        <Input rounded="none" variant="filled" type="password" name="password" onChange={this.handleChange}/>
-                    </FormControl>
-
-                    <HStack w="full" justify="space-between">
-                        <Checkbox>Recordar usuario</Checkbox>
-                        <Button variant="link" colorScheme="blue">
-                            Olvide mi contraseña
-                        </Button>
-                    </HStack>
-
-                    <Button rounded="none" colorScheme="blue" w="full" alignSelf="end" onClick={()=> this.iniciarSesion()}>Login</Button>
-                </VStack>
-            </Box>
-=======
                 </Box>
             </Center>
         </Box>
->>>>>>> 22317b730de8db4ac3ac670491bec97ce09b3d81
         )
     }
 }
