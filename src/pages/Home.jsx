@@ -18,10 +18,10 @@ class Home extends Component{
   render(){
     return(
       <>
-      <NavBar />
-      <Hero /> 
-      <Footer />
-    </>
+        <NavBar />
+        <Hero /> 
+        <Footer />
+      </>
     )
   }
 }

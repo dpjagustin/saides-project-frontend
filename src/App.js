@@ -7,6 +7,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import Comida from "./pages/Comida";
 import Micuenta from "./pages/Micuenta";
 import Notas from "./pages/Notas";
+import Landing from "./pages/Landing";
 import EditarNotav2 from "./components/notas/EditarNotav2";
 
 
@@ -15,6 +16,8 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<Landing />}/>
+
         <Route path="/index" element={<Home />}/>
 
         <Route path="/solicitudes" element={<Solicitudes />}/>

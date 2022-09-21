@@ -19,8 +19,6 @@ Para el nombramiento de assets(resources) se utiliza el formato camelCase "nombr
 - npm i react-calendar
 - npm install --save styled-components
 
-
-
 ## Secciones de la webapp: 
 - Login
 - Home: (Inicio, Sistema, Solicitudes, Comida, Agenda)
