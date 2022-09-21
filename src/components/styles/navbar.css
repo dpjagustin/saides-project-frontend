@@ -14,18 +14,18 @@
     font-family: sanfranciscoregular;
     src: url(../../resources/fonts/SanFrancisco/otf/SFNSDisplay-Regular.otf);
 }
-.videologin{
-    position: fixed !important;
-    z-index: -1 !important;
-    filter: blur(3px);
-}
-#inputlogin, #inputpass{
-    border: none;
-    border-radius: 10px !important;
-}
 
-#text1{
-    font-family: 'Segoe UI Semibold';
+.links{
+    font-family: sanfranciscoregular;
     font-size: 18px;
-    font-weight: 100px;
+    text-decoration: none !important;
+}
+.linkscuenta{
+    font-family: sanfranciscomedium;
+    font-weight: 550 !important;
+    text-decoration: none !important;
+}
+.nombreyrol{
+    font-family: sanfranciscolight;
+    font-size: 18px;
 }

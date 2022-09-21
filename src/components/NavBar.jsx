@@ -1,8 +1,8 @@
 import React, { ReactNode} from "react";
-import ChakraComponent from "@chakra-ui/react";
 import { Image } from '@chakra-ui/react';
 import Cookies from "universal-cookie";
 import Micuenta from "../pages/Micuenta";
+import "./styles/navbar.css"
 
 import {
   Box,
@@ -23,10 +23,13 @@ import {
   Center,
 } from '@chakra-ui/react';
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
-import { logDOM } from "@testing-library/react";
-
  
-const Links = [<Link href="/index">Inicio</Link>, <Link href="/solicitudes">Solicitudes</Link>, <Link href="/comida">Comida</Link>, <Link href="/agenda">Agenda</Link>, <Link href="/sistemas">Sistema gestión</Link>,]; // Links a paginas
+const Links = [
+  <Link className="links" href="/index">Inicio</Link>,
+  <Link className="links" href="/solicitudes">Solicitudes</Link>,
+  <Link className="links" href="/comida">Comida</Link>,
+  <Link className="links" href="/agenda">Agenda</Link>,
+  <Link className="links" href="/notas">Mis notas</Link>,]; // Links a paginas
 
 const cookies = new Cookies();
 
@@ -87,8 +90,7 @@ export default function NavBar() {
           <Flex alignItems={'center'}>
             <Stack direction={'row'} spacing={7}>
               <Button onClick={toggleColorMode}>
-                {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
-              {/* {colorMode === 'light' ? document.getElementById("logoDescar").style.backgroundColor = 'grey' : document.getElementById("logoDescar").style.backgroundColor = 'white'} */}
+              {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
               </Button>
 
               <Menu>
@@ -113,15 +115,15 @@ export default function NavBar() {
                   </Center>
                   <br />
                   <Center>
-                    <p>{cookies.get('nombre')} {cookies.get('apellido')}</p>
+                    <p className="nombreyrol">{cookies.get('nombre')} {cookies.get('apellido')}</p>
                   </Center>
                   <Center>
-                    <p>DePLM</p>
+                    <p className="nombreyrol">{cookies.get("rol")}</p>
                   </Center>
                   <br />
                   <MenuDivider />
-                  <MenuItem><Button colorScheme="blue"><Link href="/micuenta">Mi cuenta</Link></Button></MenuItem>
-                  <MenuItem><Button colorScheme='red' onClick={()=> cerrarSesion()}>Cerrar sesión</Button></MenuItem>
+                  <MenuItem><Button className="linkscuenta" colorScheme="blue"><Link href="/micuenta">Mi cuenta</Link></Button></MenuItem>
+                  <MenuItem><Button className="linkscuenta" colorScheme='red' onClick={()=> cerrarSesion()}>Cerrar sesión</Button></MenuItem>
                 </MenuList>
               </Menu>
             </Stack>
