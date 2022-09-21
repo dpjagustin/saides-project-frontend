@@ -18,9 +18,6 @@ Para el nombramiento de assets(resources) se utiliza el formato camelCase "nombr
 - npm i sweetalert
 - npm i react-calendar
 - npm install --save styled-components
-- npm i @chakra-ui/react @chakra-ui/icons @emotion/react @emotion/styled framer-motion react-icons
-
-
 
 ## Secciones de la webapp: 
 - Login
