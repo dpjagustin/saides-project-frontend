@@ -14,19 +14,32 @@ import {
     Center,
 } from "@chakra-ui/react";
 import axios from "axios";
-import md5 from "md5";
 import Cookies from "universal-cookie";
 import swal from 'sweetalert';
 import "../components/styles/loginstyles.css"
 import videoplanta from "../resources/videoplanta.mp4"
 
+
 const baseUrl="http://localhost:3001/usuarios";
 const cookies = new Cookies();
 
 
+function cambiarColores(){
+    let colorMode = localStorage.getItem("chakra-ui-color-mode")
+    let colores = ""
+    if (colorMode === "dark"){
+        colores = "gray.800"
+    }else{
+        colores = "gray.200"
+    }
+    return colores
+}
+
+
+
+
 class Login extends Component{
 
-    
     state={
         form:{
             username:"",
@@ -103,6 +116,7 @@ class Login extends Component{
         }
     }
 
+
     render(){
         return(
         <Box>
@@ -110,7 +124,7 @@ class Login extends Component{
                 <source src={videoplanta} type='video/mp4' />
             </video> 
             <Center h="950">
-                <Box w={["full", "md"]} p={[8, 10]} mx="auto" border={["none", "1px"]} borderColor={["", "gray.300"]} borderRadius={[10]} bg="gray.700">
+                <Box w={["full", "md"]} p={[8, 10]} mx="auto" border={["1px", "1px"]} borderColor={["gray.800", "gray.300"]} borderRadius={[10]} bg={cambiarColores()} >
                     <VStack spacing={4} align="flex-start" w="full">
                         <VStack>
                             <Center>
@@ -120,7 +134,7 @@ class Login extends Component{
                         </VStack>
                         <VStack spacing={1} align={["flex-start", "center"]} w="full">
                             <Heading>Login</Heading>
-                            <Text>Ingresa tu usuario</Text>  
+                            <Text id="text1">Ingresa tu usuario</Text>  
                         </VStack>
                         <FormControl>
                             <FormLabel>Usuario</FormLabel>
@@ -128,10 +142,10 @@ class Login extends Component{
                         </FormControl>
                         <FormControl>
                             <FormLabel>Contraseña</FormLabel>
-                            <Input rounded="none" variant="filled" type="password" name="password" onChange={this.handleChange}/>
+                            <Input rounded="none" variant="filled" type="password" name="password" onChange={this.handleChange} id="inputpass"/>
                         </FormControl>
                         <HStack w="full" justify="space-between">
-                            <Checkbox id="check" onChange={(e) => this.guardarUsuario(e.target.checked, document.getElementById("inputlogin").value)} 
+                            <Checkbox className="checkk" id="check" onChange={(e) => this.guardarUsuario(e.target.checked, document.getElementById("inputlogin").value)} 
                             defaultChecked={JSON.parse(localStorage.getItem("check"))} >Recordar usuario</Checkbox>
                             <Button variant="link" colorScheme="blue">
                                 Olvide mi contraseña
@@ -149,65 +163,3 @@ class Login extends Component{
 
 
 export default Login;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// export default function Login(){
-//     return (
-    // <Box w={["full", "md"]} p={[8, 10]} mt={[20, "10vh"]} mx="auto" border={["none", "1px"]} borderColor={["", "gray.300"]} borderRadius={[10]}>
-    //     <VStack spacing={4} align="flex-start" w="full">
-    //         <VStack>
-    //             <Center>
-    //                 <Image src="/LogoSaides.png" w="30%"></Image>
-
-    //             </Center>
-    //         </VStack>
-    //         <VStack spacing={1} align={["flex-start", "center"]} w="full">
-    //             <Heading>Login</Heading>
-    //             <Text>Ingresa tu usuario</Text>  
-    //         </VStack>
-    //         <FormControl>
-    //             <FormLabel>Usuario</FormLabel>    
-    //             <Input rounded="none" variant="filled" name="username" onChange={this.handleChange}/>
-    //         </FormControl>
-    //         <FormControl>
-    //             <FormLabel>Contraseña</FormLabel>    
-    //             <Input rounded="none" variant="filled" type="password" name="password" onChange={this.handleChange}/>
-    //         </FormControl>
-    //         <HStack w="full" justify="space-between">
-    //             <Checkbox>Recordar usuario</Checkbox>
-    //             <Button variant="link" colorScheme="blue">
-    //                 Olvide mi contraseña
-    //             </Button>
-    //         </HStack>
-    //         <Button rounded="none" colorScheme="blue" w="full" alignSelf="end">Login</Button>
-
-    //     </VStack>
-    // </Box>
-//     );
-// }

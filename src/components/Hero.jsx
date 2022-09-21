@@ -56,9 +56,7 @@ export default function Hero() {
           alt={'Planta industrial'}
           objectFit={'cover'}
           borderRadius={'20px'}
-          src={
-            '/plantaIndustrial.jpg'
-          }
+          src={'/plantaIndustrial.jpg'}
         />
       </Flex>
     </Stack>

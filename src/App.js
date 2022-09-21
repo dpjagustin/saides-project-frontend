@@ -1,11 +1,13 @@
 import React from "react";
-import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Solicitudes from "./pages/Solicitudes";
 import NotFoundPage from "./pages/NotFoundPage";
 import Comida from "./pages/Comida";
 import Micuenta from "./pages/Micuenta";
+import Notas from "./pages/Notas";
+import EditarNotav2 from "./components/notas/EditarNotav2";
 
 
 
@@ -24,6 +26,10 @@ function App() {
         <Route path="/login" element={<Login/>}/>
 
         <Route path="/micuenta" element={<Micuenta/>}/>
+       
+        <Route path="/notas" element={<Notas />}/>
+        
+        <Route path="/notas/:id/EditarNotav2" element={<EditarNotav2 />}/>
       </Routes>
     </BrowserRouter>
   );
