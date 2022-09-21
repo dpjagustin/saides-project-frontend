@@ -92,6 +92,7 @@ export default function NavBar() {
               <Button onClick={toggleColorMode}>
               {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
               </Button>
+
               <Menu>
                 <MenuButton
                   as={Button}

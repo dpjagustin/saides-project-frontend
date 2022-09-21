@@ -14,6 +14,7 @@ class Home extends Component{
       window.location.href="./login"
     }
   }
+  
   render(){
     return(
       <>
@@ -23,14 +24,6 @@ class Home extends Component{
     </>
     )
   }
-
-
 }
-
-// function Home() {
-//   return(
-    
-//   )
-// }
 
 export default Home;

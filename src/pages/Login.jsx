@@ -46,6 +46,7 @@ class Login extends Component{
             password:"",
         }
     }
+
     handleChange= async e=>{
         await this.setState({
             form:{
@@ -161,5 +162,71 @@ class Login extends Component{
     }
 }
 
+<<<<<<< HEAD
 
 export default Login;
+=======
+export default Login;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// export default function Login(){
+//     return (
+    // <Box w={["full", "md"]} p={[8, 10]} mt={[20, "10vh"]} mx="auto" border={["none", "1px"]} borderColor={["", "gray.300"]} borderRadius={[10]}>
+    //     <VStack spacing={4} align="flex-start" w="full">
+    //         <VStack>
+    //             <Center>
+    //                 <Image src="/LogoSaides.png" w="30%"></Image>
+
+    //             </Center>
+    //         </VStack>
+    //         <VStack spacing={1} align={["flex-start", "center"]} w="full">
+    //             <Heading>Login</Heading>
+    //             <Text>Ingresa tu usuario</Text>  
+    //         </VStack>
+    //         <FormControl>
+    //             <FormLabel>Usuario</FormLabel>    
+    //             <Input rounded="none" variant="filled" name="username" onChange={this.handleChange}/>
+    //         </FormControl>
+    //         <FormControl>
+    //             <FormLabel>Contraseña</FormLabel>    
+    //             <Input rounded="none" variant="filled" type="password" name="password" onChange={this.handleChange}/>
+    //         </FormControl>
+    //         <HStack w="full" justify="space-between">
+    //             <Checkbox>Recordar usuario</Checkbox>
+    //             <Button variant="link" colorScheme="blue">
+    //                 Olvide mi contraseña
+    //             </Button>
+    //         </HStack>
+    //         <Button rounded="none" colorScheme="blue" w="full" alignSelf="end">Login</Button>
+
+    //     </VStack>
+    // </Box>
+//     );
+// }
+>>>>>>> 1f63106864d9aac723f9d339362cf0faf9b96f29
