@@ -35,9 +35,6 @@ function cambiarColores(){
     return colores
 }
 
-
-
-
 class Login extends Component{
 
     state={
@@ -47,7 +44,7 @@ class Login extends Component{
         }
     }
 
-    handleChange= async e=>{
+    handleChange = async e=>{
         await this.setState({
             form:{
                 ...this.state.form,
@@ -74,7 +71,6 @@ class Login extends Component{
             localStorage.setItem("usuario", usuario)
             
             console.log("lo guardo  ", usuario)
-            
         }else{
             localStorage.setItem("check", estaCheck)
             localStorage.removeItem("usuario", usuario)
@@ -130,21 +126,24 @@ class Login extends Component{
                         <VStack>
                             <Center>
                                 <Image src="/LogoSaides.png" w="30%"></Image>
-
                             </Center>
                         </VStack>
+
                         <VStack spacing={1} align={["flex-start", "center"]} w="full">
                             <Heading>Login</Heading>
                             <Text id="text1">Ingresa tu usuario</Text>  
                         </VStack>
+
                         <FormControl>
                             <FormLabel>Usuario</FormLabel>
                             <Input rounded="none" variant="filled" name="username" value={localStorage.getItem("usuario")} onChange={this.handleChange} id="inputlogin" />
                         </FormControl>
+
                         <FormControl>
                             <FormLabel>Contraseña</FormLabel>
                             <Input rounded="none" variant="filled" type="password" name="password" onChange={this.handleChange} id="inputpass"/>
                         </FormControl>
+
                         <HStack w="full" justify="space-between">
                             <Checkbox className="checkk" id="check" onChange={(e) => this.guardarUsuario(e.target.checked, document.getElementById("inputlogin").value)} 
                             defaultChecked={JSON.parse(localStorage.getItem("check"))} >Recordar usuario</Checkbox>
@@ -152,9 +151,15 @@ class Login extends Component{
                                 Olvide mi contraseña
                             </Button>
                         </HStack>
-                        <Button rounded="none" colorScheme="blue" w="full" alignSelf="end" onClick={()=> this.iniciarSesion()}>Login</Button>
-                    </VStack>
 
+                        <Button rounded="none" colorScheme="blue" w="full" alignSelf="end" onClick={()=> this.iniciarSesion()}>Login</Button>
+
+                        <HStack w="full" justify="center">
+                            <Button variant="link" colorScheme="blue">
+                                <a href="/">Volver al inicio</a>
+                            </Button>
+                        </HStack>
+                    </VStack>
                 </Box>
             </Center>
         </Box>
