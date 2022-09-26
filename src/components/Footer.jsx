@@ -43,7 +43,7 @@ export default function Footer() {
     <Box
       bg={useColorModeValue('gray.50', 'gray.900')}
       color={useColorModeValue('gray.700', 'gray.200')}
-      mt={"12rem"}
+      mt={"6rem"}
       >
       <Container as={Stack} maxW={'6xl'} py={10}>
         <SimpleGrid
@@ -58,28 +58,28 @@ export default function Footer() {
             </Text>
           </Stack>
           <Stack align={'flex-start'}>
-            <ListHeader>Producto</ListHeader>
-            <Link href={'#'}>Overview</Link>
-            <Link href={'#'}>Features</Link>
-            <Link href={'#'}>Tutorials</Link>
-            <Link href={'#'}>Pricing</Link>
-            <Link href={'#'}>Releases</Link>
+            <ListHeader>Lorem</ListHeader>
+            <Link href={'#'}>Lorem</Link>
+            <Link href={'#'}>Lorem</Link>
+            <Link href={'#'}>Lorem</Link>
+            <Link href={'#'}>Lorem</Link>
+            <Link href={'#'}>Lorem</Link>
           </Stack>
           <Stack align={'flex-start'}>
-            <ListHeader>Compania</ListHeader>
-            <Link href={'#'}>About</Link>
-            <Link href={'#'}>Press</Link>
-            <Link href={'#'}>Careers</Link>
-            <Link href={'#'}>Contact</Link>
-            <Link href={'#'}>Partners</Link>
+            <ListHeader>Lorem</ListHeader>
+            <Link href={'#'}>Lorem</Link>
+            <Link href={'#'}>Lorem</Link>
+            <Link href={'#'}>Lorem</Link>
+            <Link href={'#'}>Lorem</Link>
+            <Link href={'#'}>Lorem</Link>
           </Stack>
           <Stack align={'flex-start'}>
-            <ListHeader>Soporte</ListHeader>
-            <Link href={'#'}>Iniciar ticket</Link>
-            <Link href={'#'}>Contacto</Link>
-            <Link href={'#'}>Problemas frecuentes</Link>
+            <ListHeader>Lorem</ListHeader>
+            <Link href={'#'}>Lorem</Link>
+            <Link href={'#'}>Lorem</Link>
+            <Link href={'#'}>Lorem</Link>
             <Link href={'#'}>Viti</Link>
-            <Link href={'#'}>Todo MAL MAN!!!</Link>
+            <Link href={'#'}>Lorem</Link>
           </Stack>
         </SimpleGrid>
       </Container>
