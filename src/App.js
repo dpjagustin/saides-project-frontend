@@ -33,6 +33,8 @@ function App() {
         <Route path="/notas" element={<Notas />}/>
         
         <Route path="/notas/:id/EditarNotav2" element={<EditarNotav2 />}/>
+
+        <Route path="/agenda" />
       </Routes>
     </BrowserRouter>
   );
