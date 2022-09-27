@@ -1,7 +1,9 @@
 import React from "react";
+import "../components/styles/micuenta.css"
 import Footer from "../components/Footer";
 import NavBar from "../components/NavBar";
 import {
+    Box,
     Button,
     Flex,
     FormControl,
@@ -12,16 +14,28 @@ import {
     useColorModeValue,
     HStack,
     Avatar,
-    AvatarBadge,
-    IconButton,
     Center,
+    Link,
+    Modal,
+    ModalBody,
+    ModalOverlay,
+    ModalCloseButton,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    useDisclosure,
+    Textarea
 } from '@chakra-ui/react';
 import Cookies from "universal-cookie";
+import { EditIcon } from "@chakra-ui/icons";
 
 const cookies = new Cookies();
 
 
 export default function Micuenta(){
+
+    const { isOpen: isOpenEditar, onOpen: onOpenEditar, onClose: onCloseEditar } = useDisclosure()
+
     return(
         <>
         <NavBar />
@@ -54,48 +68,32 @@ export default function Micuenta(){
                     </Center>
                 </Stack>
                 </FormControl>
-                <FormControl id="userName" isRequired>
-                <FormLabel>{cookies.get('nombre')}</FormLabel>
-                <Input
-                    placeholder="UserName"
-                    _placeholder={{ color: 'gray.500' }}
-                    type="text"
-                />
+                <FormControl id="nombre" isRequired>
+                <FormLabel>Nombre</FormLabel>
+                <HStack justify="space-between">
+                    <Box className="datosedit" w="90%" padding="8px" borderRadius="8px" bg={useColorModeValue("gray.200", "gray.500")} fontFamily="revert" fontWeight="500" fontSize="16px">{cookies.get("nombre")}</Box>
+                    <Button colorScheme="blue"><EditIcon /></Button>
+                </HStack>
                 </FormControl>
+
                 <FormControl id="apellido" isRequired>
-                <FormLabel>{cookies.get('apellido')}</FormLabel>
-                <Input
-                    placeholder="your-email@example.com"
-                    _placeholder={{ color: 'gray.500' }}
-                    type="email"
-                />
+                <FormLabel>Apellido</FormLabel>
+                <HStack justify="space-between">
+                    <Box className="datosedit" w="90%" padding="8px" borderRadius="8px" bg={useColorModeValue("gray.200", "gray.500")} fontFamily="revert" fontWeight="500" fontSize="16px">{cookies.get("apellido")}</Box>
+                    <Button colorScheme="blue"><EditIcon /></Button>
+                </HStack>
                 </FormControl>
-                <FormControl id="rol" isRequired>
-                <FormLabel>{cookies.get('rol')}</FormLabel>
-                <Input
-                    placeholder="your-email@example.com"
-                    _placeholder={{ color: 'gray.500' }}
-                    type="email"
-                />
+
+                <FormControl id="Email" isRequired>
+                <FormLabel>Email</FormLabel>
+                <HStack justify="space-between">
+                    <Box className="datosedit" w="90%" padding="8px" borderRadius="8px" bg={useColorModeValue("gray.200", "gray.500")} fontFamily="revert" fontWeight="500" fontSize="16px">{cookies.get("email")}</Box>
+                    <Button colorScheme="blue" onClick={onOpenEditar}><EditIcon /></Button>
+                </HStack>
                 </FormControl>
-                <FormControl id="password" isRequired>
-                <FormLabel>Contraseña</FormLabel>
-                <Input
-                    placeholder="password"
-                    _placeholder={{ color: 'gray.500' }}
-                    type="password"
-                />
-                </FormControl>
+                
                 <Stack spacing={6} direction={['column', 'row']}>
-                <Button
-                    bg={'red.400'}
-                    color={'white'}
-                    w="full"
-                    _hover={{
-                    bg: 'red.500',
-                    }}>
-                    Cancelar
-                </Button>
+                <Link href="./index" id="botonesmicuenta" w="full">
                 <Button
                     bg={'blue.400'}
                     color={'white'}
@@ -104,7 +102,27 @@ export default function Micuenta(){
                     bg: 'blue.500',
                     }}>
                     Guardar
-                </Button>
+                </Button></Link>
+
+                <Modal isOpen={isOpenEditar} onClose={onCloseEditar}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Modificar</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody pb={6}>
+                        <FormControl>
+                            <FormLabel>Email</FormLabel>
+                            <Input></Input>
+                        </FormControl>
+                    </ModalBody>
+
+                    <ModalFooter>
+                        <Button colorScheme='blue' mr={3} >Guardar cambios</Button>
+                        <Button onClick={onCloseEditar}>Cancelar</Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
+
                 </Stack>
             </Stack>
         </Flex>

@@ -17,7 +17,7 @@ import axios from "axios";
 import Cookies from "universal-cookie";
 import swal from 'sweetalert';
 import "../components/styles/loginstyles.css"
-import videoplanta from "../resources/videoplanta.mp4"
+import videoplanta from "../resources/videos/videoplanta.mp4"
 
 
 const baseUrl="http://localhost:3001/usuarios";
@@ -96,6 +96,7 @@ class Login extends Component{
                 cookies.set("username", respuesta.username, {path: "/"}); 
                 cookies.set("img", respuesta.img,{path:"/"} );
                 cookies.set("rol", respuesta.rol,{path:"/"} );
+                cookies.set("email", respuesta.email,{path:"/"} );
                 window.location.href="./index";
             } else {
                 swal("Error","El usuario o la contraseña son incorrectos", "error");
@@ -125,7 +126,7 @@ class Login extends Component{
                     <VStack spacing={4} align="flex-start" w="full">
                         <VStack>
                             <Center>
-                                <Image src="/LogoSaides.png" w="30%"></Image>
+                                <Image src="/resources/logos/LogoSaides.png" w="30%"></Image>
                             </Center>
                         </VStack>
 

@@ -49,6 +49,7 @@ function cerrarSesion(){
   cookies.remove("username", {path:"/"});
   cookies.remove("img", {path:"/"});
   cookies.remove("rol", {path:"/"});
+  cookies.remove("email",{path:"/"});
   window.location.href="./login"
 }
 
@@ -68,7 +69,7 @@ export default function NavBar() {
           <HStack spacing={8} alignItems={'center'}>
               <Box >
                 <a href="/index">
-                <Image src='/logoSaidesHundido.png' width="60px"  alt='Logo Descar' id='logoDescar' />
+                <Image src='/resources/logos/logoSaidesHundido.png' width="60px"  alt='Logo Descar' id='logoDescar' />
                 </a>
               </Box>
               <HStack

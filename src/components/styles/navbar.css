@@ -1,18 +1,22 @@
 @font-face {
     font-family: sanfranciscoheavy;
-    src: url(../../resources/fonts/SanFrancisco/otf/SFNSDisplay-Heavy.otf)
+    src: url(../../../public/resources/fonts/SanFrancisco/otf/SFNSDisplay-Heavy.otf)
+    /* src: url(../../resources/fonts/SanFrancisco/otf/SFNSDisplay-Heavy.otf) */
 }
 @font-face {
     font-family: sanfranciscomedium;
-    src: url(../../resources/fonts/SanFrancisco/otf/SFNSDisplay-Medium.otf);
+    src: url(../../../public/resources/fonts/SanFrancisco/otf/SFNSDisplay-Medium.otf);
+    /* src: url(../../resources/fonts/SanFrancisco/otf/SFNSDisplay-Medium.otf); */
 }
 @font-face {
     font-family: sanfranciscolight;
-    src: url(../../resources/fonts/SanFrancisco/otf/SFNSDisplay-Light.otf);
+    src: url(../../../public/resources/fonts/SanFrancisco/otf/SFNSDisplay-Light.otf);
+    /* src: url(../../resources/fonts/SanFrancisco/otf/SFNSDisplay-Light.otf); */
 }
 @font-face {
     font-family: sanfranciscoregular;
-    src: url(../../resources/fonts/SanFrancisco/otf/SFNSDisplay-Regular.otf);
+    src: url(../../../public/resources/fonts/SanFrancisco/otf/SFNSDisplay-Regular.otf);
+    /* src: url(../../resources/fonts/SanFrancisco/otf/SFNSDisplay-Regular.otf); */
 }
 
 .links{

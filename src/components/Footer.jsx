@@ -51,7 +51,7 @@ export default function Footer() {
           spacing={8}>
           <Stack spacing={6}>
               <Box >
-                <Image src='/logoSaidesHundido.png' width="60px"  alt='Logo Descar' id='logoDescar' />
+                <Image src='/resources/logos/logoSaidesHundido.png' width="60px"  alt='Logo Descar' id='logoDescar' />
               </Box>
             <Text fontSize={'sm'}>
               © 2022 Descar, DePLM. All rights reserved

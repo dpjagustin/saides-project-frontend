@@ -65,7 +65,7 @@ export default function Hero() {
               objectFit={'cover'}
               borderRadius={'20px'}
               src={
-                '/plantaIndustrial.jpg'
+                '/resources/fotosrandom/plantaIndustrial.jpg'
               }
             />
           </Flex>
