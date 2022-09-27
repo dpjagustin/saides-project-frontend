@@ -8,7 +8,6 @@ import Comida from "./pages/Comida";
 import Micuenta from "./pages/Micuenta";
 import Notas from "./pages/Notas";
 import Landing from "./pages/Landing";
-import EditarNotav2 from "./components/notas/EditarNotav2";
 
 
 
@@ -31,10 +30,14 @@ function App() {
         <Route path="/micuenta" element={<Micuenta/>}/>
        
         <Route path="/notas" element={<Notas />}/>
+<<<<<<< HEAD
         
         <Route path="/notas/:id/EditarNotav2" element={<EditarNotav2 />}/>
 
         <Route path="/agenda" />
+=======
+
+>>>>>>> d0138c490ef2968c7c1d58cf674a35dba70ef985
       </Routes>
     </BrowserRouter>
   );

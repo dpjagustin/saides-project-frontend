@@ -1,17 +1,20 @@
 [
     {
         "id":1,
-        "nota":"asdsadasfasf"
+        "titulo":"nota1",
+        "nota":"esta es la nota 1"
 
     },
     {
         "id":2,
-        "nota":"teewrewrwerwer"
+        "titulo":"nota2",
+        "nota":"esta es la nota 2"
 
     },
     {
         "id":3,
-        "nota":"asdwqrq24243344"
+        "titulo":"nota3",
+        "nota":"esta es la nota 3"
 
     }
 ]

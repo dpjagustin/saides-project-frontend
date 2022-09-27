@@ -7,3 +7,7 @@
     display: flex;
     justify-content: center;
 }
+#notaborrar{
+    font-size: 18px;
+    font-weight: 600;
+}
