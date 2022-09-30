@@ -174,7 +174,7 @@ export default function Notas() {
                         </FormControl>
                         <FormControl mt={4}>
                             <FormLabel>Nota</FormLabel>
-                            <Input name="nota" onChange={handleChange} placeholder='Nota' />
+                            <Textarea name="nota" onChange={handleChange} placeholder='Nota'></Textarea>
                         </FormControl>
                     </ModalBody>
 

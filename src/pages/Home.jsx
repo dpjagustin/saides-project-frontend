@@ -4,6 +4,7 @@ import Footer from "../components/Footer";
 import Login from "./Login";
 import Cookies from 'universal-cookie';
 import { Component } from "react";
+import Noticias from "../components/Noticias";
 
 const cookies = new Cookies();
 
@@ -20,6 +21,7 @@ class Home extends Component{
       <>
         <NavBar />
         <Hero /> 
+        <Noticias />
         <Footer />
       </>
     )

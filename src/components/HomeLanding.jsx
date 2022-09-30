@@ -44,8 +44,8 @@ export default function HomeLanding() {
         alignItems={'center'}
         >
           <Box sx={innerBoxStyles} backdropFilter='auto' backdropBlur='5px'>
-            <Image alt={'Planta industrial'} src={'/logoDescarPng.png'} w={"14rem"} h={"9rem"}/>
-            <Image alt={'Planta industrial'} src={'/logoDeplmPng.png'} w={"16rem"} h={"7rem"}/> 
+            <Image alt={'Planta industrial'} src={'/resources/logos/logoDescarPng.png'} w={"14rem"} h={"9rem"}/>
+            <Image alt={'Planta industrial'} src={'/resources/logos/logoDeplmPng.png'} w={"16rem"} h={"7rem"}/> 
           </Box>
       </Flex>
 

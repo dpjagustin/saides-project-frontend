@@ -1,26 +1,19 @@
 import React, { ReactNode} from "react";
 import { Image } from '@chakra-ui/react';
 import Cookies from "universal-cookie";
-import Micuenta from "../pages/Micuenta";
 import "./styles/navbar.css";
 
 import {
   Box,
   Flex,
-  Avatar,
   Link,
   Button,
   Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  MenuDivider,
   useDisclosure,
   useColorModeValue,
+  useColorMode,
   Stack,
   HStack,
-  useColorMode,
-  Center,
 } from '@chakra-ui/react';
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
  
@@ -88,9 +81,7 @@ export default function NavBar() {
               </Button>
 
               <Menu>
-                <Button colorScheme='linkedin' variant='outline' href="/login" >
-                  <Link href="/login">Iniciar sesión</Link>
-                </Button>
+                <Link href="/login" style={{textDecoration:"none"}}><Button colorScheme="blue" variant="outline">Iniciar sesión</Button></Link>
               </Menu>
             </Stack>
           </Flex>

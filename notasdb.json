@@ -1,24 +1,9 @@
 {
   "notas": [
     {
-      "id": 4,
-      "titulo": "123123",
-      "nota": "123123"
-    },
-    {
-      "id": 3,
-      "titulo": "512323142134",
-      "nota": "DFASASIADAERA PUTO DE LORTO"
-    },
-    {
-      "id": 5,
-      "titulo": "pajerito de mierda",
-      "nota": "la conchad etu mader"
-    },
-    {
-      "id": 2,
-      "titulo": "sadasdqw",
-      "nota": "vitiuiit"
+      "id": 1,
+      "titulo": "Hola como estas",
+      "nota": "asdasd"
     }
   ]
 }
