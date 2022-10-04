@@ -17,8 +17,9 @@ Para el nombramiento de assets(resources) se utiliza el formato camelCase "nombr
 - npm i universal-cookie
 - npm i sweetalert
 - npm i react-calendar
-- npm install --save react-modal
 - npm install --save styled-components
+- npm install --save react-modal  NUEVO
+- npm install react-datepicker ---save  NUEVO
 
 ## Secciones de la webapp: 
 - Login
