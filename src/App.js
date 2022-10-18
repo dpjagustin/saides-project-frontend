@@ -1,14 +1,13 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
-import Login from "./pages/Login";
 import Solicitudes from "./pages/Solicitudes";
 import NotFoundPage from "./pages/NotFoundPage";
 import Comida from "./pages/Comida";
 import Micuenta from "./pages/Micuenta";
 import Notas from "./pages/Notas";
 import Landing from "./pages/Landing";
-
+import Login2 from "./pages/Login2";
 
 
 function App() {
@@ -25,13 +24,13 @@ function App() {
 
         <Route path="*" element={<NotFoundPage />} />
 
-        <Route path="/login" element={<Login/>}/>
-
         <Route path="/micuenta" element={<Micuenta/>}/>
        
         <Route path="/notas" element={<Notas />}/>
         
         <Route path="/agenda" />
+        
+        <Route path="/login" element={<Login2 />}/>
 
       </Routes>
     </BrowserRouter>

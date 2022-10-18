@@ -1,3 +1,31 @@
 {
-  "novedades": []
+  "novedades": [
+    {
+      "id": 1,
+      "fecha": "29/09/22",
+      "titulo": "Smart Integration",
+      "subtitulo": "Seminario de Smart Integration 4.0 en Descar Argentina",
+      "item1": "Vas a aprender",
+      "item2": "Va a estar piola",
+      "item3": "Va a haber comida"
+    },
+    {
+      "id": 3,
+      "fecha": "29/09/22",
+      "titulo": "Smart Integration",
+      "subtitulo": "Seminario de Smart Integration 4.0 en Descar Argentina",
+      "item1": "Vas a aprender",
+      "item2": "Va a estar piola",
+      "item3": "Va a haber comida"
+    },
+    {
+      "id": 4,
+      "fecha": "29/09/22",
+      "titulo": "Demo a ERCA",
+      "subtitulo": "Brindada de 10:00 a 12:00 a responsables de Ing.",
+      "item1": "Modulos de manufactura",
+      "item2": "Configuracion de productos",
+      "item3": "Teamcenter"
+    }
+  ]
 }

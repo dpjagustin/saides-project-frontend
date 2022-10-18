@@ -123,7 +123,7 @@ export default function Noticias() {
           <Button onClick={onOpenCrear}>Crear Novedad</Button>
         </Box>
         {data.map(nov=>(
-          <Box maxW='sm' p='5' borderWidth='1px' rounded='md' key={nov.id}>
+          <Box maxW='sm' p='5' borderWidth='1px' rounded='md' key={nov.id} boxShadow={"xl"}>
           <Box as='time' dateTime='2021-01-15 15:30:00 +0000 UTC'>
             {nov.fecha}
           </Box>
@@ -134,9 +134,9 @@ export default function Noticias() {
             <Text>•{nov.item1}<br /></Text>
             <Text>•{nov.item2}<br /></Text>
             <Text>•{nov.item3}<br /></Text>
-          <Box >
-            <Button onClick={()=>seleccionarNov(nov,"Editar")}><EditIcon/></Button>
-            <Button onClick={()=>seleccionarNov(nov,"Eliminar")}><DeleteIcon/></Button>
+          <Box  >
+            <Button onClick={()=>seleccionarNov(nov,"Editar")} mx="5px"><EditIcon/></Button>
+            <Button mx="5px" onClick={()=>seleccionarNov(nov,"Eliminar")}><DeleteIcon/></Button>
              
           </Box>
         </Box>

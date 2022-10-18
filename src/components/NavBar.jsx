@@ -1,4 +1,4 @@
-import React, { ReactNode} from "react";
+import React, { ReactNode, useEffect, useState} from "react";
 import { Image } from '@chakra-ui/react';
 import Cookies from "universal-cookie";
 import Micuenta from "../pages/Micuenta";
@@ -15,7 +15,6 @@ import {
   MenuList,
   MenuItem,
   MenuDivider,
-  useDisclosure,
   useColorModeValue,
   Stack,
   HStack,
@@ -23,6 +22,7 @@ import {
   Center,
 } from '@chakra-ui/react';
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
+import { useNavigate } from "react-router-dom";
  
 const Links = [
   <Link className="links" href="/index">Inicio</Link>,
@@ -47,24 +47,47 @@ const NavLink = ({ children }: { children: ReactNode }) => (
   </Link>
 );
 
-function cerrarSesion(){
-  cookies.remove("id", {path:"/"});
-  cookies.remove("nombre", {path:"/"});
-  cookies.remove("apellido", {path:"/"});
-  cookies.remove("username", {path:"/"});
-  cookies.remove("img", {path:"/"});
-  cookies.remove("rol", {path:"/"});
-  window.location.href="./login"
-}
+
 
 // Que el nombre en el despegable de usuario sea personalizado
 
+
 export default function NavBar() {
-
-
+  
   const { colorMode, toggleColorMode } = useColorMode();
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  // const navigate =useNavigate();
+  // const [redirect, setRedirect]=useState("")
+  const [nombre, setNombre]=useState("");
+  const [apellido, setApellido]=useState("");
+  const [imagen, setImagen]=useState("");
+  const [rol, setRol]=useState("");
 
+  useEffect(() =>{
+    (
+      async ()=>{
+        const response = await fetch("http://localhost:8000/api/authUser",{
+            headers:{"Content-Type":"application/json"},
+            credentials:"include",
+        });
+
+        const content = await response.json();
+
+        setNombre(content.nombre)
+        setApellido(content.apellido)
+        setImagen(content.imagen)
+        setRol(content.rol)
+
+      }
+    )();
+  });
+  const cerrarSesion = async() =>{
+    await fetch("http://localhost:8000/api/logout",{
+              method:"POST",
+              headers:{"Content-Type":"application/json"},
+              credentials:"include",
+          });
+          window.location.href="/"
+  }
 
   return (
     <>
@@ -102,7 +125,7 @@ export default function NavBar() {
                   minW={0}>
                   <Avatar
                     size={'sm'}
-                    src={cookies.get("img")}
+                    src={imagen}
                   />
                 </MenuButton>
                 <MenuList alignItems={'center'}>
@@ -110,19 +133,19 @@ export default function NavBar() {
                   <Center>
                     <Avatar
                       size={'2xl'}
-                      src={cookies.get('img')}
+                      src={imagen}
                     />
                   </Center>
                   <br />
                   <Center>
-                    <p className="nombreyrol">{cookies.get('nombre')} {cookies.get('apellido')}</p>
+                    <p className="nombreyrol">{nombre} {apellido}</p>
                   </Center>
                   <Center>
-                    <p className="nombreyrol">{cookies.get("rol")}</p>
+                    <p className="nombreyrol">{rol}</p>
                   </Center>
                   <br />
                   <MenuDivider />
-                  <MenuItem><Button className="linkscuenta" colorScheme="blue"><Link href="/micuenta">Mi cuenta</Link></Button></MenuItem>
+                  <MenuItem><a href="/micuenta"><Button className="linkscuenta" colorScheme="blue">Mi cuenta </Button></a></MenuItem>
                   <MenuItem><Button className="linkscuenta" colorScheme='red' onClick={()=> cerrarSesion()}>Cerrar sesión</Button></MenuItem>
                 </MenuList>
               </Menu>

@@ -35,26 +35,10 @@ const NavLink = ({ children }: { children: ReactNode }) => (
   </Link>
 );
 
-function cerrarSesion(){
-  cookies.remove("id", {path:"/"});
-  cookies.remove("nombre", {path:"/"});
-  cookies.remove("apellido", {path:"/"});
-  cookies.remove("username", {path:"/"});
-  cookies.remove("img", {path:"/"});
-  cookies.remove("rol", {path:"/"});
-  cookies.remove("email",{path:"/"});
-  window.location.href="./login"
-}
-
 // Que el nombre en el despegable de usuario sea personalizado
 
 export default function NavBar() {
-
-
   const { colorMode, toggleColorMode } = useColorMode();
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
-
   return (
     <>
       <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
