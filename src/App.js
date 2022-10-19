@@ -8,38 +8,38 @@ import Comida from "./pages/Comida";
 import Micuenta from "./pages/Micuenta";
 import Notas from "./pages/Notas";
 import Landing from "./pages/Landing";
+import  Agenda from "./pages/Agenda";
+import { Provider } from "react-redux";
+import {store} from "./store";
 
 
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Landing />}/>
+    <Provider store={store}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Landing />}/>
 
-        <Route path="/index" element={<Home />}/>
+          <Route path="/index" element={<Home />}/>
 
-        <Route path="/solicitudes" element={<Solicitudes />}/>
+          <Route path="/solicitudes" element={<Solicitudes />}/>
 
-        <Route path="/comida" element={<Comida />}/>
+          <Route path="/comida" element={<Comida />}/>
 
-        <Route path="*" element={<NotFoundPage />} />
+          <Route path="*" element={<NotFoundPage />} />
 
-        <Route path="/login" element={<Login/>}/>
+          <Route path="/login" element={<Login/>}/>
 
-        <Route path="/micuenta" element={<Micuenta/>}/>
-       
-        <Route path="/notas" element={<Notas />}/>
-<<<<<<< HEAD
+          <Route path="/micuenta" element={<Micuenta/>}/>
         
-        <Route path="/notas/:id/EditarNotav2" element={<EditarNotav2 />}/>
+          <Route path="/notas" element={<Notas />}/>
 
-        <Route path="/agenda" />
-=======
-
->>>>>>> d0138c490ef2968c7c1d58cf674a35dba70ef985
-      </Routes>
-    </BrowserRouter>
+          <Route path="/agenda" element={<Agenda />}/>
+        </Routes>
+      </BrowserRouter>
+    </Provider>
+    
   );
 }
 
