@@ -1,7 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
-import Login from "./pages/Login";
 import Solicitudes from "./pages/Solicitudes";
 import NotFoundPage from "./pages/NotFoundPage";
 import Comida from "./pages/Comida";
@@ -9,8 +8,6 @@ import Micuenta from "./pages/Micuenta";
 import Notas from "./pages/Notas";
 import Landing from "./pages/Landing";
 import Agenda from "./pages/Agenda";
-import { Provider } from "react-redux";
-
 
 
 function App() {

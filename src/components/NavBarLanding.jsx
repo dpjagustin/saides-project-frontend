@@ -1,26 +1,19 @@
 import React, { ReactNode} from "react";
 import { Image } from '@chakra-ui/react';
 import Cookies from "universal-cookie";
-import Micuenta from "../pages/Micuenta";
 import "./styles/navbar.css";
 
 import {
   Box,
   Flex,
-  Avatar,
   Link,
   Button,
   Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  MenuDivider,
   useDisclosure,
   useColorModeValue,
+  useColorMode,
   Stack,
   HStack,
-  useColorMode,
-  Center,
 } from '@chakra-ui/react';
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
  
@@ -42,26 +35,10 @@ const NavLink = ({ children }: { children: ReactNode }) => (
   </Link>
 );
 
-function cerrarSesion(){
-  cookies.remove("id", {path:"/"});
-  cookies.remove("nombre", {path:"/"});
-  cookies.remove("apellido", {path:"/"});
-  cookies.remove("username", {path:"/"});
-  cookies.remove("img", {path:"/"});
-  cookies.remove("rol", {path:"/"});
-  cookies.remove("email",{path:"/"});
-  window.location.href="./login"
-}
-
 // Que el nombre en el despegable de usuario sea personalizado
 
 export default function NavBar() {
-
-
   const { colorMode, toggleColorMode } = useColorMode();
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
-
   return (
     <>
       <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
@@ -88,9 +65,7 @@ export default function NavBar() {
               </Button>
 
               <Menu>
-                <Button colorScheme='linkedin' variant='outline' href="/login" >
-                  <Link href="/login">Iniciar sesión</Link>
-                </Button>
+                <Link href="/login" style={{textDecoration:"none"}}><Button colorScheme="blue" variant="outline">Iniciar sesión</Button></Link>
               </Menu>
             </Stack>
           </Flex>

@@ -19,7 +19,9 @@ import {
     Input,
     ModalFooter,
     useDisclosure,
-    Textarea
+    Textarea,
+    Stack,
+    Text
 } from "@chakra-ui/react";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
@@ -33,7 +35,7 @@ function cambiarColoresBorrar() {
     if (colorMode === "dark") {
         coloresBorrar = "red.800"
     } else {
-        coloresBorrar = "red.100"
+        coloresBorrar = "red.300"
     }
     return coloresBorrar
 }
@@ -43,9 +45,19 @@ function cambiarColoresEditar() {
     if (colorMode === "dark") {
         coloresEditar = "green.800"
     } else {
-        coloresEditar = "green.100"
+        coloresEditar = "green.300"
     }
     return coloresEditar
+}
+function cambiarColoresCard() {
+    let colorMode = localStorage.getItem("chakra-ui-color-mode")
+    let coloresCard = ""
+    if (colorMode === "dark") {
+        coloresCard = "gray.600"
+    } else {
+        coloresCard = "gray.100"
+    }
+    return coloresCard
 }
 
 const urlnotas = "http://localhost:3002/notas"
@@ -53,8 +65,6 @@ const urlnotas = "http://localhost:3002/notas"
 export default function Notas() {
     const [data, setData] = useState([]);
     
-
-
     const [notaSeleccionada, setNotaSeleccionada] = useState({
         id:"",
         titulo: "",
@@ -92,8 +102,7 @@ export default function Notas() {
                 dataNueva.map(nota=>{
                     if (nota.id === notaSeleccionada.id) {
                         nota.titulo = notaSeleccionada.titulo;
-                        nota.nota = notaSeleccionada.nota;
-                    }
+                        nota.nota = notaSeleccionada.nota;}
                 })
                 setData(dataNueva);
                 onCloseEditar();
@@ -130,9 +139,44 @@ export default function Notas() {
         <>
             <NavBar />
             <h1 className="titulo" my="30px" >Mis notas</h1>
-            <Box h="800px">
+            
+            <Box minH="800px">
+            <Button onClick={onOpenCrear} m="40px" size={"lg"} >Crear nota</Button>
                 <Flex justifyContent="center" id="containernotas" >
-                    <Accordion p="10px" allowMultiple  w="55%" my="50px">
+                
+                <Box>
+                    <Flex wrap="wrap" justify="space-evenly">
+            
+                        {data.map(nota => (
+                            <Box maxW={'330px'}w={'full'}bg="gray.200"boxShadow={'2xl'}rounded={'md'}overflow={'hidden'} my={"20px"}>
+                                <Stack textAlign={'center'} p={6} color="gray.500" align={'center'}>
+                                <Text
+                                    fontSize={'2xl'}
+                                    fontWeight={500}
+                                    bg="gray.200"
+                                    p={1}
+                                    px={3}
+                                    
+                                    rounded={'full'}
+                                    
+                                    >
+                                    {nota.titulo}
+                                </Text>
+                                </Stack>
+                                <Box bg="gray.500" px={2} py={2}>
+                                    <Text fontSize={"lg"} px="5px">{nota.nota}</Text>
+                                </Box>
+                                <Box >
+                                    <Flex justify="end" bg="gray.500" p="5px">
+                                    <Button colorScheme="red" mx="10px" onClick={()=>seleccionarNota(nota, "Eliminar")}>Borrar<DeleteIcon color={cambiarColoresBorrar()} /> </Button>
+                                    <Button colorScheme="green" onClick={() => seleccionarNota(nota,"Editar")}>Editar<EditIcon color={cambiarColoresEditar()} /></Button>
+                                    </Flex>
+                                </Box>
+                            </Box>
+                            ))}
+                            </Flex>
+                            </Box>
+                    {/* <Accordion p="10px" allowMultiple  w="55%" my="50px">
                         <Button onClick={onOpenCrear} mb="20px">Crear nota</Button>
                         {data.map(nota => (
                             <AccordionItem key={nota.id}>
@@ -144,7 +188,7 @@ export default function Notas() {
                                         <AccordionIcon />
                                     </AccordionButton>
                                 </h2>
-                                <AccordionPanel pb={4}>
+                                <AccordionPanel pb={4} bg={cambiarColoresCard} borderRadius="7px" >
                                     {nota.nota}
                                 </AccordionPanel>
                                 <AccordionPanel pb={4}>
@@ -153,7 +197,7 @@ export default function Notas() {
                                 </AccordionPanel>
                             </AccordionItem>
                         ))}
-                    </Accordion>
+                    </Accordion> */}
                 </Flex>
             </Box>
             <Footer />
@@ -174,7 +218,7 @@ export default function Notas() {
                         </FormControl>
                         <FormControl mt={4}>
                             <FormLabel>Nota</FormLabel>
-                            <Input name="nota" onChange={handleChange} placeholder='Nota' />
+                            <Textarea name="nota" onChange={handleChange} placeholder='Nota'></Textarea>
                         </FormControl>
                     </ModalBody>
 
