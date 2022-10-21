@@ -4,8 +4,6 @@ import App from './App';
 import { ChakraProvider, StylesProvider } from '@chakra-ui/react';
 // import "./styles.css"
 
-
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <ChakraProvider>

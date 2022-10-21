@@ -1,14 +1,10 @@
-import React from "react";
-import CalendarioAgenda from "../components/CalendarioAgenda";
-import NavBar from "../components/NavBar";
+import React from 'react';
+import NavBar from '../components/NavBar';
 
-export const Agenda = () => {
+const Agenda = () => {
   return (
-    <>
-      <NavBar />
-
-      <CalendarioAgenda />
-    </>
+    <NavBar />
+    
   )
 }
 

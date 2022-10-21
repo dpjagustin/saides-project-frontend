@@ -8,15 +8,13 @@ import Comida from "./pages/Comida";
 import Micuenta from "./pages/Micuenta";
 import Notas from "./pages/Notas";
 import Landing from "./pages/Landing";
-import  Agenda from "./pages/Agenda";
+import Agenda from "./pages/Agenda";
 import { Provider } from "react-redux";
-import {store} from "./store";
 
 
 
 function App() {
   return (
-    <Provider store={store}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Landing />}/>
@@ -38,8 +36,6 @@ function App() {
           <Route path="/agenda" element={<Agenda />}/>
         </Routes>
       </BrowserRouter>
-    </Provider>
-    
   );
 }
 
