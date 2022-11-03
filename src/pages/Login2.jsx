@@ -29,7 +29,7 @@ function cambiarColores(){
     return colores
 }
 
-const Login2 = () =>{
+const Login = () =>{
     const [username, setUsername]= useState("")
     const [password, setPassword]= useState("")
     const [redirect, setRedirect]=useState("")
@@ -111,4 +111,4 @@ const Login2 = () =>{
     )
 };
 
-export default Login2;
+export default Login;

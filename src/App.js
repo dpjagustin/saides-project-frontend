@@ -8,6 +8,7 @@ import Micuenta from "./pages/Micuenta";
 import Notas from "./pages/Notas";
 import Landing from "./pages/Landing";
 import Agenda from "./pages/Agenda";
+import Login from "./pages/Login2";
 
 
 function App() {

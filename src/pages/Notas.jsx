@@ -60,10 +60,18 @@ function cambiarColoresCard() {
     return coloresCard
 }
 
-const urlnotas = "http://localhost:3002/notas"
+const urlnotas = "http://localhost:8000/api/authUserNotas"
+const urlcreacr = "http://localhost:8000/api/AddNota"
 
 export default function Notas() {
     const [data, setData] = useState([]);
+    const [idOwner, setIdOwner] = useState("")
+    const [actualizar, setActualizar]=(0)
+    const [notaAdd, setNotaAdd]=({
+        titulo:"",
+        nota:"",
+        id_owner:parseInt(idOwner)
+    })
     
     const [notaSeleccionada, setNotaSeleccionada] = useState({
         id:"",
@@ -80,11 +88,41 @@ export default function Notas() {
         }))
     }
 
-    const peticionGet = async () => {
-        await axios.get(urlnotas)
-            .then(response => {
-                setData(response.data);
-            })
+    ////////////TRAER LAS NOTAS DEL USUARIO/////////////
+
+    useEffect(() =>{
+        (
+          async ()=>{
+            const response = await fetch("http://localhost:8000/api/authUserNotes",{
+                headers:{"Content-Type":"application/json"},
+                credentials:"include",
+            });
+    
+            const content = await response.json();
+            setData(content)
+            setActualizar(actualizar+1)
+          }
+        )();
+    },[actualizar]);
+
+    ////////////// TRAER EL IDOWNER ///////////////////
+
+    useEffect(() =>{
+        (
+          async ()=>{
+            const response = await fetch("http://localhost:8000/api/authUser",{
+                headers:{"Content-Type":"application/json"},
+                credentials:"include",
+            });
+            const content = await response.json();
+            setIdOwner(content.id)
+          }
+        )();
+    });
+
+    ////////////// CREAR NOTA ////////////
+    function crearNota(){
+        axios.post()
     }
 
     const peticionPost = async () => {
@@ -126,9 +164,6 @@ export default function Notas() {
         (caso === "Editar")?onOpenEditar():onOpenBorrar();
     }
 
-    useEffect(async () => {
-        await peticionGet();
-    }, [])
 
     const { isOpen: isOpenCrear, onOpen: onOpenCrear, onClose: onCloseCrear } = useDisclosure()
     const { isOpen: isOpenEditar, onOpen: onOpenEditar, onClose: onCloseEditar } = useDisclosure()
@@ -141,42 +176,8 @@ export default function Notas() {
             <h1 className="titulo" my="30px" >Mis notas</h1>
             
             <Box minH="800px">
-            <Button onClick={onOpenCrear} m="40px" size={"lg"} >Crear nota</Button>
-                <Flex justifyContent="center" id="containernotas" >
-                
-                <Box>
-                    <Flex wrap="wrap" justify="space-evenly">
-            
-                        {data.map(nota => (
-                            <Box maxW={'330px'}w={'full'}bg="gray.200"boxShadow={'2xl'}rounded={'md'}overflow={'hidden'} my={"20px"}>
-                                <Stack textAlign={'center'} p={6} color="gray.500" align={'center'}>
-                                <Text
-                                    fontSize={'2xl'}
-                                    fontWeight={500}
-                                    bg="gray.200"
-                                    p={1}
-                                    px={3}
-                                    
-                                    rounded={'full'}
-                                    
-                                    >
-                                    {nota.titulo}
-                                </Text>
-                                </Stack>
-                                <Box bg="gray.500" px={2} py={2}>
-                                    <Text fontSize={"lg"} px="5px">{nota.nota}</Text>
-                                </Box>
-                                <Box >
-                                    <Flex justify="end" bg="gray.500" p="5px">
-                                    <Button colorScheme="red" mx="10px" onClick={()=>seleccionarNota(nota, "Eliminar")}>Borrar<DeleteIcon color={cambiarColoresBorrar()} /> </Button>
-                                    <Button colorScheme="green" onClick={() => seleccionarNota(nota,"Editar")}>Editar<EditIcon color={cambiarColoresEditar()} /></Button>
-                                    </Flex>
-                                </Box>
-                            </Box>
-                            ))}
-                            </Flex>
-                            </Box>
-                    {/* <Accordion p="10px" allowMultiple  w="55%" my="50px">
+                <Button onClick={onOpenCrear} m="40px" size={"lg"} >Crear nota</Button>
+                <Accordion p="10px" allowMultiple  w="55%" my="50px">
                         <Button onClick={onOpenCrear} mb="20px">Crear nota</Button>
                         {data.map(nota => (
                             <AccordionItem key={nota.id}>
@@ -197,8 +198,8 @@ export default function Notas() {
                                 </AccordionPanel>
                             </AccordionItem>
                         ))}
-                    </Accordion> */}
-                </Flex>
+                    </Accordion>
+                
             </Box>
             <Footer />
 
