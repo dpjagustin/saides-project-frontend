@@ -61,16 +61,18 @@ function cambiarColoresCard() {
 }
 
 const urlnotas = "http://localhost:8000/api/authUserNotas"
-const urlcreacr = "http://localhost:8000/api/AddNota"
+const urlcrear = "http://localhost:8000/api/AddNota"
+const urldelete = "http://localhost:8000/api/deleteNota"
+const urlmodificar = "http://localhost:8000/api/updateNota"
 
 export default function Notas() {
     const [data, setData] = useState([]);
     const [idOwner, setIdOwner] = useState("")
-    const [actualizar, setActualizar]=(0)
-    const [notaAdd, setNotaAdd]=({
+    const [actualizar, setActualizar]=useState(0)
+    const [notaAdd, setNotaAdd]=useState({
         titulo:"",
         nota:"",
-        id_owner:parseInt(idOwner)
+        id_owner:""
     })
     
     const [notaSeleccionada, setNotaSeleccionada] = useState({
@@ -88,6 +90,13 @@ export default function Notas() {
         }))
     }
 
+    function handle(e){
+        const notaNueva={...notaAdd}
+        notaNueva[e.target.id] = e.target.value
+        setNotaAdd(notaNueva)
+        console.log(notaNueva)
+    }
+
     ////////////TRAER LAS NOTAS DEL USUARIO/////////////
 
     useEffect(() =>{
@@ -100,7 +109,7 @@ export default function Notas() {
     
             const content = await response.json();
             setData(content)
-            setActualizar(actualizar+1)
+            setActualizar(...actualizar+1)
           }
         )();
     },[actualizar]);
@@ -118,46 +127,67 @@ export default function Notas() {
             setIdOwner(content.id)
           }
         )();
-    });
+    },[]);
 
     ////////////// CREAR NOTA ////////////
-    function crearNota(){
-        axios.post()
-    }
+    
+    const crearNota = async (e)=>{
+        e.preventDefault();
 
-    const peticionPost = async () => {
-        await axios.post(urlnotas, notaSeleccionada)
-            .then(response => {
-                setData(data.concat(response.data))
-                onCloseCrear()
+        await fetch("http://localhost:8000/api/addNota",{
+            method:"POST",
+            headers:{"Content-type":"application/json"},
+            credentials:"include",
+            body: JSON.stringify({
+                titulo:notaAdd.titulo,
+                nota:notaAdd.nota,
+                id_owner:parseInt(idOwner)
             })
+            
+        });   
+        setActualizar(actualizar+1)
+        onCloseCrear()
+        setNotaAdd([0])
     }
 
+    /////////////// BORRAR NOTAA/////////////
+
+    const peticionDelete = async () => {
+        await axios.post(urldelete,{
+            id:notaSeleccionada.id
+        })
+            .then(response => {
+                setActualizar(actualizar+1)      
+                onCloseBorrar();
+            }).catch(error=>{
+                console.log(error)
+            })  
+    }
+
+
+    ////////////// MODIFICAR NOTA//////////////
     const peticionPut = async () => {
-        await axios.put(urlnotas+"/"+notaSeleccionada.id, notaSeleccionada)
+        await axios.put(urlmodificar,{
+            id:notaSeleccionada.id,
+            titulo:notaSeleccionada.titulo,
+            nota:notaSeleccionada.nota
+        })
             .then((response) => {
-                var dataNueva = data;
-                dataNueva.map(nota=>{
-                    if (nota.id === notaSeleccionada.id) {
-                        nota.titulo = notaSeleccionada.titulo;
-                        nota.nota = notaSeleccionada.nota;}
-                })
-                setData(dataNueva);
+                setActualizar(actualizar+1)
                 onCloseEditar();
             }).catch(error=>{
                 console.log(error)
             })
     }
 
-    const peticionDelete = async () => {
-        await axios.delete(urlnotas +"/"+ notaSeleccionada.id)
-            .then(response => {      
-                setData(data.filter(nota => nota.id !== notaSeleccionada.id));
-                onCloseBorrar();
-            }).catch(error=>{
-                console.log(error)
-            })  
-    }
+
+    // const peticionPost = async () => {
+    //     await axios.post(urlnotas, notaSeleccionada)
+    //         .then(response => {
+    //             setData(data.concat(response.data))
+    //             onCloseCrear()
+    //         })
+    // }
 
     const seleccionarNota = (nota, caso) => {
         setNotaSeleccionada(nota);
@@ -172,13 +202,13 @@ export default function Notas() {
 
     return (
         <>
-            <NavBar />
+            {/* <NavBar /> */}
             <h1 className="titulo" my="30px" >Mis notas</h1>
             
             <Box minH="800px">
                 <Button onClick={onOpenCrear} m="40px" size={"lg"} >Crear nota</Button>
+                <Flex justify="center">
                 <Accordion p="10px" allowMultiple  w="55%" my="50px">
-                        <Button onClick={onOpenCrear} mb="20px">Crear nota</Button>
                         {data.map(nota => (
                             <AccordionItem key={nota.id}>
                                 <h2>
@@ -189,7 +219,7 @@ export default function Notas() {
                                         <AccordionIcon />
                                     </AccordionButton>
                                 </h2>
-                                <AccordionPanel pb={4} bg={cambiarColoresCard} borderRadius="7px" >
+                                <AccordionPanel pb={4} borderRadius="7px" >
                                     {nota.nota}
                                 </AccordionPanel>
                                 <AccordionPanel pb={4}>
@@ -198,8 +228,9 @@ export default function Notas() {
                                 </AccordionPanel>
                             </AccordionItem>
                         ))}
+                        
                     </Accordion>
-                
+                    </Flex>
             </Box>
             <Footer />
 
@@ -208,6 +239,7 @@ export default function Notas() {
             {/* ----------------------------------------------------*/}
 
             <Modal isOpen={isOpenCrear} onClose={onCloseCrear}>
+                <form onSubmit={crearNota}>
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader>Crear nota</ModalHeader>
@@ -215,21 +247,22 @@ export default function Notas() {
                     <ModalBody pb={6}>
                         <FormControl>
                             <FormLabel>Titulo</FormLabel>
-                            <Input name="titulo" onChange={handleChange} ref={initialRef} placeholder='Titulo' />
+                            <Input id="titulo" name="titulo" onChange={(e)=> handle(e)} value={notaAdd.titulo} ref={initialRef} placeholder='Titulo' />
                         </FormControl>
                         <FormControl mt={4}>
                             <FormLabel>Nota</FormLabel>
-                            <Textarea name="nota" onChange={handleChange} placeholder='Nota'></Textarea>
+                            <Textarea id="nota" name="nota" onChange={(e)=> handle(e)} value={notaAdd.nota} placeholder='Nota'></Textarea>
                         </FormControl>
                     </ModalBody>
 
                     <ModalFooter>
-                        <Button colorScheme='blue' mr={3} onClick={peticionPost}>
+                        <Button colorScheme='blue' mr={3} type="submit" >
                             Guardar nota
                         </Button>
                         <Button onClick={onCloseCrear}>Cancelar</Button>
                     </ModalFooter>
                 </ModalContent>
+                </form>
             </Modal>
 
             <Modal isOpen={isOpenEditar} onClose={onCloseEditar}>

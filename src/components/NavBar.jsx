@@ -33,7 +33,7 @@ const Links = [
 
 const cookies = new Cookies();
 
-const NavLink = ({ children }: { children: ReactNode }) => (
+const NavLink = ({ children }) => (
   <Link
     px={2}
     py={1}
@@ -104,7 +104,7 @@ export default function NavBar() {
                 spacing={4}
                 display={{ base: 'none', md: 'flex' }}>
                 {Links.map((link) => (
-                  <NavLink key={link}>{link}</NavLink>
+                  <NavLink>{link}</NavLink>
                 ))}
               </HStack>
           </HStack>
