@@ -1,0 +1,22 @@
+{
+    "comidas":[
+        {
+            "id":1,
+            "dia":"11/11",
+            "comida1":"pollo con arroz",
+            "comida2":"milanesa con pure"
+        },
+        {
+            "id":2,
+            "dia":"20/11",
+            "comida1":"tarta",
+            "comida2":"empanadas"
+        },
+        {
+            "id":3,
+            "dia":"25/11",
+            "comida1":"pizza",
+            "comida2":"hamburgesa"
+        }
+    ]
+}

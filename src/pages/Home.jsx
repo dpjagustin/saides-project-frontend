@@ -3,6 +3,7 @@ import Hero from "../components/Hero";
 import Footer from "../components/Footer";
 import Noticias from "../components/Noticias";
 import { useEffect, useState } from "react";
+import { cookieStorageManager } from "@chakra-ui/react";
 
 
 

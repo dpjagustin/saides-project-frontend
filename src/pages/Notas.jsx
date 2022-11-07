@@ -20,8 +20,6 @@ import {
     ModalFooter,
     useDisclosure,
     Textarea,
-    Stack,
-    Text
 } from "@chakra-ui/react";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
@@ -49,23 +47,13 @@ function cambiarColoresEditar() {
     }
     return coloresEditar
 }
-function cambiarColoresCard() {
-    let colorMode = localStorage.getItem("chakra-ui-color-mode")
-    let coloresCard = ""
-    if (colorMode === "dark") {
-        coloresCard = "gray.600"
-    } else {
-        coloresCard = "gray.100"
-    }
-    return coloresCard
-}
 
-const urlnotas = "http://localhost:8000/api/authUserNotas"
-const urlcrear = "http://localhost:8000/api/AddNota"
+
 const urldelete = "http://localhost:8000/api/deleteNota"
 const urlmodificar = "http://localhost:8000/api/updateNota"
 
 export default function Notas() {
+    /////////// CONSTANTES CON ACTUALIZACION DE DATOS////////////
     const [data, setData] = useState([]);
     const [idOwner, setIdOwner] = useState("")
     const [actualizar, setActualizar]=useState(0)
@@ -74,14 +62,14 @@ export default function Notas() {
         nota:"",
         id_owner:""
     })
-    
     const [notaSeleccionada, setNotaSeleccionada] = useState({
         id:"",
         titulo: "",
         nota: ""
     })
 
-    // captura lo que el usuario escribe en los inputs
+    ////// captura lo que el usuario escribe en los inputs/////
+
     const handleChange = e => {
         const { name, value } = e.target;
         setNotaSeleccionada(prevState => ({
@@ -109,7 +97,7 @@ export default function Notas() {
     
             const content = await response.json();
             setData(content)
-            setActualizar(...actualizar+1)
+            setActualizar(actualizar+1)
           }
         )();
     },[actualizar]);
@@ -180,15 +168,8 @@ export default function Notas() {
             })
     }
 
-
-    // const peticionPost = async () => {
-    //     await axios.post(urlnotas, notaSeleccionada)
-    //         .then(response => {
-    //             setData(data.concat(response.data))
-    //             onCloseCrear()
-    //         })
-    // }
-
+    ///////////// SELECCIONAR LA NOTA////////////
+    
     const seleccionarNota = (nota, caso) => {
         setNotaSeleccionada(nota);
         (caso === "Editar")?onOpenEditar():onOpenBorrar();
@@ -202,27 +183,27 @@ export default function Notas() {
 
     return (
         <>
-            {/* <NavBar /> */}
-            <h1 className="titulo" my="30px" >Mis notas</h1>
+            <NavBar />
+            <h1 className="titulo" >Mis notas</h1>
             
             <Box minH="800px">
-                <Button onClick={onOpenCrear} m="40px" size={"lg"} >Crear nota</Button>
+                <Button onClick={onOpenCrear} mt="30px" ml="100px" size={"lg"}  >Crear nota</Button>
                 <Flex justify="center">
                 <Accordion p="10px" allowMultiple  w="55%" my="50px">
                         {data.map(nota => (
                             <AccordionItem key={nota.id}>
                                 <h2>
                                     <AccordionButton>
-                                        <Box flex='1' textAlign='left'>
+                                        <Box flex='1' textAlign='left' fontSize="50px" padding="15px">
                                             {nota.titulo}
                                         </Box>
-                                        <AccordionIcon />
+                                        <AccordionIcon fontSize="40px"/>
                                     </AccordionButton>
                                 </h2>
-                                <AccordionPanel pb={4} borderRadius="7px" >
+                                <AccordionPanel pb={4} borderRadius="7px" fontSize="30px" pl="40px" >
                                     {nota.nota}
                                 </AccordionPanel>
-                                <AccordionPanel pb={4}>
+                                <AccordionPanel pb={4} textAlign="right">
                                     <Button colorScheme="red" mx="10px" onClick={()=>seleccionarNota(nota, "Eliminar")}>Borrar<DeleteIcon color={cambiarColoresBorrar()} /> </Button>
                                     <Button colorScheme="green" onClick={() => seleccionarNota(nota,"Editar")}>Editar<EditIcon color={cambiarColoresEditar()} /></Button>
                                 </AccordionPanel>

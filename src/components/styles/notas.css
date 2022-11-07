@@ -1,7 +1,9 @@
 .titulo{
-    font-size: 50px;
+    font-size: 70px;
     font-family: sanfranciscoheavy;
     margin-left: 100px;
+    margin-top:30px
+
 }
 .buscarbox{
     display: flex;
