@@ -19,7 +19,7 @@ Para el nombramiento de assets(resources) se utiliza el formato camelCase "nombr
 - npm i react-calendar
 - npm install --save styled-components
 - npm install react-icons --save
-- npm i react-carousel3
+
 
 
 ## Secciones de la webapp: 
