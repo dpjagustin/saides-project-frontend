@@ -24,6 +24,7 @@ Para el nombramiento de assets(resources) se utiliza el formato camelCase "nombr
 - npm install @reduxjs/toolkit 
 - npm install react-redux 
 - npm install jquery --save NUEVO
+- npm i react-slick A BORRAR
 
 ## Secciones de la webapp: 
 - Login
