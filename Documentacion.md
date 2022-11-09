@@ -18,11 +18,11 @@ Para el nombramiento de assets(resources) se utiliza el formato camelCase "nombr
 - npm i sweetalert
 - npm i react-calendar
 - npm install --save styled-components
-- npm install --save react-modal  NUEVO
-- npm install react-datepicker ---save  NUEVO
-- npm i sweetalert2 NUEVO
-- npm install @reduxjs/toolkit NUEVO
-- npm install react-redux NUEVO
+- npm install --save react-modal  
+- npm install react-datepicker ---save  
+- npm i sweetalert2 
+- npm install @reduxjs/toolkit 
+- npm install react-redux 
 
 ## Secciones de la webapp: 
 - Login
