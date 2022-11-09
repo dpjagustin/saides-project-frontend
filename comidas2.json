@@ -1,14 +1,10 @@
 {
   "comidas2": [
     {
-      "dia": "",
       "comida": "milanesa con pure",
+      "nota": "sdsdsdsd",
+      "nombre": "Alvaro Mihocevich",
       "id": 1
-    },
-    {
-      "dia": "",
-      "comida": "hamburgesa",
-      "id": 2
     }
   ]
 }

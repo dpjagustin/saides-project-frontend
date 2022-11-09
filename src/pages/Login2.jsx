@@ -47,7 +47,7 @@ const Login = () => {
             }).then((res) => {
                 setRedirect(true)
             }).catch(error => {
-                swal("Usuario o contraseña incorrecta")
+                swal({icon:"error",title:"Usuario o contraseña incorrecta"})
                 setPassword("")
                 document.getElementById("inputpass").value = ""
                 document.getElementById("inputlogin").value = ""
