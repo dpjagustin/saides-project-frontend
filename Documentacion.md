@@ -21,6 +21,7 @@ Para el nombramiento de assets(resources) se utiliza el formato camelCase "nombr
 - npm install react-icons --save
 
 
+
 ## Secciones de la webapp: 
 - Landing
 - Login
