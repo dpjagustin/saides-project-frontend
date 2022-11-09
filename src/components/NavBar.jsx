@@ -23,6 +23,8 @@ import {
 } from '@chakra-ui/react';
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import swal from "sweetalert";
  
 const Links = [
   <Link className="links" href="/index">Inicio</Link>,
@@ -31,7 +33,7 @@ const Links = [
   <Link className="links" href="/agenda">Agenda</Link>,
   <Link className="links" href="/notas">Mis notas</Link>,]; // Links a paginas
 
-const cookies = new Cookies();
+
 
 const NavLink = ({ children }) => (
   <Link
@@ -53,7 +55,7 @@ const NavLink = ({ children }) => (
 
 
 export default function NavBar() {
-  
+  const urlauth="http://localhost:8000/api/authUser"
   const { colorMode, toggleColorMode } = useColorMode();
   // const navigate =useNavigate();
   // const [redirect, setRedirect]=useState("")
@@ -61,25 +63,33 @@ export default function NavBar() {
   const [apellido, setApellido]=useState("");
   const [imagen, setImagen]=useState("");
   const [rol, setRol]=useState("");
+  const [redirect, setRedirect] = useState("")
+  const navigate = useNavigate();
 
+  function verificar(){
+    if (redirect) {
+      return navigate("/index")
+  }
+  }
   useEffect(() =>{
     (
       async ()=>{
-        const response = await fetch("http://localhost:8000/api/authUser",{
-            headers:{"Content-Type":"application/json"},
-            credentials:"include",
-        });
-
-        const content = await response.json();
-
-        setNombre(content.nombre)
-        setApellido(content.apellido)
-        setImagen(content.imagen)
-        setRol(content.rol)
-
+        await axios.get(urlauth,{withCredentials:true})
+        .then((res)=>{
+          const content = res.data
+          setNombre(content.nombre)
+          setApellido(content.apellido)
+          setImagen(content.imagen)
+          setRol(content.rol)
+        }).catch((error)=>{
+          swal({icon:"error",title:"No hay un usuario logeado"})
+          navigate("/")
+        })
       }
     )();
   });
+
+  
   const cerrarSesion = async() =>{
     await fetch("http://localhost:8000/api/logout",{
               method:"POST",
