@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
-import { Box, Select, Button, Flex,  Text, Textarea, Input  } from "@chakra-ui/react";
+import { Box, Select, Button, Flex,  Text, Input  } from "@chakra-ui/react";
 import "../components/styles/comida.css"
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -15,8 +15,6 @@ export default function Comida() {
 
   const [nombre, setNombre]=useState("");
   const [apellido, setApellido]=useState("");
-  const [comida, setComida] = useState("")
-  const [dia, setDia] = useState("")
   const [data, setData] = useState([]);
   const [envCom, setEnvCom] = useState({
     dia: "",
@@ -30,7 +28,7 @@ export default function Comida() {
   useEffect(() => {
     (
       async () => {
-        const response = await fetch("http://localhost:8000/api/menusMes", {
+        const response = await fetch("http://localhost:8000/api/menuMes", {
           headers: { "Content-Type": "application/json" },
           credentials: "include",
         });
@@ -58,7 +56,7 @@ export default function Comida() {
   },[]);
 
   /////////CONSTANTE QUE ARMA EL NOMBRE COMPLETO///////////
-  const nombrecompleto = nombre +" " + apellido
+  const nombrecompleto = nombre + " " + apellido
 
 
 //////////////////MANEJAR LO QUE EL USUARIO ELIGE Y PONERLO EN LA VARIABLE PARA MANDAR///////////////
@@ -79,7 +77,6 @@ export default function Comida() {
       nota:envCom.nota,
       nombre:nombrecompleto
     }).then(res => {
-      console.log(comida);
     }).catch(error=>{
     })
   }

@@ -1,6 +1,5 @@
-import React, { ReactNode} from "react";
+import React, { } from "react";
 import { Image } from '@chakra-ui/react';
-import Cookies from "universal-cookie";
 import "./styles/navbar.css";
 
 import {
@@ -9,7 +8,6 @@ import {
   Link,
   Button,
   Menu,
-  useDisclosure,
   useColorModeValue,
   useColorMode,
   Stack,
@@ -17,25 +15,7 @@ import {
 } from '@chakra-ui/react';
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
  
-// Mejorar botón de iniciar sesión para que no se subraye con el hover
 
-const cookies = new Cookies();
-
-const NavLink = ({ children }: { children: ReactNode }) => (
-  <Link
-    px={2}
-    py={1}
-    rounded={'md'}
-    _hover={{
-      textDecoration: 'none',
-      bg: useColorModeValue('gray.200', 'gray.700'),
-    }}
-    href={'#'}>
-    {children}
-  </Link>
-);
-
-// Que el nombre en el despegable de usuario sea personalizado
 
 export default function NavBar() {
   const { colorMode, toggleColorMode } = useColorMode();

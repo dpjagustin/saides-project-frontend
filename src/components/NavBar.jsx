@@ -57,20 +57,12 @@ const NavLink = ({ children }) => (
 export default function NavBar() {
   const urlauth="http://localhost:8000/api/authUser"
   const { colorMode, toggleColorMode } = useColorMode();
-  // const navigate =useNavigate();
-  // const [redirect, setRedirect]=useState("")
   const [nombre, setNombre]=useState("");
   const [apellido, setApellido]=useState("");
   const [imagen, setImagen]=useState("");
   const [rol, setRol]=useState("");
-  const [redirect, setRedirect] = useState("")
   const navigate = useNavigate();
 
-  function verificar(){
-    if (redirect) {
-      return navigate("/index")
-  }
-  }
   useEffect(() =>{
     (
       async ()=>{
@@ -81,6 +73,11 @@ export default function NavBar() {
           setApellido(content.apellido)
           setImagen(content.imagen)
           setRol(content.rol)
+          if(rol===1){
+            document.getElementById("itemadmin1").style.display="none";
+            document.getElementById("itemadmin2").style.display="none";
+            document.getElementById("itemadmin3").style.display="none";
+          }
         }).catch((error)=>{
           swal({icon:"error",title:"No hay un usuario logeado"})
           navigate("/")
@@ -88,6 +85,8 @@ export default function NavBar() {
       }
     )();
   });
+
+
 
   
   const cerrarSesion = async() =>{
@@ -156,6 +155,15 @@ export default function NavBar() {
                   <br />
                   <MenuDivider />
                   <MenuItem><a href="/micuenta"><Button className="linkscuenta" colorScheme="blue">Mi cuenta </Button></a></MenuItem>
+                  {(()=>{
+                    if(rol===1){
+                      return(<div>AdminNoticias</div>)
+                    }
+                  })}
+                  
+                  <MenuItem><a href="/micuenta"><Button className="linkscuenta" colorScheme="blue" id="itemadmin1">Noticias</Button></a></MenuItem>
+                  <MenuItem><a href="/micuenta"><Button className="linkscuenta" colorScheme="blue" id="itemadmin2">Comidas</Button></a></MenuItem>
+                  <MenuItem><a href="/micuenta"><Button className="linkscuenta" colorScheme="blue" id="itemadmin3">Usuarios</Button></a></MenuItem>
                   <MenuItem><Button className="linkscuenta" colorScheme='red' onClick={()=> cerrarSesion()}>Cerrar sesión</Button></MenuItem>
                 </MenuList>
               </Menu>

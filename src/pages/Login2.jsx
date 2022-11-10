@@ -35,6 +35,7 @@ const Login = () => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [redirect, setRedirect] = useState("")
+    const [recordar, setRecordar] = useState(false)
     const navigate = useNavigate();
     
     const loguearse = async () => {
@@ -57,6 +58,27 @@ const Login = () => {
     if (redirect) {
         return navigate("/index")
     }
+
+    function handle(e) {
+        const recordarUsuario = { ...recordar }
+        recordarUsuario[e.target.id] = e.target.checked
+        setRecordar(recordarUsuario)
+    }
+
+   
+        // if (localStorage.getItem("recordar"){
+        //     localStorage.setItem("usuario", username)
+        // }else{
+
+        // }
+    
+
+    console.log(recordar);
+    localStorage.setItem("recordar",JSON.stringify(recordar.checked))
+    
+    // console.log(localStorage.getItem("recordar"))
+
+
 
     return (
         <Box>
@@ -90,8 +112,7 @@ const Login = () => {
                             <Button rounded="none" colorScheme="blue" w="full" alignSelf="end" onClick={loguearse} mt="1.8em">Login</Button>
                         </FormControl>
                         <HStack w="full" justify="space-between">
-                            <Checkbox className="checkk" id="check" onChange={(e) => this.guardarUsuario(e.target.checked, document.getElementById("inputlogin").value)}
-                                defaultChecked={JSON.parse(localStorage.getItem("check"))} >Recordar usuario</Checkbox>
+                            <Checkbox className="checkk" id="recordar" onChange={(e)=> handle(e)} >Recordar usuario</Checkbox>
                             <Button variant="link" colorScheme="blue">
                                 Olvide mi contraseña
                             </Button>
@@ -108,36 +129,10 @@ const Login = () => {
 
     )
 };
-// const submit = async (e) => {
-//     e.preventDefault();
 
-//     await fetch("http://localhost:8000/api/login",{
-//         method:"POST",
-//         headers:{"Content-Type":"application/json"},
-//         credentials:"include",
-//         body: JSON.stringify({
-//             username,
-//             password
-//         })
-//     });
-//     // setRedirect(true);
-// }
+<Checkbox className="checkk" id="check" onChange={(e) => this.guardarUsuario(e.target.checked, document.getElementById("inputlogin").value)}
+defaultChecked={JSON.parse(localStorage.getItem("check"))} >Recordar usuario</Checkbox>
 
-
-//  <FormControl>
-//                         <form onSubmit={submit}>
-//                             <FormControl>
-//                                 <FormLabel>Usuario</FormLabel>
-//                                 <Input rounded="none" variant="filled" name="username" onChange={e => setUsername(e.target.value)}  id="inputlogin" />
-//                             </FormControl>
-
-//                             <FormControl>
-//                                 <FormLabel>Contraseña</FormLabel>
-//                                 <Input rounded="none" variant="filled" type="password" name="password" onChange={e => setPassword(e.target.value)} id="inputpass"/>
-//                             </FormControl>
-//                             <Button rounded="none" colorScheme="blue" w="full" alignSelf="end" type="submit" mt="1.8em">Login</Button>
-//                         </form>
-//                         </FormControl> 
 
 export default Login;
 
