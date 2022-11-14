@@ -19,10 +19,11 @@ import {
   ModalContent,
 } from '@chakra-ui/react';
 import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
-import styled from "styled-components";
 import axios from "axios";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
+import { useNavigate } from "react-router-dom";
+import swal from "sweetalert";
 function cambiarColoresShadow() {
     let colorMode = localStorage.getItem("chakra-ui-color-mode")
     let coloresShadow = ""
@@ -35,6 +36,7 @@ function cambiarColoresShadow() {
   }
   const urldelete = "http://localhost:8000/api/deleteNoticia"
   const urlmodificar = "http://localhost:8000/api/updateNoticia"
+  const urlauth="http://localhost:8000/api/authUser"
 
 
 function AdminNoticias(){
@@ -57,6 +59,8 @@ function AdminNoticias(){
     item2: "",
     item3: ""
   })
+  const [rol, setRol]=useState("");
+  const navigate = useNavigate();
 
   ///////// CAPTURA LO QUE LOS USUARIOS ESCRIBEN EN LOS INPUTS/////////////////
 
@@ -73,6 +77,22 @@ function AdminNoticias(){
     setNovAdd(noticiaNueva)
     console.log(noticiaNueva)
   }
+//////////////////////TRAE EL ROL DEL USUARIO///////////////////
+  useEffect(() => {
+    (
+      async () => {
+        await axios.get(urlauth, { withCredentials: true })
+          .then((res) => {
+            const content = res.data
+
+            setRol(content.rol)
+          }).catch((error) => {
+            swal({ icon: "error", title: "No hay un usuario logeado" })
+            navigate("/")
+          })
+      }
+    )();
+  });
 
   ///////////// TRAE LAS NOTICIAS///////////////
 
@@ -151,14 +171,16 @@ function AdminNoticias(){
     (caso === "Editar") ? onOpenEditar() : onOpenBorrar();
   }
 
+  if (rol === 1) {
+    navigate("/index")
+    swal({ icon: "error", title: "No tienes permisos" })
+  }
+  ///////////// ESTADOS DE LOS MODALES/////////////////////
   const { isOpen: isOpenCrear, onOpen: onOpenCrear, onClose: onCloseCrear } = useDisclosure()
   const { isOpen: isOpenEditar, onOpen: onOpenEditar, onClose: onCloseEditar } = useDisclosure()
   const { isOpen: isOpenBorrar, onOpen: onOpenBorrar, onClose: onCloseBorrar } = useDisclosure()
   const initialRef = React.useRef(null)
-    
-
-
-
+  
     return(
         <>
         <NavBar/>

@@ -1,24 +1,10 @@
 import React, { useState, useEffect } from "react";
 import {
   Flex,
-  Button,
   Text,
   Box,
   Heading,
-  Modal,
-  ModalOverlay,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  ModalFooter,
-  useDisclosure,
-  FormControl,
-  Input,
-  FormLabel,
-  Textarea,
-  ModalContent,
 } from '@chakra-ui/react';
-import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import styled from "styled-components";
 import axios from "axios";
 

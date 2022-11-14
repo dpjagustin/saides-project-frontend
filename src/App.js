@@ -9,8 +9,8 @@ import Notas from "./pages/Notas";
 import Landing from "./pages/Landing";
 import Agenda from "./pages/Agenda";
 import Login from "./pages/Login2";
-import AdminComida from "./pages/AdminNoticias";
 import AdminNoticias from "./pages/AdminNoticias";
+import AdminComida from "./pages/AdminComida";
 
 
 function App() {
@@ -36,7 +36,8 @@ function App() {
           <Route path="/agenda" element={<Agenda />}/>
 
           <Route path="/adminnoticias" element={<AdminNoticias/>}/>
-          
+
+          <Route path="/admincomida" element={<AdminComida/>}/>
         </Routes>
       </BrowserRouter>
   );

@@ -1,9 +1,6 @@
-import React, { ReactNode, useEffect, useState} from "react";
+import React, { useEffect, useState} from "react";
 import { Image } from '@chakra-ui/react';
-import Cookies from "universal-cookie";
-import Micuenta from "../pages/Micuenta";
 import "./styles/navbar.css"
-
 import {
   Box,
   Flex,
@@ -73,11 +70,6 @@ export default function NavBar() {
           setApellido(content.apellido)
           setImagen(content.imagen)
           setRol(content.rol)
-          if(rol===1){
-            document.getElementById("itemadmin1").style.display="none";
-            document.getElementById("itemadmin2").style.display="none";
-            document.getElementById("itemadmin3").style.display="none";
-          }
         }).catch((error)=>{
           swal({icon:"error",title:"No hay un usuario logeado"})
           navigate("/")
@@ -85,8 +77,6 @@ export default function NavBar() {
       }
     )();
   });
-
-
 
   
   const cerrarSesion = async() =>{
@@ -155,15 +145,9 @@ export default function NavBar() {
                   <br />
                   <MenuDivider />
                   <MenuItem><a href="/micuenta"><Button className="linkscuenta" colorScheme="blue">Mi cuenta </Button></a></MenuItem>
-                  {(()=>{
-                    if(rol===1){
-                      return(<div>AdminNoticias</div>)
-                    }
-                  })}
-                  
-                  <MenuItem><a href="/micuenta"><Button className="linkscuenta" colorScheme="blue" id="itemadmin1">Noticias</Button></a></MenuItem>
-                  <MenuItem><a href="/micuenta"><Button className="linkscuenta" colorScheme="blue" id="itemadmin2">Comidas</Button></a></MenuItem>
-                  <MenuItem><a href="/micuenta"><Button className="linkscuenta" colorScheme="blue" id="itemadmin3">Usuarios</Button></a></MenuItem>
+                  {rol ===2 && <> <MenuItem><a href="/micuenta"><Button className="linkscuenta" colorScheme="blue" id="itemadmin1">Noticias</Button></a></MenuItem>
+      <MenuItem><a href="/micuenta"><Button className="linkscuenta" colorScheme="blue" id="itemadmin2">Comidas</Button></a></MenuItem>
+      <MenuItem><a href="/micuenta"><Button className="linkscuenta" colorScheme="blue" id="itemadmin3">Usuarios</Button></a></MenuItem> </> }
                   <MenuItem><Button className="linkscuenta" colorScheme='red' onClick={()=> cerrarSesion()}>Cerrar sesión</Button></MenuItem>
                 </MenuList>
               </Menu>
