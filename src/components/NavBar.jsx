@@ -145,9 +145,11 @@ export default function NavBar() {
                   <br />
                   <MenuDivider />
                   <MenuItem><a href="/micuenta"><Button className="linkscuenta" colorScheme="blue">Mi cuenta </Button></a></MenuItem>
-                  {rol ===2 && <> <MenuItem><a href="/micuenta"><Button className="linkscuenta" colorScheme="blue" id="itemadmin1">Noticias</Button></a></MenuItem>
-      <MenuItem><a href="/micuenta"><Button className="linkscuenta" colorScheme="blue" id="itemadmin2">Comidas</Button></a></MenuItem>
-      <MenuItem><a href="/micuenta"><Button className="linkscuenta" colorScheme="blue" id="itemadmin3">Usuarios</Button></a></MenuItem> </> }
+                  {rol === 2 && <> 
+                    <MenuItem><a href="/adminnoticias"><Button className="linkscuenta" colorScheme="blue">Noticias</Button></a></MenuItem>
+                    <MenuItem><a href="/admincomida"><Button className="linkscuenta" colorScheme="blue">Comidas</Button></a></MenuItem>
+                    <MenuItem><a href="/adminusuarios"><Button className="linkscuenta" colorScheme="blue">Usuarios</Button></a></MenuItem> </>
+                  }
                   <MenuItem><Button className="linkscuenta" colorScheme='red' onClick={()=> cerrarSesion()}>Cerrar sesión</Button></MenuItem>
                 </MenuList>
               </Menu>

@@ -1,23 +1,21 @@
 import React, {useState, useEffect} from "react";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
-import { Box, Select, Button, Flex,  Text, Input  } from "@chakra-ui/react";
+import { Box, Select, Button, Flex,  Text, Input, Stack,Card, CardBody,CardHeader,StackDivider, Heading  } from "@chakra-ui/react";
 import "../components/styles/comida.css"
 import axios from "axios";
-import Swal from "sweetalert2";
-
+import toast from "react-hot-toast";
 
 
 export default function Comida() {
-
   const urladd = "http://localhost:8000/api/addMenu"
-
-
   const [nombre, setNombre]=useState("");
   const [apellido, setApellido]=useState("");
   const [data, setData] = useState([]);
   const [envCom, setEnvCom] = useState({
     dia: "",
+    mes:"",
+    año:"",
     comida: "",
     nota:"",
     nombre:""
@@ -61,48 +59,76 @@ export default function Comida() {
 
 //////////////////MANEJAR LO QUE EL USUARIO ELIGE Y PONERLO EN LA VARIABLE PARA MANDAR///////////////
 
-  function handle(e, dia) {
+  function handle(e, dia,mes,año) {
     const comidaSelec = { ...envCom }
     comidaSelec[e.target.id] = e.target.value
     comidaSelec["dia"] = dia
+    comidaSelec["mes"] = mes
+    comidaSelec["año"] = año
     setEnvCom(comidaSelec)
   }
 
   /////////////////ENVIAR LA COMIDA DEL USUARIO//////////////
-
+const puto= null
   const peticionPost = async () => {
     await axios.post(urladd, {
-      fecha:envCom.dia,
+      dia:envCom.dia,
+      mes:envCom.mes,
+      año:envCom.año,
       opcion:envCom.comida,
       nota:envCom.nota,
       nombre:nombrecompleto
     }).then(res => {
+      const puto = res.data
+      console.log(puto)
+      
     }).catch(error=>{
-    })
+    }) 
   }
-
-  console.log(envCom);
-
+  if(puto===({message:'success'})){
+    console.log("anda bien")
+  }
   return (
     <>
       <NavBar />
       <h1 className="titulo">Comidas del mes</h1>
       <Flex justify="center">
-      <Box w="60%">
-        {data.map(comida => (
-          <Box key={comida.id} my="20px">
-            <Flex justify="center">
-              <Text fontSize="4xl" as="b" mr="10px" >Dia:</Text>
-              <Text fontSize="4xl" name="dia" id="dia" on={(e) => handle(e)} w="10%">  {comida.fecha}</Text>
-              <Select w="40%" name="comida" id="comida" placeholder='Elegir opcion' onChange={(e) => handle(e, comida.fecha)}  mx="20px">
-                <option>{comida.menu1}</option>
-                <option>{comida.menu2}</option>
-              </Select>
-              <Input w="30%" mx="20px" id="nota" onChange={(e) => handle(e, comida.fecha)} placeholder="Nota sobre el pedido"></Input>
-              <Button color="primary" onClick={() => peticionPost()} >Guardar cambios</Button>
-            </Flex>
-          </Box>
-        ))}
+      <Box w="70%">
+      <Flex wrap="wrap" justify="space-evenly">
+      {data.map(comida => (
+          <Card my="50px" w="35%">
+            <CardHeader>
+              <Heading size='xl'>Dia: {comida.dia}/{comida.mes}/{comida.año}</Heading>
+            </CardHeader>
+
+            <CardBody>
+              <Stack divider={<StackDivider />} spacing='4'>
+                <Box>
+                  <Heading size='lg'>
+                    Elegir menu
+                  </Heading>
+                <Select w="90%" name="comida" id="comida" placeholder='Elegir opcion' onChange={(e) => handle(e, comida.dia, comida.mes, comida.año)} mx="20px">
+                  <option>{comida.menu1}</option>
+                  <option>{comida.menu2}</option>
+                </Select>
+                </Box>
+                <Box>
+                  <Heading size='lg'>
+                    Dejar una nota
+                  </Heading>
+                  <Input w="90%" mx="20px" id="nota" onChange={(e) => handle(e, comida.dia,comida.mes,comida.año)} placeholder="Nota sobre el pedido"></Input>
+                </Box>
+                <Box>
+                  <Heading size='lg'>
+                    Guardar menu
+                  </Heading>
+                  <Button color="primary" onClick={() => peticionPost()} >Guardar cambios</Button>
+                </Box>
+              </Stack>
+            </CardBody>
+          </Card>
+          ))}
+          </Flex>
       </Box>
       </Flex>
       <Footer />

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Box,
     Heading,
@@ -12,6 +12,7 @@ import {
     Button,
     Image,
     Center,
+    Switch
 } from "@chakra-ui/react";
 import videoplanta from "../resources/videos/videoplanta.mp4"
 import "../components/styles/loginstyles.css"
@@ -35,7 +36,7 @@ const Login = () => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [redirect, setRedirect] = useState("")
-    const [recordar, setRecordar] = useState(false)
+    var [recordar, setRecordar] = useState(false)
     const navigate = useNavigate();
     
     const loguearse = async () => {
@@ -59,25 +60,15 @@ const Login = () => {
         return navigate("/index")
     }
 
-    function handle(e) {
-        const recordarUsuario = { ...recordar }
-        recordarUsuario[e.target.id] = e.target.checked
-        setRecordar(recordarUsuario)
-    }
 
-   
-        // if (localStorage.getItem("recordar"){
-        //     localStorage.setItem("usuario", username)
-        // }else{
-
-        // }
     
 
-    console.log(recordar);
+    //console.log(recordar);
     localStorage.setItem("recordar",JSON.stringify(recordar.checked))
     
-    // console.log(localStorage.getItem("recordar"))
+    
 
+    
 
 
     return (
@@ -98,7 +89,6 @@ const Login = () => {
                             <Heading>Login</Heading>
                             <Text id="text1">Ingresa tu usuario</Text>
                         </VStack>
-
                         <FormControl>
                             <FormControl>
                                 <FormLabel>Usuario</FormLabel>
@@ -112,7 +102,11 @@ const Login = () => {
                             <Button rounded="none" colorScheme="blue" w="full" alignSelf="end" onClick={loguearse} mt="1.8em">Login</Button>
                         </FormControl>
                         <HStack w="full" justify="space-between">
-                            <Checkbox className="checkk" id="recordar" onChange={(e)=> handle(e)} >Recordar usuario</Checkbox>
+
+
+                            <Switch className="checkk" id="recordar"  >Recordar usuario</Switch>
+                            
+                            
                             <Button variant="link" colorScheme="blue">
                                 Olvide mi contraseña
                             </Button>
@@ -129,10 +123,6 @@ const Login = () => {
 
     )
 };
-
-<Checkbox className="checkk" id="check" onChange={(e) => this.guardarUsuario(e.target.checked, document.getElementById("inputlogin").value)}
-defaultChecked={JSON.parse(localStorage.getItem("check"))} >Recordar usuario</Checkbox>
-
 
 export default Login;
 
