@@ -7,7 +7,7 @@
 }
 
 .slider{
-  width: 1150px;
+  width: 1400px;
   height: 100px;
   position: relative;
   background: white;
@@ -20,7 +20,7 @@
   height: 100px;
   display: flex;
   align-items: center;
-  animation: slideshow 12s linear 1s infinite alternate;
+  animation: slideshow 20s linear 1s infinite alternate-reverse;
 }
 
 .slide img{

@@ -22,8 +22,8 @@ export default function SliderLanding() {
             <img src="./logoAspro.png" alt="" />
             <img src="./logFelsim.jpg" alt="" />
             <img src="./logoRichiger.png" alt="" />
-            <img src="./logFimaco.png" alt="" />
-            <img src="./logoFelsim.jpg" alt="" />
+            <img src="./logoMetalfor.png" alt="" />
+            <img src="./logoFimaco.png" alt="" />            
           </div>
         </div>
       </div>

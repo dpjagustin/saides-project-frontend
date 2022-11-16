@@ -78,7 +78,7 @@ export default function Footer() {
             <Link href={'#'}>Lorem</Link>
             <Link href={'#'}>Lorem</Link>
             <Link href={'#'}>Lorem</Link>
-            <Link href={'#'}>Viti</Link>
+            <Link href={'#'}>Lorem</Link>
             <Link href={'#'}>Lorem</Link>
           </Stack>
         </SimpleGrid>

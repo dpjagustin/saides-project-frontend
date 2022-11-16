@@ -14,7 +14,11 @@ export default function Solicitudes() {
       <NavBar /> 
 
       <ContenedorBody>
+        {/* <ContenedorCalendario>
+          <h2>ACÁ VA EL CALENDARIO</h2>
+        </ContenedorCalendario> */}
 
+        {/* Hacer de este contendor forms un componente */}
         <ContenedorForms>
           <div>
             <ContenedorBotones>
@@ -78,16 +82,23 @@ export default function Solicitudes() {
   )
 }
 
+const ContenedorCalendario = styled.div`
+display: flex;
+width: 33%;
+justify-content: center;
+align-items: center;
+`;
+
 const ContenedorForms = styled.div`
 display: flex;
-width: 50%;
+width: 33%;
 justify-content: center;
 align-items: center;
 `;
 
 const ContenedorMedia = styled.div`
   display: flex;
-  width: 50%;
+  width: 34%;
   /* height: 30vh; */
   justify-content: center;
   align-items: center;

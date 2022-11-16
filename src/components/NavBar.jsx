@@ -29,11 +29,12 @@ const Links = [
   <Link className="links" href="/solicitudes">Solicitudes</Link>,
   <Link className="links" href="/comida">Comida</Link>,
   <Link className="links" href="/agenda">Agenda</Link>,
-  <Link className="links" href="/notas">Mis notas</Link>,]; // Links a paginas
+  <Link className="links" href="/notas">Mis notas</Link>,
+]; // Links a paginas
 
 const cookies = new Cookies();
 
-const NavLink = ({ children }: { children: ReactNode }) => (
+const NavLink = ({ children }: { children: ReactNode}) => (
   <Link
     px={2}
     py={1}
@@ -42,7 +43,8 @@ const NavLink = ({ children }: { children: ReactNode }) => (
       textDecoration: 'none',
       bg: useColorModeValue('gray.200', 'gray.700'),
     }}
-    href={'#'}>
+    href={"#"}
+  >
     {children}
   </Link>
 );
@@ -81,7 +83,9 @@ export default function NavBar() {
                 spacing={4}
                 display={{ base: 'none', md: 'flex' }}>
                 {Links.map((link) => (
-                  <NavLink key={link}>{link}</NavLink>
+                  <NavLink key={link} href={link}>
+                    {link}
+                  </NavLink>
                 ))}
               </HStack>
           </HStack>
