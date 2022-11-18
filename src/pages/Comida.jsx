@@ -88,6 +88,7 @@ const puto= null
   if(puto===({message:'success'})){
     console.log("anda bien")
   }
+  console.log(envCom)
   return (
     <>
       <NavBar />

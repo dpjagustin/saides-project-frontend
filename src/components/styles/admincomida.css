@@ -1,0 +1,21 @@
+.div1{
+    display: flex;
+    
+    justify-content: center ;
+    flex-wrap: wrap;
+
+}
+.div4{
+    display: flex;
+    width: 80%;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+.div2{
+    width: 400px;
+    
+ 
+}
+.div3{
+    width: 700px;
+}

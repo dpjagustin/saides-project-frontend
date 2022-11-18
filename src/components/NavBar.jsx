@@ -102,9 +102,23 @@ export default function NavBar() {
                 as={'nav'}
                 spacing={4}
                 display={{ base: 'none', md: 'flex' }}>
-                {Links.map((link) => (
+                  {rol === 1 &&<>
+                    {Links.map((link) => (
                   <NavLink>{link}</NavLink>
                 ))}
+                  
+                  </>}
+                
+                 
+              {rol === 2 &&
+                <>
+                <NavLink><Link className="links" href="/inicio">Inicio</Link></NavLink>
+                  <NavLink><Link className="links" href="/adminnoticias">Noticias</Link></NavLink>
+                  <NavLink><Link className="links" href="/admincomida">Comida</Link></NavLink>
+                  <NavLink><Link className="links" href="/adminusuarios">Usuarios</Link></NavLink>
+                </>
+              }
+
               </HStack>
           </HStack>
           
@@ -145,11 +159,6 @@ export default function NavBar() {
                   <br />
                   <MenuDivider />
                   <MenuItem><a href="/micuenta"><Button className="linkscuenta" colorScheme="blue">Mi cuenta </Button></a></MenuItem>
-                  {rol === 2 && <> 
-                    <MenuItem><a href="/adminnoticias"><Button className="linkscuenta" colorScheme="blue">Noticias</Button></a></MenuItem>
-                    <MenuItem><a href="/admincomida"><Button className="linkscuenta" colorScheme="blue">Comidas</Button></a></MenuItem>
-                    <MenuItem><a href="/adminusuarios"><Button className="linkscuenta" colorScheme="blue">Usuarios</Button></a></MenuItem> </>
-                  }
                   <MenuItem><Button className="linkscuenta" colorScheme='red' onClick={()=> cerrarSesion()}>Cerrar sesión</Button></MenuItem>
                 </MenuList>
               </Menu>
