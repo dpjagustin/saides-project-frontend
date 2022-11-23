@@ -11,6 +11,7 @@ import Agenda from "./pages/Agenda";
 import Login from "./pages/Login2";
 import AdminNoticias from "./pages/AdminNoticias";
 import AdminComida from "./pages/AdminComida";
+import AdminUsuarios from "./pages/AdminUsuarios";
 
 
 function App() {
@@ -38,6 +39,8 @@ function App() {
           <Route path="/adminnoticias" element={<AdminNoticias/>}/>
 
           <Route path="/admincomida" element={<AdminComida/>}/>
+
+          <Route path="/adminusuarios" element={<AdminUsuarios/>}/>
         </Routes>
       </BrowserRouter>
   );

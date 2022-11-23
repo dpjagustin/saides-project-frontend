@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
-import { Box, Select, Button, Flex,  Text, Input, Stack,Card, CardBody,CardHeader,StackDivider, Heading  } from "@chakra-ui/react";
+import { Box, Select, Button, Flex,  Text, Input, Stack,Card, CardBody,CardHeader,StackDivider, Heading, useToast  } from "@chakra-ui/react";
 import "../components/styles/comida.css"
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -20,6 +20,7 @@ export default function Comida() {
     nota:"",
     nombre:""
   })
+  const toast= useToast()
 
   //////////////TRAER LAS COMIDAS DISPONIBLES DEL MES//////////////////
 
@@ -69,7 +70,6 @@ export default function Comida() {
   }
 
   /////////////////ENVIAR LA COMIDA DEL USUARIO//////////////
-const puto= null
   const peticionPost = async () => {
     await axios.post(urladd, {
       dia:envCom.dia,
@@ -78,16 +78,27 @@ const puto= null
       opcion:envCom.comida,
       nota:envCom.nota,
       nombre:nombrecompleto
-    }).then(res => {
-      const puto = res.data
-      console.log(puto)
-      
-    }).catch(error=>{
+    }).then((res) => {
+      toast({
+        title: "Menu guardado correctamente",
+        status:"success",
+        position: "top",
+        duration:2000,
+        isClosable: true,
+    })
+    document.getElementById("comida").value=""
+    document.getElementById("nota").value=""
+    }).catch((error)=>{
+      toast({
+        title: "Error. Intente nuevamente.",
+        status:"error",
+        position: "top",
+        duration:2000,
+        isClosable: true,
+    })
     }) 
   }
-  if(puto===({message:'success'})){
-    console.log("anda bien")
-  }
+
   console.log(envCom)
   return (
     <>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Footer from "../components/Footer";
 import NavBar from "../components/NavBar";
 import axios from "axios";
-import { Heading, Flex, Text, Textarea, Button, Select, Box, Card, CardHeader, CardBody, StackDivider, Stack, HStack, Divider, useColorModeValue, Center } from "@chakra-ui/react";
+import { Heading, Flex, Text, Textarea, Button, Select, Box, Card, CardHeader, CardBody, StackDivider, Stack, HStack, Divider, useColorModeValue, TableContainer, Table, TableCaption, Tr, Th, Thead, Tbody, Td, useToast } from "@chakra-ui/react";
 import swal from "sweetalert";
 import { useNavigate } from "react-router-dom";
 import "../components/styles/admincomida.css"
@@ -12,9 +12,10 @@ export default function AdminComida() {
     const urlAddComida = "http://localhost:8000/api/addComida"
     const urlAddOpcionDia = "http://localhost:8000/api/addOpcion"
     const urlBuscarComida = "http://localhost:8000/api/busquedaPorDia"
-
+    const urlCantComidas = "http://localhost:8000/api/contadores"
     const [data, setData] = useState([])
     const [data2, setData2] = useState([])
+    const [data3, setData3] = useState([])
     const [comidaAdd, setComidaAdd] = useState("")
     const [comidaMes, setComidaMes] = useState({
         dia: "",
@@ -31,13 +32,14 @@ export default function AdminComida() {
         año: ""
     })
     const navigate = useNavigate();
+    const toast= useToast()
     const dias = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
     const meses = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
     const años = [2022, 2023]
 
         
-    const asd1= useColorModeValue("blue.400","gray.400")
-    const diasmes1= useColorModeValue("orange.400","blue.400")
+    const Contenedor1= useColorModeValue("blue.400","gray.400")
+    const cantColores= useColorModeValue("blue.700","blue.100")
     const diasmes2= useColorModeValue("orange.300","blue.300")
     const diasmes3= useColorModeValue("orange.200","blue.200")
     const diasmes4= useColorModeValue("orange.100","blue.100")
@@ -79,6 +81,19 @@ export default function AdminComida() {
         swal({ icon: "error", title: "No tienes permisos" })
     }
 
+     /////////////////HANDLE DE LA CARGA DE LA COMIDA DEL DIA////////////////
+     function handle(e) {
+        const cargaSele = { ...comidaMes }
+        cargaSele[e.target.id] = e.target.value
+        setComidaMes(cargaSele)
+    }
+    ///////////////////HANDLE DE LA BUSQUEDA DEL DIA///////////////////
+    function handle2(e) {
+        const buscarr = { ...buscarDia }
+        buscarr[e.target.id] = e.target.value
+        setBuscarDia(buscarr)
+    }
+
     ///////////////////CARGAR UNA COMIDA PARA ELEGIR//////////////////////
     const cargarComida = async () => {
         await axios.post(urlAddComida, {
@@ -90,9 +105,22 @@ export default function AdminComida() {
             }).then((res) => {
                 setActualizar(actualizar + 1)
                 document.getElementById("comidaAdd").value = ""
+                toast({
+                    title: "Menu guardado correctamente",
+                    status:"success",
+                    position: "top",
+                    duration:2000,
+                    isClosable: true,
+                })
 
             }).catch((error) => {
-                swal({ icon: "error", title: "No se pudo cargar la comida" })
+                toast({
+                    title: "Error. Intente nuevamente.",
+                    status:"error",
+                    position: "top",
+                    duration:2000,
+                    isClosable: true,
+                })
             })
     }
 
@@ -105,25 +133,30 @@ export default function AdminComida() {
             opcion1: comidaMes.opcion1,
             opcion2: comidaMes.opcion2,
         }).then(res => {
+            toast({
+                title: "Menus del dia guardado correctamente",
+                status:"success",
+                position: "top",
+                duration:2000,
+                isClosable: true,
+            })
+            document.getElementById("dia").value=""
+            document.getElementById("mes").value=""
+            document.getElementById("año").value=""
+            document.getElementById("opcion1").value=""
+            document.getElementById("opcion2").value=""
+            setComidaMes({})
         }).catch(error => {
+            toast({
+                title: "Error. Intente nuevamente.",
+                status:"error",
+                position: "top",
+                duration:2000,
+                isClosable: true,
+            })
         })
     }
-
-    /////////////////HANDLE DE LA CARGA DE LA COMIDA DEL DIA////////////////
-    function handle(e) {
-        const cargaSele = { ...comidaMes }
-        cargaSele[e.target.id] = e.target.value
-        setComidaMes(cargaSele)
-    }
-    ///////////////////HANDLE DE LA BUSQUEDA DEL DIA///////////////////
-    function handle2(e) {
-        const buscarr = { ...buscarDia }
-        buscarr[e.target.id] = e.target.value
-        setBuscarDia(buscarr)
-    }
-
-
-
+    console.log(comidaMes);
 
     //////////////BUSCAR COMIDAS DEL MES////////////////
     const buscarComida = async () => {
@@ -132,23 +165,44 @@ export default function AdminComida() {
             mes: buscarDia.mes,
             año: buscarDia.año,
         }).then(res => {
-            const puto = res.data
-            setData2(puto)
+            setData2(res.data)
         }).catch(error => {
+        })
+        await axios.post(urlCantComidas, {
+            dia: buscarDia.dia,
+            mes: buscarDia.mes,
+            año: buscarDia.año,
+        }).then(res => {
+            setData3(res.data)
+            toast({
+                title: "Busqueda realizada",
+                status:"success",
+                position: "top",
+                duration:2000,
+                isClosable: true,
+            })
+        }).catch(error => {
+            toast({
+                title: "Error. Intente nuevamente.",
+                status:"error",
+                position: "top",
+                duration:2000,
+                isClosable: true,
+            })
+            setData3([])
         })
     }
 
-    console.log(comidaMes);
-    console.log(data2)
+    console.log(data3)
 
     return (
         <>
             <NavBar />
-            <Heading fontSize="60px" my="3%" ml="7%">Cargar Comidas del distribuidor</Heading>
+            <Heading fontSize={[25,35,45,60]} my="3%" ml="7%">Cargar Comidas del distribuidor</Heading>
             <Card w="50%" ml="25%" mr="25%">
                 <Flex direction="column" align="center">
                     <CardHeader>
-                        <Heading size='2xl'>Ingresar comida</Heading>
+                        <Heading fontSize={[20,30,32,38]}>Ingresar comida</Heading>
                     </CardHeader>
                     <CardBody w="100%">
                         <Stack divider={<StackDivider />} spacing='4'>
@@ -164,26 +218,27 @@ export default function AdminComida() {
             </Card>
 
             {/*////////////////// CARGA DE LOS MENUS DEL MES////////////////////////// */}
-            <Heading fontSize="60px" my="3%" ml="7%">Cargar Comidas del mes</Heading>
-            <Card w="50%" ml="25%" mr="25%">
+            <Heading fontSize={[25,35,45,60]} my="3%" ml="7%">Cargar Comidas del mes</Heading>
+            <Flex justify="center">
+            <Card w={[250,350,450,550]}>
             
                 <Flex direction="column" align="center" p="20px">
                     <Text fontFamily="sans-serif" fontWeight="bold" fontSize={[20,30,32,38]}>Seleccionar dia</Text>
-                    <Select placeholder='Seleccionar opcion' id="dia" onChange={(e) => handle(e)}>
+                    <Select placeholder='Seleccionar opcion' id="dia" onChange={(e) => handle(e)} w={[150,250,350,450]}>
                         {dias.map(dia => (
                             <option >{dia}</option>
                         ))}
                     </Select>
                     <Divider orientation="horizontal" my="20px" borderWidth="2px"/>
                     <Text fontFamily="sans-serif" fontWeight="bold" fontSize={[20,30,32,38]}>Elegir mes</Text>
-                    <Select placeholder='Seleccionar opcion' id="mes" onChange={(e) => handle(e)}>
+                    <Select placeholder='Seleccionar opcion' id="mes" onChange={(e) => handle(e)} w={[150,250,350,450]}>
                         {meses.map(mes => (
                             <option >{mes}</option>
                         ))}
                     </Select>
                     <Divider orientation="horizontal" my="20px" borderWidth="2px"/>
                     <Text fontFamily="sans-serif" fontWeight="bold" fontSize={[20,30,32,38]}>Elegir año</Text>
-                    <Select placeholder='Seleccionar opcion' id="año" onChange={(e) => handle(e)}>
+                    <Select placeholder='Seleccionar opcion' id="año" onChange={(e) => handle(e)} w={[150,250,350,450]}>
                         {años.map(año => (
                             <option >{año}</option>
                         ))}
@@ -191,14 +246,14 @@ export default function AdminComida() {
                     <Divider orientation="horizontal" my="20px" borderWidth="2px"/>
                     <Text fontFamily="sans-serif" fontWeight="bold" fontSize={[20,30,32,38]}>Elegir primera opcion</Text>
 
-                    <Select placeholder='Seleccionar opcion' id="opcion1" onChange={(e) => handle(e)}>
+                    <Select placeholder='Seleccionar opcion' id="opcion1" onChange={(e) => handle(e)} w={[150,250,350,450]}>
                         {data.map(opciones => (
                             <option key={opciones.id}>{opciones.comidas}</option>
                         ))}
                     </Select>
                     <Divider orientation="horizontal" my="20px" borderWidth="2px"/>
                     <Text fontFamily="sans-serif" fontWeight="bold" fontSize={[20,30,32,38]}>Elegir segunda opcion</Text>
-                    <Select placeholder='Seleccionar opcion' id="opcion2" onChange={(e) => handle(e)}>
+                    <Select placeholder='Seleccionar opcion' id="opcion2" onChange={(e) => handle(e)} w={[150,250,350,450]}>
                         {data.map(opciones => (
                             <option key={opciones.id}>{opciones.comidas}</option>
                         ))}
@@ -206,69 +261,68 @@ export default function AdminComida() {
                     <Button colorScheme="blue" size="lg" onClick={() => cargarDiaMes()} >Guardar</Button>
                 </Flex>
             </Card>
+            </Flex>
 
-            <Heading fontSize="60px" my="3%" ml="7%">Ver comidas del mes</Heading>
-
+            <Heading fontSize={[25,35,45,60]} my="3%" ml="7%">Ver comidas del mes</Heading>
             <Flex justify="center" wrap="wrap">
-                <Flex w="80%" justify="space-around" wrap="wrap">
-                    <Box w={[350,350,450,550]}>
-                        <Card mt="15px"> 
-                            <CardHeader fontFamily="sans-serif" fontWeight="bold" fontSize={[20,30,32,38]}>Elegir dia</CardHeader>
-                            <Flex direction="column" align="center">
-                            <Select placeholder="Seleccionar opcion" id="dia" onChange={(e) => handle2(e)} w={[150,250,350,450]} my="7px">
-                                {dias.map(dia => (
-                                    <option >{dia}</option>
-                                ))}
-                            </Select>
-                            <Select placeholder='Seleccionar opcion' id="mes" onChange={(e) => handle2(e)} w={[150,250,350,450]} my="7px">
-                                {meses.map(mes => (
-                                    <option >{mes}</option>
-                                ))}
-                            </Select>
-                            <Select placeholder='Seleccionar opcion' id="año" onChange={(e) => handle2(e)} w={[150,250,350,450]} my="7px">
-                                {años.map(año => (
-                                    <option >{año}</option>
-                                ))}
-                            </Select>
-                            </Flex>
-                            <Button colorScheme="blue" size="lg" onClick={() => buscarComida()} >Buscar</Button>
-                        </Card>
-                    </Box>
-                    <Box w={[400,500,600,700]}>
-                        <Card mt="15px">
-                            <CardHeader fontFamily="sans-serif" fontWeight="bold" fontSize={[20,30,32,38]}>Menu por dia</CardHeader>
-                            {data2.map(comDia => (
-                                <CardBody >
-                                    <Stack divider={<StackDivider />} spacing="4">
-                                        <Box>
-                                            <HStack fontFamily="sans-serif" bg={asd1} p="10px" borderRadius="7px" wrap="wrap">
-                                                <Text fontWeight="bold" bg={diasmes1} color="black" borderRadius="7px" textAlign="center" py="2px" px="4px" my="5px">{comDia.dia}/{comDia.mes}/{comDia.año}</Text>
-                                                <HStack bg={diasmes2} borderRadius="7px" py="2px" px="4px" my="5px">
-                                                    <Text fontWeight="bold" color="black" textAlign="center">Usuario:</Text>
-                                                    <Text >{comDia.nombre}</Text>
-                                                </HStack>
-                                                <HStack bg={diasmes3} borderRadius="7px" py="2px" px="4px" my="5px">
-                                                    <Text fontWeight="bold" color="black" textAlign="center">Menu:</Text>
-                                                    <Text >{comDia.opcion}</Text>
-                                                </HStack>
-                                                <HStack bg={diasmes4} borderRadius="7px" py="2px" px="4px" my="5px">
-                                                    <Text fontWeight="bold" color="black" textAlign="center">Nota:</Text>
-                                                    <Text>{comDia.nota}</Text>
-                                                </HStack>
-                                            </HStack>
-                                        </Box>
-                                    </Stack>
-
-                                </CardBody>
+                <Box w="auto">
+                    <Card mt="15px">
+                        <CardHeader fontFamily="sans-serif" fontWeight="bold" fontSize={[20, 30, 32, 38]}>Menu por dia</CardHeader>
+                        <Select placeholder="Seleccionar opcion" id="dia" onChange={(e) => handle2(e)} w={[150, 250, 350, 450]} my="7px">
+                            {dias.map(dia => (
+                                <option >{dia}</option>
                             ))}
-                        </Card>
-                    </Box>
-                </Flex>
-            </Flex>        
+                        </Select>
+                        <Select placeholder='Seleccionar opcion' id="mes" onChange={(e) => handle2(e)} w={[150, 250, 350, 450]} my="7px">
+                            {meses.map(mes => (
+                                <option >{mes}</option>
+                            ))}
+                        </Select>
+                        <Select placeholder='Seleccionar opcion' id="año" onChange={(e) => handle2(e)} w={[150, 250, 350, 450]} my="7px">
+                            {años.map(año => (
+                                <option >{año}</option>
+                            ))}
+                        </Select>
+                        <Button colorScheme="blue" size="lg" onClick={() => buscarComida()} >Buscar</Button>
+                        <TableContainer>
+                            <Table variant='striped' colorScheme='blue'>
+                                <Thead>
+                                    <Tr>
+                                        <Th>Fecha</Th>
+                                        <Th>Usuario</Th>
+                                        <Th>Menu</Th>
+                                        <Th>Nota</Th>
+                                    </Tr>
+                                </Thead>
+                                <Tbody>
+                                    {data2.map(comDia => (
+                                        <Tr>
+                                            <Td>{comDia.dia}/{comDia.mes}/{comDia.año}</Td>
+                                            <Td>{comDia.nombre}</Td>
+                                            <Td>{comDia.opcion}</Td>
+                                            <Td>{comDia.nota}</Td>
+                                        </Tr>
+                                    ))}
+                                </Tbody>
+                                <TableCaption>
+                                    {data3.map(cant => (
+                                        <>
+                                            <Flex justify="center">
+                                                <Text fontWeight="bold" color={cantColores}p="5px" borderRadius="7px">{cant.opcion}</Text>
+                                                <Text p="5px" borderRadius="7px">Cantidad: {cant.cantidad}</Text>
+                                            </Flex>
+                                        </>
+                                    ))}
+                                </TableCaption>
+                            </Table>
+                        </TableContainer>
+                    </Card>
+                </Box>
+            </Flex>
 
             <Footer />
             
-
+ 
         </>
     )
 }
