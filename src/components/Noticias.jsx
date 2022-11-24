@@ -4,25 +4,16 @@ import {
   Text,
   Box,
   Heading,
+  useColorModeValue
 } from '@chakra-ui/react';
 import styled from "styled-components";
 import axios from "axios";
-
-function cambiarColoresShadow() {
-  let colorMode = localStorage.getItem("chakra-ui-color-mode")
-  let coloresShadow = ""
-  if (colorMode === "dark") {
-    coloresShadow = "0px 0px 8px 2px rgba(255,255,255,0.5)"
-  } else {
-    coloresShadow = "xl"
-  }
-  return coloresShadow
-}
-
+import { InfoIcon } from "@chakra-ui/icons";
 
 export default function Noticias() {
   const urlnoticias="http://localhost:8000/api/FindNoticias"
   const [data, setData] = useState([])
+  const cambiarColoresShadow= useColorModeValue("0px 0px 8px 2px rgba(255,255,255,0.5)", "xl")
   
   ///////////// TRAE LAS NOTICIAS///////////////
 
@@ -46,6 +37,13 @@ export default function Noticias() {
           <h2>Noticias</h2>
         </ContenedorTitulo>
         <Flex wrap="wrap" w="90%" justify="center">
+          {data.length===0&&
+          <Box textAlign="center" py={10} px={6} bgImage="">
+          <InfoIcon boxSize={'50px'} color={'blue.300'} />
+          <Heading as="h2" size="xl" mt={6} mb={2}>
+            No hay noticias actualmente
+          </Heading>
+        </Box>}
           {data.map(not => (
             <Box p='5' borderWidth='1px' rounded='md' key={not.id} boxShadow={cambiarColoresShadow()} minW="300px" minHeight="200px" m="30px">
               <Box>

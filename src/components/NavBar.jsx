@@ -17,6 +17,7 @@ import {
   HStack,
   useColorMode,
   Center,
+  keyframes
 } from '@chakra-ui/react';
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 import { useNavigate } from "react-router-dom";
@@ -52,6 +53,18 @@ const NavLink = ({ children }) => (
 
 
 export default function NavBar() {
+  const pulseRing = keyframes`
+	0% {
+    transform: scale(0.33);
+  }
+  40%,
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+	`;
   const urlauth="http://localhost:8000/api/authUser"
   const { colorMode, toggleColorMode } = useColorMode();
   const [nombre, setNombre]=useState("");
@@ -112,7 +125,7 @@ export default function NavBar() {
                  
               {rol === 2 &&
                 <>
-                <NavLink><Link className="links" href="/inicio">Inicio</Link></NavLink>
+                <NavLink><Link className="links" href="/index">Inicio</Link></NavLink>
                   <NavLink><Link className="links" href="/adminnoticias">Noticias</Link></NavLink>
                   <NavLink><Link className="links" href="/admincomida">Comida</Link></NavLink>
                   <NavLink><Link className="links" href="/adminusuarios">Usuarios</Link></NavLink>

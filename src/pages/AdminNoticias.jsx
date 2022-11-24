@@ -18,7 +18,7 @@ import {
   Textarea,
   ModalContent,
 } from '@chakra-ui/react';
-import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
+import { EditIcon, DeleteIcon, InfoIcon } from "@chakra-ui/icons";
 import axios from "axios";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
@@ -189,6 +189,17 @@ function AdminNoticias(){
         <Flex justify="end" mr="100px">
           <Button onClick={onOpenCrear}w="200px" h="70px" fontSize="30px">Crear noticia</Button>
         </Flex>
+        {data.length === 0 &&
+          <Box textAlign="center" py={10} px={6}>
+          <InfoIcon boxSize={'50px'} color={'blue.300'} />
+          <Heading as="h2" size="xl" mt={6} mb={2}>
+            No hay noticias actualmente
+          </Heading>
+          <Text color={'gray.500'}>
+            Para crear una noticia presione en crear noticia.
+          </Text>
+        </Box>
+        }
         <Flex wrap="wrap" w="90%" justify="center">
           {data.map(nov => (
             <Box p='5' borderWidth='1px' rounded='md' key={nov.id} boxShadow={cambiarColoresShadow()} minW="300px" minHeight="200px" m="30px">

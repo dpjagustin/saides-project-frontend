@@ -22,6 +22,8 @@ export default function Comida() {
   })
   const toast= useToast()
 
+  
+
   //////////////TRAER LAS COMIDAS DISPONIBLES DEL MES//////////////////
 
   useEffect(() => {
@@ -86,8 +88,13 @@ export default function Comida() {
         duration:2000,
         isClosable: true,
     })
-    document.getElementById("comida").value=""
-    document.getElementById("nota").value=""
+    ////limpia los valores de los campos////
+    var limpiarComida = document.querySelectorAll("[id='comida']");
+    for(var i = 0; i < limpiarComida.length; i++)
+    limpiarComida[i].value=""
+    var limpiarNota = document.querySelectorAll("[id='nota']");
+    for(var i2 = 0; i2 < limpiarNota.length; i2++)
+    limpiarNota[i2].value=""
     }).catch((error)=>{
       toast({
         title: "Error. Intente nuevamente.",
@@ -119,7 +126,7 @@ export default function Comida() {
                   <Heading size='lg'>
                     Elegir menu
                   </Heading>
-                <Select w="90%" name="comida" id="comida" placeholder='Elegir opcion' onChange={(e) => handle(e, comida.dia, comida.mes, comida.año)} mx="20px">
+                <Select name="comida" className="comida" id="comida" w="90%" placeholder='Elegir opcion' onChange={(e) => handle(e, comida.dia, comida.mes, comida.año)} mx="20px">
                   <option>{comida.menu1}</option>
                   <option>{comida.menu2}</option>
                 </Select>
@@ -128,7 +135,7 @@ export default function Comida() {
                   <Heading size='lg'>
                     Dejar una nota
                   </Heading>
-                  <Input w="90%" mx="20px" id="nota" onChange={(e) => handle(e, comida.dia,comida.mes,comida.año)} placeholder="Nota sobre el pedido"></Input>
+                  <Input name="nota" className="nota" id="nota" w="90%" mx="20px" onChange={(e) => handle(e, comida.dia,comida.mes,comida.año)} placeholder="Nota sobre el pedido"></Input>
                 </Box>
                 <Box>
                   <Heading size='lg'>

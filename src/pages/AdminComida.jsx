@@ -183,7 +183,7 @@ export default function AdminComida() {
             })
         }).catch(error => {
             toast({
-                title: "Error. Intente nuevamente.",
+                title: "Error. No se encontraron resultados. Intente nuevamente.",
                 status:"error",
                 position: "top",
                 duration:2000,
@@ -222,67 +222,81 @@ export default function AdminComida() {
             <Flex justify="center">
             <Card w={[250,350,450,550]}>
             
-                <Flex direction="column" align="center" p="20px">
-                    <Text fontFamily="sans-serif" fontWeight="bold" fontSize={[20,30,32,38]}>Seleccionar dia</Text>
-                    <Select placeholder='Seleccionar opcion' id="dia" onChange={(e) => handle(e)} w={[150,250,350,450]}>
-                        {dias.map(dia => (
-                            <option >{dia}</option>
-                        ))}
-                    </Select>
-                    <Divider orientation="horizontal" my="20px" borderWidth="2px"/>
-                    <Text fontFamily="sans-serif" fontWeight="bold" fontSize={[20,30,32,38]}>Elegir mes</Text>
-                    <Select placeholder='Seleccionar opcion' id="mes" onChange={(e) => handle(e)} w={[150,250,350,450]}>
-                        {meses.map(mes => (
-                            <option >{mes}</option>
-                        ))}
-                    </Select>
-                    <Divider orientation="horizontal" my="20px" borderWidth="2px"/>
-                    <Text fontFamily="sans-serif" fontWeight="bold" fontSize={[20,30,32,38]}>Elegir año</Text>
-                    <Select placeholder='Seleccionar opcion' id="año" onChange={(e) => handle(e)} w={[150,250,350,450]}>
-                        {años.map(año => (
-                            <option >{año}</option>
-                        ))}
-                    </Select>
-                    <Divider orientation="horizontal" my="20px" borderWidth="2px"/>
-                    <Text fontFamily="sans-serif" fontWeight="bold" fontSize={[20,30,32,38]}>Elegir primera opcion</Text>
+                    <Flex direction="column" align="center" p="20px">
+                        <Flex>
+                            <Flex direction="column">
+                                <Text fontFamily="sans-serif" fontWeight="bold" fontSize={[20, 30, 32, 38]}>Elegir dia</Text>
+                                <Select placeholder='Seleccionar opcion' id="dia" onChange={(e) => handle(e)} w={[100, 100, 150, 250]}>
+                                    {dias.map(dia => (
+                                        <option >{dia}</option>
+                                    ))}
+                                </Select>
+                            </Flex>
+                            <Flex direction="column">
+                                <Text fontFamily="sans-serif" fontWeight="bold" fontSize={[20, 30, 32, 38]}>Elegir mes</Text>
+                                <Select placeholder='Seleccionar opcion' id="mes" onChange={(e) => handle(e)} w={[100, 100, 150, 250]}>
+                                    {meses.map(mes => (
+                                        <option >{mes}</option>
+                                    ))}
+                                </Select>
+                            </Flex>
+                            <Flex direction="column">
+                                <Text fontFamily="sans-serif" fontWeight="bold" fontSize={[20, 30, 32, 38]}>Elegir año</Text>
+                                <Select placeholder='Seleccionar opcion' id="año" onChange={(e) => handle(e)} w={[100, 100, 150, 250]}>
+                                    {años.map(año => (
+                                        <option >{año}</option>
+                                    ))}
+                                </Select>
+                            </Flex>
+                        </Flex>
 
-                    <Select placeholder='Seleccionar opcion' id="opcion1" onChange={(e) => handle(e)} w={[150,250,350,450]}>
-                        {data.map(opciones => (
-                            <option key={opciones.id}>{opciones.comidas}</option>
-                        ))}
-                    </Select>
-                    <Divider orientation="horizontal" my="20px" borderWidth="2px"/>
-                    <Text fontFamily="sans-serif" fontWeight="bold" fontSize={[20,30,32,38]}>Elegir segunda opcion</Text>
-                    <Select placeholder='Seleccionar opcion' id="opcion2" onChange={(e) => handle(e)} w={[150,250,350,450]}>
-                        {data.map(opciones => (
-                            <option key={opciones.id}>{opciones.comidas}</option>
-                        ))}
-                    </Select>
-                    <Button colorScheme="blue" size="lg" onClick={() => cargarDiaMes()} >Guardar</Button>
-                </Flex>
-            </Card>
+
+                        <Divider orientation="horizontal" my="20px" borderWidth="2px" />
+                        <Flex>
+                             <Flex direction="column">         
+                            <Text fontFamily="sans-serif" fontWeight="bold" fontSize={[20, 30, 32, 38]}>Elegir primera opcion</Text>
+                            <Select placeholder='Seleccionar opcion' id="opcion1" onChange={(e) => handle(e)} w={[150, 250, 350, 450]}>
+                                {data.map(opciones => (
+                                    <option key={opciones.id}>{opciones.comidas}</option>
+                                ))}
+                            </Select>
+                            </Flex>  
+                            <Flex direction="column">
+                            <Text fontFamily="sans-serif" fontWeight="bold" fontSize={[20, 30, 32, 38]}>Elegir segunda opcion</Text>
+                            <Select placeholder='Seleccionar opcion' id="opcion2" onChange={(e) => handle(e)} w={[150, 250, 350, 450]}>
+                                {data.map(opciones => (
+                                    <option key={opciones.id}>{opciones.comidas}</option>
+                                ))}
+                            </Select>
+                            </Flex>
+                        </Flex>
+                        <Button colorScheme="blue" size="lg" onClick={() => cargarDiaMes()} >Guardar</Button>
+                    </Flex>
+                </Card>
             </Flex>
 
-            <Heading fontSize={[25,35,45,60]} my="3%" ml="7%">Ver comidas del mes</Heading>
+            <Heading fontSize={[25, 35, 45, 60]} my="3%" ml="7%">Ver comidas del mes</Heading>
             <Flex justify="center" wrap="wrap">
-                <Box w="auto">
+                <Box minW="50%">
                     <Card mt="15px">
                         <CardHeader fontFamily="sans-serif" fontWeight="bold" fontSize={[20, 30, 32, 38]}>Menu por dia</CardHeader>
-                        <Select placeholder="Seleccionar opcion" id="dia" onChange={(e) => handle2(e)} w={[150, 250, 350, 450]} my="7px">
+                        <Flex justify="space-around" direction="row" >
+                        <Select placeholder="Seleccionar opcion" id="dia" onChange={(e) => handle2(e)} w={[100, 100, 100, 150]} my="7px">
                             {dias.map(dia => (
                                 <option >{dia}</option>
                             ))}
                         </Select>
-                        <Select placeholder='Seleccionar opcion' id="mes" onChange={(e) => handle2(e)} w={[150, 250, 350, 450]} my="7px">
+                        <Select placeholder='Seleccionar opcion' id="mes" onChange={(e) => handle2(e)} w={[100, 100, 100, 150]} my="7px">
                             {meses.map(mes => (
                                 <option >{mes}</option>
                             ))}
                         </Select>
-                        <Select placeholder='Seleccionar opcion' id="año" onChange={(e) => handle2(e)} w={[150, 250, 350, 450]} my="7px">
+                        <Select placeholder='Seleccionar opcion' id="año" onChange={(e) => handle2(e)} w={[100, 100, 100, 150]} my="7px">
                             {años.map(año => (
                                 <option >{año}</option>
                             ))}
                         </Select>
+                        </Flex>
                         <Button colorScheme="blue" size="lg" onClick={() => buscarComida()} >Buscar</Button>
                         <TableContainer>
                             <Table variant='striped' colorScheme='blue'>
