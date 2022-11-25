@@ -1,14 +1,13 @@
 import React, {useState, useEffect} from "react";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
-import { Box, Select, Button, Flex,  Text, Input, Stack,Card, CardBody,CardHeader,StackDivider, Heading, useToast  } from "@chakra-ui/react";
+import { Box, Select, Button, Flex,  Text, Input, Stack,Card, CardBody,CardHeader,StackDivider, Heading, useToast, Divider, useColorModeValue, TableContainer, Table, TableCaption, Tr, Th, Thead, Tbody, Td  } from "@chakra-ui/react";
 import "../components/styles/comida.css"
 import axios from "axios";
-import toast from "react-hot-toast";
-
 
 export default function Comida() {
   const urladd = "http://localhost:8000/api/addMenu"
+  const urlbusqueda = "http://localhost:8000/api/busquedaPorPersonayMes"
   const [nombre, setNombre]=useState("");
   const [apellido, setApellido]=useState("");
   const [data, setData] = useState([]);
@@ -20,8 +19,17 @@ export default function Comida() {
     nota:"",
     nombre:""
   })
+  const [pag, setPag]=useState(1)
   const toast= useToast()
-
+  const asd2 = useColorModeValue("2xl", "0px 0px 13px 5px rgba(255,255,255,0.3)")
+  const dias = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
+  const meses = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+  const años = [2022, 2023]
+  const [buscarDia, setBuscarDia] = useState({
+    mes: "",
+    año: ""
+  })
+  const [data2, setData2] = useState([])
   
 
   //////////////TRAER LAS COMIDAS DISPONIBLES DEL MES//////////////////
@@ -105,28 +113,51 @@ export default function Comida() {
     })
     }) 
   }
+  console.log(pag);
+  const handlePag = () =>{
+    setPag(1)
+  }
+  const handlePag2 = () =>{
+    setPag(2)
+  }
 
-  console.log(envCom)
+  const buscarComida = async () => {
+    await axios.post(urlbusqueda, {
+        mes: buscarDia.mes,
+        año: buscarDia.año,
+        nombre:nombrecompleto
+    }).then(res => {
+        setData2(res.data)
+    }).catch(error => {
+    })
+}
+function handle2(e) {
+  const buscarr = { ...buscarDia }
+  buscarr[e.target.id] = e.target.value
+  setBuscarDia(buscarr)
+}
+
   return (
     <>
       <NavBar />
-      <h1 className="titulo">Comidas del mes</h1>
-      <Flex justify="center">
+      <Heading fontSize={[25, 35, 45, 60]} my="2%" ml="7%">Comidas del mes</Heading>
+        <Button borderRadius="20px" value="1" id="sida" onClick={handlePag}>Cargar comidas</Button> <Button borderRadius="20px" onClick={handlePag2} >Ver comidas</Button>
+      {pag ===1 && <Flex justify="center">
       <Box w="70%">
       <Flex wrap="wrap" justify="space-evenly">
       {data.map(comida => (
-          <Card my="50px" w="35%">
+          <Card my="30px" w="35%" boxShadow={asd2}>
             <CardHeader>
               <Heading size='xl'>Dia: {comida.dia}/{comida.mes}/{comida.año}</Heading>
             </CardHeader>
-
+            <Divider orientation="horizontal" my="5px" borderWidth="2px" w="99%" borderColor="blue.400" />
             <CardBody>
               <Stack divider={<StackDivider />} spacing='4'>
                 <Box>
                   <Heading size='lg'>
                     Elegir menu
                   </Heading>
-                <Select name="comida" className="comida" id="comida" w="90%" placeholder='Elegir opcion' onChange={(e) => handle(e, comida.dia, comida.mes, comida.año)} mx="20px">
+                <Select name="comida" className="comida" id="comida" w="90%" placeholder='Elegir opcion' onChange={(e) => handle(e, comida.dia, comida.mes, comida.año)} mx="20px" mt="10px">
                   <option>{comida.menu1}</option>
                   <option>{comida.menu2}</option>
                 </Select>
@@ -135,13 +166,13 @@ export default function Comida() {
                   <Heading size='lg'>
                     Dejar una nota
                   </Heading>
-                  <Input name="nota" className="nota" id="nota" w="90%" mx="20px" onChange={(e) => handle(e, comida.dia,comida.mes,comida.año)} placeholder="Nota sobre el pedido"></Input>
+                  <Input name="nota" className="nota" id="nota" w="90%" mx="20px" onChange={(e) => handle(e, comida.dia,comida.mes,comida.año)} placeholder="Nota sobre el pedido" mt="10px"></Input>
                 </Box>
                 <Box>
                   <Heading size='lg'>
                     Guardar menu
                   </Heading>
-                  <Button color="primary" onClick={() => peticionPost()} >Guardar cambios</Button>
+                  <Button color="primary" onClick={() => peticionPost()}>Guardar cambios</Button>
                 </Box>
               </Stack>
             </CardBody>
@@ -149,7 +180,53 @@ export default function Comida() {
           ))}
           </Flex>
       </Box>
-      </Flex>
+      </Flex>}
+      {pag===2&&
+      <Flex justify="center" wrap="wrap">
+      <Box minW="50%">
+          <Card mt="15px">
+              <CardHeader fontFamily="sans-serif" fontWeight="bold" fontSize={[20, 30, 32, 38]}>Menu por dia - mes</CardHeader>
+              <Flex justify="space-around" direction="row" >
+              <Select placeholder='Seleccionar opcion' id="mes" onChange={(e) => handle2(e)} w={[100, 100, 100, 150]} my="7px">
+                  {meses.map(mes => (
+                      <option >{mes}</option>
+                  ))}
+              </Select>
+              <Select placeholder='Seleccionar opcion' id="año" onChange={(e) => handle2(e)} w={[100, 100, 100, 150]} my="7px">
+                  {años.map(año => (
+                      <option >{año}</option>
+                  ))}
+              </Select>
+              </Flex>
+              <Button colorScheme="blue" size="lg" onClick={() => buscarComida()} >Buscar</Button>
+              <TableContainer>
+                  <Table variant='striped' colorScheme='blue'>
+                      <Thead>
+                          <Tr>
+                              <Th>Fecha</Th>
+                              <Th>Usuario</Th>
+                              <Th>Menu</Th>
+                              <Th>Nota</Th>
+                          </Tr>
+                      </Thead>
+                      <Tbody>
+                          {data2.map(comDia => (
+                              <Tr>
+                                  <Td>{comDia.dia}/{comDia.mes}/{comDia.año}</Td>
+                                  <Td>{comDia.nombre}</Td>
+                                  <Td>{comDia.opcion}</Td>
+                                  <Td>{comDia.nota}</Td>
+                              </Tr>
+                          ))}
+                      </Tbody>
+  
+                  </Table>
+              </TableContainer>
+          </Card>
+      </Box>
+  </Flex>
+      }  
+      
       <Footer />
     </>
 

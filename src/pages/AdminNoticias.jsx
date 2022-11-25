@@ -17,6 +17,7 @@ import {
   FormLabel,
   Textarea,
   ModalContent,
+  useColorModeValue
 } from '@chakra-ui/react';
 import { EditIcon, DeleteIcon, InfoIcon } from "@chakra-ui/icons";
 import axios from "axios";
@@ -61,6 +62,7 @@ function AdminNoticias(){
   })
   const [rol, setRol]=useState("");
   const navigate = useNavigate();
+  const asd3 =useColorModeValue("2xl", "0px 3px 13px 2px rgba(139, 193, 255, 0.2)")
 
   ///////// CAPTURA LO QUE LOS USUARIOS ESCRIBEN EN LOS INPUTS/////////////////
 
@@ -187,7 +189,7 @@ function AdminNoticias(){
         <Box>
           <Heading fontSize="70px" my="50px" ml="100px">Noticias</Heading>
         <Flex justify="end" mr="100px">
-          <Button onClick={onOpenCrear}w="200px" h="70px" fontSize="30px">Crear noticia</Button>
+          <Button size="lg" ml="10%" onClick={onOpenCrear} boxShadow={asd3}>Crear usuario</Button>
         </Flex>
         {data.length === 0 &&
           <Box textAlign="center" py={10} px={6}>

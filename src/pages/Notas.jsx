@@ -20,10 +20,12 @@ import {
     ModalFooter,
     useDisclosure,
     Textarea,
+    Text,
+    Heading
 } from "@chakra-ui/react";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
-import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import { DeleteIcon, EditIcon, InfoIcon } from "@chakra-ui/icons";
 import "../components/styles/notas.css";
 import axios from "axios";
 
@@ -186,10 +188,20 @@ export default function Notas() {
             <NavBar />
             <h1 className="titulo" >Mis notas</h1>
             
-            <Box minH="800px">
+            <Box minH="600px">
                 <Button onClick={onOpenCrear} mt="30px" ml="100px" size={"lg"}  >Crear nota</Button>
                 <Flex justify="center">
                 <Accordion p="10px" allowMultiple  w="55%" my="50px">
+                        {data.length===0&&
+                        <Box textAlign="center" py={10} px={6}>
+                        <InfoIcon boxSize={'50px'} color={'blue.300'} />
+                        <Heading as="h2" size="xl" mt={6} mb={2}>
+                          No hay notas actualmente
+                        </Heading>
+                        <Text color={'gray.500'}>
+                          Para crear una nota presione en crear nota.
+                        </Text>
+                      </Box>}
                         {data.map(nota => (
                             <AccordionItem key={nota.id}>
                                 <h2>

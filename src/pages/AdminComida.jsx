@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Footer from "../components/Footer";
 import NavBar from "../components/NavBar";
 import axios from "axios";
-import { Heading, Flex, Text, Textarea, Button, Select, Box, Card, CardHeader, CardBody, StackDivider, Stack, HStack, Divider, useColorModeValue, TableContainer, Table, TableCaption, Tr, Th, Thead, Tbody, Td, useToast } from "@chakra-ui/react";
+import { Heading, Flex, Text, Textarea, Button, Select, Box, Card, CardHeader, CardBody, StackDivider, Stack, Divider, useColorModeValue, TableContainer, Table, TableCaption, Tr, Th, Thead, Tbody, Td, useToast } from "@chakra-ui/react";
 import swal from "sweetalert";
 import { useNavigate } from "react-router-dom";
 import "../components/styles/admincomida.css"
@@ -13,6 +13,7 @@ export default function AdminComida() {
     const urlAddOpcionDia = "http://localhost:8000/api/addOpcion"
     const urlBuscarComida = "http://localhost:8000/api/busquedaPorDia"
     const urlCantComidas = "http://localhost:8000/api/contadores"
+    const urlOpcionesComidas = "http://localhost:8000/api/busquedaComidas"
     const [data, setData] = useState([])
     const [data2, setData2] = useState([])
     const [data3, setData3] = useState([])
@@ -36,26 +37,19 @@ export default function AdminComida() {
     const dias = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
     const meses = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
     const años = [2022, 2023]
-
-        
-    const Contenedor1= useColorModeValue("blue.400","gray.400")
+   
     const cantColores= useColorModeValue("blue.700","blue.100")
-    const diasmes2= useColorModeValue("orange.300","blue.300")
-    const diasmes3= useColorModeValue("orange.200","blue.200")
-    const diasmes4= useColorModeValue("orange.100","blue.100")
-    
 
     /////////////////TRAE LAS OPCIONES DE COMIDAS////////////////
     useEffect(() => {
         (
             async () => {
-                const response = await fetch("http://localhost:8000/api/busquedaComidas", {
-                    headers: { "Content-Type": "application/json" },
-                    credentials: "include",
-                });
-
-                const content = await response.json();
-                setData(content)
+                await axios.get(urlOpcionesComidas)
+                .then((res)=>{
+                    setData(res.data)
+                })
+                .catch((error)=>{
+                })
             }
         )();
     }, [actualizar]);
@@ -220,11 +214,11 @@ export default function AdminComida() {
             {/*////////////////// CARGA DE LOS MENUS DEL MES////////////////////////// */}
             <Heading fontSize={[25,35,45,60]} my="3%" ml="7%">Cargar Comidas del mes</Heading>
             <Flex justify="center">
-            <Card w={[250,350,450,550]}>
+            <Card w="auto">
             
                     <Flex direction="column" align="center" p="20px">
                         <Flex>
-                            <Flex direction="column">
+                            <Flex direction="column" mx="10px">
                                 <Text fontFamily="sans-serif" fontWeight="bold" fontSize={[20, 30, 32, 38]}>Elegir dia</Text>
                                 <Select placeholder='Seleccionar opcion' id="dia" onChange={(e) => handle(e)} w={[100, 100, 150, 250]}>
                                     {dias.map(dia => (
@@ -232,7 +226,7 @@ export default function AdminComida() {
                                     ))}
                                 </Select>
                             </Flex>
-                            <Flex direction="column">
+                            <Flex direction="column" mx="10px">
                                 <Text fontFamily="sans-serif" fontWeight="bold" fontSize={[20, 30, 32, 38]}>Elegir mes</Text>
                                 <Select placeholder='Seleccionar opcion' id="mes" onChange={(e) => handle(e)} w={[100, 100, 150, 250]}>
                                     {meses.map(mes => (
@@ -240,7 +234,7 @@ export default function AdminComida() {
                                     ))}
                                 </Select>
                             </Flex>
-                            <Flex direction="column">
+                            <Flex direction="column" mx="10px">
                                 <Text fontFamily="sans-serif" fontWeight="bold" fontSize={[20, 30, 32, 38]}>Elegir año</Text>
                                 <Select placeholder='Seleccionar opcion' id="año" onChange={(e) => handle(e)} w={[100, 100, 150, 250]}>
                                     {años.map(año => (
@@ -253,7 +247,7 @@ export default function AdminComida() {
 
                         <Divider orientation="horizontal" my="20px" borderWidth="2px" />
                         <Flex>
-                             <Flex direction="column">         
+                             <Flex direction="column" mx="10px">         
                             <Text fontFamily="sans-serif" fontWeight="bold" fontSize={[20, 30, 32, 38]}>Elegir primera opcion</Text>
                             <Select placeholder='Seleccionar opcion' id="opcion1" onChange={(e) => handle(e)} w={[150, 250, 350, 450]}>
                                 {data.map(opciones => (
@@ -261,7 +255,7 @@ export default function AdminComida() {
                                 ))}
                             </Select>
                             </Flex>  
-                            <Flex direction="column">
+                            <Flex direction="column" mx="10px">
                             <Text fontFamily="sans-serif" fontWeight="bold" fontSize={[20, 30, 32, 38]}>Elegir segunda opcion</Text>
                             <Select placeholder='Seleccionar opcion' id="opcion2" onChange={(e) => handle(e)} w={[150, 250, 350, 450]}>
                                 {data.map(opciones => (
@@ -270,7 +264,7 @@ export default function AdminComida() {
                             </Select>
                             </Flex>
                         </Flex>
-                        <Button colorScheme="blue" size="lg" onClick={() => cargarDiaMes()} >Guardar</Button>
+                        <Button colorScheme="blue" size="lg" onClick={() => cargarDiaMes()} mt="20px">Guardar</Button>
                     </Flex>
                 </Card>
             </Flex>
@@ -279,7 +273,7 @@ export default function AdminComida() {
             <Flex justify="center" wrap="wrap">
                 <Box minW="50%">
                     <Card mt="15px">
-                        <CardHeader fontFamily="sans-serif" fontWeight="bold" fontSize={[20, 30, 32, 38]}>Menu por dia</CardHeader>
+                        <CardHeader fontFamily="sans-serif" fontWeight="bold" fontSize={[20, 30, 32, 38]}>Menu por dia - mes</CardHeader>
                         <Flex justify="space-around" direction="row" >
                         <Select placeholder="Seleccionar opcion" id="dia" onChange={(e) => handle2(e)} w={[100, 100, 100, 150]} my="7px">
                             {dias.map(dia => (

@@ -36,7 +36,7 @@ const Login = () => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [redirect, setRedirect] = useState("")
-    var [recordar, setRecordar] = useState(false)
+    const [recordar, setRecordar] = useState(false)
     const navigate = useNavigate();
     
     const loguearse = async () => {
@@ -55,22 +55,13 @@ const Login = () => {
                 document.getElementById("inputlogin").value = ""
             })
     }
-
     if (redirect) {
         return navigate("/index")
     }
 
-
-    
-
     //console.log(recordar);
     localStorage.setItem("recordar",JSON.stringify(recordar.checked))
     
-    
-
-    
-
-
     return (
         <Box>
             <video className='videologin' autoPlay loop muted>
@@ -103,9 +94,7 @@ const Login = () => {
                         </FormControl>
                         <HStack w="full" justify="space-between">
 
-
-                            <Switch className="checkk" id="recordar"  >Recordar usuario</Switch>
-                            
+                            <Switch className="checkk" id="recordar" onChange={setRecordar}>Recordar usuario</Switch>
                             
                             <Button variant="link" colorScheme="blue">
                                 Olvide mi contraseña
