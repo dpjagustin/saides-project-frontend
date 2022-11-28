@@ -6,6 +6,10 @@ import { Heading, Flex, Text, Textarea, Button, Select, Box, Card, CardHeader, C
 import swal from "sweetalert";
 import { useNavigate } from "react-router-dom";
 import "../components/styles/admincomida.css"
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css"
+import es from "date-fns/locale/es";
+
 
 export default function AdminComida() {
     const urlauth = "http://localhost:8000/api/authUser"
@@ -27,18 +31,12 @@ export default function AdminComida() {
     })
     const [rol, setRol] = useState("");
     const [actualizar, setActualizar] = useState(0)
-    const [buscarDia, setBuscarDia] = useState({
-        dia: "",
-        mes: "",
-        año: ""
-    })
     const navigate = useNavigate();
     const toast= useToast()
-    const dias = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
-    const meses = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-    const años = [2022, 2023]
-   
+    const [pag, setPag]=useState(1)
+    const asd2 = useColorModeValue("2xl", "0px 0px 13px 2px rgba(255,255,255,0.4)")
     const cantColores= useColorModeValue("blue.700","blue.100")
+    const [fecha, setFecha]=useState(new Date())
 
     /////////////////TRAE LAS OPCIONES DE COMIDAS////////////////
     useEffect(() => {
@@ -81,12 +79,6 @@ export default function AdminComida() {
         cargaSele[e.target.id] = e.target.value
         setComidaMes(cargaSele)
     }
-    ///////////////////HANDLE DE LA BUSQUEDA DEL DIA///////////////////
-    function handle2(e) {
-        const buscarr = { ...buscarDia }
-        buscarr[e.target.id] = e.target.value
-        setBuscarDia(buscarr)
-    }
 
     ///////////////////CARGAR UNA COMIDA PARA ELEGIR//////////////////////
     const cargarComida = async () => {
@@ -121,9 +113,9 @@ export default function AdminComida() {
     ////////////////////CARGAR LOS DIAS DEL MES CON SUS OPCIONES
     const cargarDiaMes = async () => {
         await axios.post(urlAddOpcionDia, {
-            dia: comidaMes.dia,
-            mes: comidaMes.mes,
-            año: comidaMes.año,
+            dia: formatDia,
+            mes: formatMes,
+            año: formatAño,
             opcion1: comidaMes.opcion1,
             opcion2: comidaMes.opcion2,
         }).then(res => {
@@ -150,26 +142,25 @@ export default function AdminComida() {
             })
         })
     }
-    console.log(comidaMes);
 
     //////////////BUSCAR COMIDAS DEL MES////////////////
     const buscarComida = async () => {
         await axios.post(urlBuscarComida, {
-            dia: buscarDia.dia,
-            mes: buscarDia.mes,
-            año: buscarDia.año,
+            dia: formatDia,
+            mes: formatMes,
+            año: formatAño,
         }).then(res => {
             setData2(res.data)
         }).catch(error => {
         })
         await axios.post(urlCantComidas, {
-            dia: buscarDia.dia,
-            mes: buscarDia.mes,
-            año: buscarDia.año,
+            dia: formatDia,
+            mes: formatMes,
+            año: formatAño,
         }).then(res => {
             setData3(res.data)
             toast({
-                title: "Busqueda realizada",
+                title: "Busqueda realizada correctamente",
                 status:"success",
                 position: "top",
                 duration:2000,
@@ -187,61 +178,50 @@ export default function AdminComida() {
         })
     }
 
-    console.log(data3)
+    //////////HABILITAR DESHABILITAR MES//////////////
 
+    //////////////HANDLE DE LAS PAG/////////////
+    const handlePag = () => {
+        setPag(1)
+    }
+    const handlePag2 = () => {
+        setPag(2)
+    }
+    const handlePag3 = () => {
+        setPag(3)
+    }
+    const handlePag4 = () => {
+        setPag(4)
+    }
+
+    const formatDia = fecha.getDate()
+    const formatMes = fecha.getMonth()+1
+    const formatAño = fecha.getFullYear()
+    
     return (
         <>
             <NavBar />
-            <Heading fontSize={[25,35,45,60]} my="3%" ml="7%">Cargar Comidas del distribuidor</Heading>
-            <Card w="50%" ml="25%" mr="25%">
-                <Flex direction="column" align="center">
-                    <CardHeader>
-                        <Heading fontSize={[20,30,32,38]}>Ingresar comida</Heading>
-                    </CardHeader>
-                    <CardBody w="100%">
-                        <Stack divider={<StackDivider />} spacing='4'>
-                            <Box>
-                                <Textarea w="100%" id="comidaAdd" onChange={e => setComidaAdd(e.target.value)}></Textarea>
-                            </Box>
-                            <Box align="center">
-                                <Button onClick={cargarComida}>Guardar cambios</Button>
-                            </Box>
-                        </Stack>
-                    </CardBody>
-                </Flex>
-            </Card>
 
             {/*////////////////// CARGA DE LOS MENUS DEL MES////////////////////////// */}
-            <Heading fontSize={[25,35,45,60]} my="3%" ml="7%">Cargar Comidas del mes</Heading>
-            <Flex justify="center">
-            <Card w="auto">
+            <Heading fontSize={[25,35,45,60]} my="3%" ml="7%" >Cargar Comidas</Heading>
+            <Flex ml="8%" wrap="wrap">
+                <Button onClick={handlePag} mx="10px" mb="2%">Cargar menus por dia</Button>
+                <Button onClick={handlePag2} mx="10px" mb="2%">Habilitar-deshabilitar menus por mes</Button>
+                <Button onClick={handlePag3} mx="10px" mb="2%">Eliminar menus por dia</Button>
+                <Button onClick={handlePag4} mx="10px" mb="2%">Cargar Comidas del distribuidor</Button>
+            </Flex>
             
+            {pag===1 &&
+            <Flex justify="center">
+            <Card w="auto" boxShadow={asd2}>
                     <Flex direction="column" align="center" p="20px">
                         <Flex>
-                            <Flex direction="column" mx="10px">
+                            <Flex direction="column" align="center" mx="10px">
                                 <Text fontFamily="sans-serif" fontWeight="bold" fontSize={[20, 30, 32, 38]}>Elegir dia</Text>
-                                <Select placeholder='Seleccionar opcion' id="dia" onChange={(e) => handle(e)} w={[100, 100, 150, 250]}>
-                                    {dias.map(dia => (
-                                        <option >{dia}</option>
-                                    ))}
-                                </Select>
+                                <DatePicker className="datepicker" selected={fecha} onChange={(date) => setFecha(date)} dateFormat="dd/MM/yyyy" locale={es}/>
+                                
                             </Flex>
-                            <Flex direction="column" mx="10px">
-                                <Text fontFamily="sans-serif" fontWeight="bold" fontSize={[20, 30, 32, 38]}>Elegir mes</Text>
-                                <Select placeholder='Seleccionar opcion' id="mes" onChange={(e) => handle(e)} w={[100, 100, 150, 250]}>
-                                    {meses.map(mes => (
-                                        <option >{mes}</option>
-                                    ))}
-                                </Select>
-                            </Flex>
-                            <Flex direction="column" mx="10px">
-                                <Text fontFamily="sans-serif" fontWeight="bold" fontSize={[20, 30, 32, 38]}>Elegir año</Text>
-                                <Select placeholder='Seleccionar opcion' id="año" onChange={(e) => handle(e)} w={[100, 100, 150, 250]}>
-                                    {años.map(año => (
-                                        <option >{año}</option>
-                                    ))}
-                                </Select>
-                            </Flex>
+
                         </Flex>
 
 
@@ -268,28 +248,75 @@ export default function AdminComida() {
                     </Flex>
                 </Card>
             </Flex>
+            }
+            {pag===2 &&
+            <Flex justify="center">
+            <Card w="auto" boxShadow={asd2}>
+                    <Flex direction="column" align="center" p="20px">
+                        <Flex>
+                            <Flex direction="column" mx="10px">
+                                <Text fontFamily="sans-serif" fontWeight="bold" fontSize={[20, 30, 32, 38]}>Elegir mes y año</Text>
+                                <DatePicker className="datepicker" selected={fecha} onChange={(date) => setFecha(date)} dateFormat="MM/yyyy" showMonthYearPicker locale={es}/>
+                            </Flex>
+ 
+                        </Flex>
+                        <Divider orientation="horizontal" my="20px" borderWidth="2px" />
+                            <Flex direction="row" wrap="wrap">
+                                <Button colorScheme="blue" size="lg" onClick={() => cargarDiaMes()} mt="5px" mr="20px">Habilitar</Button>
+                                <Button colorScheme="red" size="lg" onClick={() => cargarDiaMes()} mt="5px">Deshabilitar</Button>
+                            </Flex>
+                    </Flex>
+                </Card>
+            </Flex>
+            }
+            {pag===3&&
+            
+                    <Flex justify="center">
+                    <Card w="auto" boxShadow={asd2}>
+                            <Flex direction="column" align="center" p="20px">
+                                <Flex direction="column" mx="10px" align="center">
+                                    <Text fontFamily="sans-serif" fontWeight="bold" fontSize={[20, 30, 32, 38]}>Elegir dia</Text>
+                                    <DatePicker className="datepicker" selected={fecha} onChange={(date) => setFecha(date)} dateFormat="dd/MM/yyyy" locale={es}/>
+                                </Flex>
+                                <Divider orientation="horizontal" my="20px" borderWidth="2px" />
+                                <Button colorScheme="red" size="lg" onClick={() => cargarDiaMes()} mt="5px">Borrar</Button>
+                            </Flex>
+                        </Card>
+                    </Flex>
+            }
+            {pag===4&&
+            <Flex justify="center">
+            <Card w="50%"boxShadow={asd2}>
+            <Flex direction="column" align="center">
+                <CardHeader>
+                    <Heading fontSize={[20,30,32,38]}>Ingresar comida</Heading>
+                </CardHeader>
+                <CardBody w="100%">
+                    <Stack divider={<StackDivider />} spacing='4'>
+                        <Box>
+                            <Textarea w="100%" id="comidaAdd" onChange={e => setComidaAdd(e.target.value)}></Textarea>
+                        </Box>
+                        <Box align="center">
+                            <Button colorScheme="blue" size="lg" onClick={cargarComida}>Guardar cambios</Button>
+                        </Box>
+                    </Stack>
+                </CardBody>
+            </Flex>
+        </Card>
+        </Flex>
+            
+            }
+
 
             <Heading fontSize={[25, 35, 45, 60]} my="3%" ml="7%">Ver comidas del mes</Heading>
             <Flex justify="center" wrap="wrap">
                 <Box minW="50%">
-                    <Card mt="15px">
+                    <Card mt="15px" boxShadow={asd2}>
                         <CardHeader fontFamily="sans-serif" fontWeight="bold" fontSize={[20, 30, 32, 38]}>Menu por dia - mes</CardHeader>
-                        <Flex justify="space-around" direction="row" >
-                        <Select placeholder="Seleccionar opcion" id="dia" onChange={(e) => handle2(e)} w={[100, 100, 100, 150]} my="7px">
-                            {dias.map(dia => (
-                                <option >{dia}</option>
-                            ))}
-                        </Select>
-                        <Select placeholder='Seleccionar opcion' id="mes" onChange={(e) => handle2(e)} w={[100, 100, 100, 150]} my="7px">
-                            {meses.map(mes => (
-                                <option >{mes}</option>
-                            ))}
-                        </Select>
-                        <Select placeholder='Seleccionar opcion' id="año" onChange={(e) => handle2(e)} w={[100, 100, 100, 150]} my="7px">
-                            {años.map(año => (
-                                <option >{año}</option>
-                            ))}
-                        </Select>
+                        <Flex justify="center"mb="2%">
+                            <Flex w="40%">
+                                <DatePicker className="datepicker" selected={fecha} onChange={(date) => setFecha(date)} dateFormat="dd/MM/yyyy" locale={es} />
+                            </Flex>
                         </Flex>
                         <Button colorScheme="blue" size="lg" onClick={() => buscarComida()} >Buscar</Button>
                         <TableContainer>
@@ -316,7 +343,7 @@ export default function AdminComida() {
                                     {data3.map(cant => (
                                         <>
                                             <Flex justify="center">
-                                                <Text fontWeight="bold" color={cantColores}p="5px" borderRadius="7px">{cant.opcion}</Text>
+                                                <Text fontWeight="bold" color={cantColores} p="5px" borderRadius="7px">{cant.opcion}</Text>
                                                 <Text p="5px" borderRadius="7px">Cantidad: {cant.cantidad}</Text>
                                             </Flex>
                                         </>

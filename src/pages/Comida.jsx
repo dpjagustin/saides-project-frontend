@@ -1,13 +1,14 @@
 import React, {useState, useEffect} from "react";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
-import { Box, Select, Button, Flex,  Text, Input, Stack,Card, CardBody,CardHeader,StackDivider, Heading, useToast, Divider, useColorModeValue, TableContainer, Table, TableCaption, Tr, Th, Thead, Tbody, Td  } from "@chakra-ui/react";
+import { Box, Select, Button, Flex,  Text, Input, Stack,Card, CardBody,CardHeader,StackDivider, Heading, useToast, Divider, useColorModeValue, TableContainer, Table, Tr, Th, Thead, Tbody, Td  } from "@chakra-ui/react";
 import "../components/styles/comida.css"
 import axios from "axios";
 
 export default function Comida() {
   const urladd = "http://localhost:8000/api/addMenu"
   const urlbusqueda = "http://localhost:8000/api/busquedaPorPersonayMes"
+  const urlmenusdisponibles= "http://localhost:8000/api/menuMes"
   const [nombre, setNombre]=useState("");
   const [apellido, setApellido]=useState("");
   const [data, setData] = useState([]);
@@ -33,6 +34,27 @@ export default function Comida() {
   
 
   //////////////TRAER LAS COMIDAS DISPONIBLES DEL MES//////////////////
+  useEffect(() => {
+    (
+      async () => {
+        axios.get(urlmenusdisponibles)
+        .then((res)=>{
+          setData(res.data)
+        })
+        .catch((error)=>{
+          toast({
+            title: "Error. Intente nuevamente.",
+            status:"error",
+            position: "top",
+            duration:2000,
+            isClosable: true,
+        })
+        })
+
+
+      }
+    )();
+  },[]);
 
   useEffect(() => {
     (
@@ -141,7 +163,10 @@ function handle2(e) {
     <>
       <NavBar />
       <Heading fontSize={[25, 35, 45, 60]} my="2%" ml="7%">Comidas del mes</Heading>
-        <Button borderRadius="20px" value="1" id="sida" onClick={handlePag}>Cargar comidas</Button> <Button borderRadius="20px" onClick={handlePag2} >Ver comidas</Button>
+      <Flex>
+        <Button borderRadius="20px" value="1" id="sida" onClick={handlePag}>Cargar comidas</Button> 
+        <Button borderRadius="20px" onClick={handlePag2} >Ver comidas</Button>
+      </Flex>
       {pag ===1 && <Flex justify="center">
       <Box w="70%">
       <Flex wrap="wrap" justify="space-evenly">

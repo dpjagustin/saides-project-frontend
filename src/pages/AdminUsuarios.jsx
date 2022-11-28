@@ -27,6 +27,8 @@ import {
   ModalContent,
 } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
+import { SiLinkedin } from 'react-icons/si';
+
 
 
 
@@ -227,8 +229,8 @@ export default function AdminUsuarios() {
                       rounded={'full'}
                       _focus={{
                         bg: 'gray.200',
-                      }}>
-                      Message
+                      }}><SiLinkedin></SiLinkedin>
+                      
                     </Button>
                     <Button
                       flex={1}

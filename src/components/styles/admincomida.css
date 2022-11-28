@@ -1,21 +1,9 @@
-.div1{
-    display: flex;
-    
-    justify-content: center ;
-    flex-wrap: wrap;
-
-}
-.div4{
-    display: flex;
-    width: 80%;
-    justify-content: space-around;
-    flex-wrap: wrap;
-}
-.div2{
-    width: 400px;
-    
- 
-}
-.div3{
-    width: 700px;
+.datepicker{
+    background-color: rgba(140, 193, 243, 0.795);
+    text-align: center;
+    width: 100%;
+    font-family: sans-serif;
+    font-weight:700;
+    font-size: 200%;
+    border-radius: 7px;
 }

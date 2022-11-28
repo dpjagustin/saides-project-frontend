@@ -186,7 +186,7 @@ export default function Notas() {
     return (
         <>
             <NavBar />
-            <h1 className="titulo" >Mis notas</h1>
+            <Heading fontSize={[25,35,45,60]} my="2%" ml="7%" >Mis notas</Heading>
             
             <Box minH="600px">
                 <Button onClick={onOpenCrear} mt="30px" ml="100px" size={"lg"}  >Crear nota</Button>
