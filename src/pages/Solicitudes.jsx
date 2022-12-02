@@ -1,36 +1,255 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import Modal from "../components/Solicitudes/Modal";
-import styled from "styled-components";
+import { Flex, Button, Heading, Card, CardHeader, Divider, CardBody, Stack, StackDivider, Box, Select, Input, useColorModeValue, useToast } from "@chakra-ui/react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css"
+import es from "date-fns/locale/es";
+import axios from "axios";
 
 export default function Solicitudes() {
+  const urlEnvSolPerm="http://localhost:8000/api/crearSolicitud"
   const [estadoModal1, cambiarEstadoModal1] = useState(false);
   const [estadoModal2, cambiarEstadoModal2] = useState(false);
   const [estadoModal3, cambiarEstadoModal3] = useState(false);
+  const [pag, setPag]=useState(0)
+  const toast = useToast()
+  const [fecha, setFecha] = useState(new Date())
+  const [fecha2, setFecha2] = useState(new Date())
+  const [fecha3, setFecha3] = useState(new Date())
+  const [nombre, setNombre] = useState("");
+  const [apellido, setApellido] = useState("");
+  
+  const [solicitudPermiso, setSolicitudPermiso]= useState({
+    nombre:"",
+    motivo:"",
+    notaM:"",
+    detalle:"",
+    DoH:"",
+    cantDoH:0,
+    inicia:"",
+    finaliza:"",
+    vuelve:"",
+    importante:"",
+    propuesta:"",
+    documentacion:"",
+    notaD:"",
+  })
+  const motivos=["Medico","Viaje personal", "Examen parcial", "Examen final", "Personal", "Mudanza", "Otros"]
+  const documentacion=["Certificado médico","Certificado de exámen","Contrato de locación","Alta de servicio","No requerida","Otros"]
+  const asd2 = useColorModeValue("2xl", "0px 0px 13px 5px rgba(255,255,255,0.3)")
+
+  /////////////TRAE EL NOMBRE DEL USUARIO///////////
+
+  useEffect(() => {
+    (
+      async () => {
+        const response = await fetch("http://localhost:8000/api/authUser", {
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+        });
+        const content = await response.json();
+        setNombre(content.nombre)
+        setApellido(content.apellido)
+      }
+    )();
+  }, []);
+
+  /////////CONSTANTE QUE ARMA EL NOMBRE COMPLETO///////////
+  const nombrecompleto = nombre + " " + apellido
+
+
+
+  function handle(e) {
+    const solPerm = { ...solicitudPermiso }
+    solPerm[e.target.id] = e.target.value
+    setSolicitudPermiso(solPerm)
+  }
+
+  const enviarSolPerm = async()=>{
+    await axios.post(urlEnvSolPerm,{
+      nombre: nombrecompleto,
+      motivo: solicitudPermiso.motivo,
+      notaM:solicitudPermiso.notaM,
+      detalle:solicitudPermiso.detalle,
+      DoH:solicitudPermiso.DoH,
+      cantDoH:solicitudPermiso.cantDoH,
+      inicia:fecha,
+      finaliza:solicitudPermiso.finaliza,
+      vuelve:solicitudPermiso.vuelve,
+      importante:solicitudPermiso.importante,
+      propuesta:solicitudPermiso.propuesta,
+      documentacion:solicitudPermiso.documentacion,
+      notaD:solicitudPermiso.notaD,
+    }).then((res)=>{
+      toast({
+        title: "Permiso enviado correctamente",
+        status: "success",
+        position: "top",
+        duration: 2000,
+        isClosable: true,
+      })
+    }).catch((error)=>{
+      toast({
+        title: "Error. Intente nuevamente.",
+        status: "error",
+        position: "top",
+        duration: 2000,
+        isClosable: true,
+      })
+    })
+  }
+
+  const handlePag = () => {
+    setPag(1)
+  }
+  const handlePag2 = () => {
+    setPag(2)
+  }
+
+  console.log(solicitudPermiso)
 
   return(
     <>
       <NavBar /> 
+      <Heading fontSize={[25, 35, 45, 60]} my="2%" ml="7%">Solicitudes</Heading>
+      <Flex ml="10%" wrap="wrap">
+        <Button borderRadius="20px" value="1" id="sida" onClick={handlePag} mr="1%">Cargar solicitud permiso</Button>
+        <Button borderRadius="20px" onClick={handlePag2} >Ver historial de solicitudes</Button>
+      </Flex>
+      {pag===1&&
+      <Flex justify="center">
+      <Card my="30px" w="35%" boxShadow={asd2}>
+                <CardHeader>
+                  <Heading size='xl'>Solicitud de permiso</Heading>
+                </CardHeader>
+                <Divider orientation="horizontal" my="5px" borderWidth="2px" w="99%" borderColor="blue.400" />
+                <CardBody>
+                  <Stack divider={<StackDivider />} spacing='4'>
+                    {/* //// */}
+                    <Box>
+                      <Heading size='lg'>
+                        Elegir motivo
+                      </Heading>
+                      <Select name="motivo" className="comida" id="motivo" w="90%" placeholder='Elegir motivo' mx="20px" mt="10px" onChange={(e)=>handle(e)}>
+                          {motivos.map(mov=>(
+                            <option>{mov}</option>
+                          ))}
+                      </Select>
+                      {solicitudPermiso.motivo==="Otros"&& <Input name="notaM" className="notaM" id="notaM" w="90%" mx="20px" placeholder="Detalle sobre el motivo" mt="10px" onChange={(e)=>handle(e)}></Input>}
+                    </Box>
+                    {/* //// */}
+                    <Box>
+                      <Heading size='lg'>
+                        Detalle específico del motivo
+                      </Heading>
+                      <Heading size='sm' w="60%">
+                        Para exámen parcial o final, por favor colocar materia y carrera a la que corresponde.
+                      </Heading>
+                      <Input id="detalle" w="90%" mx="20px" placeholder="Detalle sobre el motivo" mt="10px" onChange={(e)=>handle(e)}></Input>
+                    </Box>
+                    {/* //// */}
+                    <Box>
+                      <Heading size='lg'>
+                        Especifique si son días u horas
+                      </Heading>
+                      <Select id="DoH" w="90%" placeholder='Elegir motivo' mx="20px" mt="10px" onChange={(e)=>handle(e)}>
+                            <option>Dias</option>
+                            <option>Horas</option>
+                      </Select>
+                    </Box>
+                  {/* //// */}
+                    <Box>
+                      <Heading size='lg'>
+                        Indique la cantidad de dias/horas
+                      </Heading>
+                      <Input id="cantDoH" w="90%" mx="20px" placeholder="cantidad de dias/horas" mt="10px" onChange={(e)=>handle(e)}></Input>
+                    </Box>
+                    {/* //// */}
+                    <Box>
+                      <Heading size='lg'>
+                        Inicia
+                      </Heading>
+                      <DatePicker className="datepicker" selected={fecha} onChange={(date) => setFecha(date)} dateFormat="dd/MM/yyyy" showTimeSelect timeIntervals={10} locale={es} />
+                    </Box>
+                    {/* //// */}
+                    <Box>
+                      <Heading size='lg'>
+                        Finaliza
+                      </Heading>
+                      <DatePicker className="datepicker" selected={fecha2} onChange={(date) => setFecha2(date)} dateFormat="dd/MM/yyyy" showTimeSelect timeIntervals={10} locale={es} />
+                    </Box>
+                    {/* //// */}
+                    <Box>
+                      <Heading size='lg'>
+                        Regresa al puesto de trabajo
+                      </Heading>
+                      <DatePicker className="datepicker" selected={fecha3} onChange={(date) => setFecha3(date)} dateFormat="dd/MM/yyyy" showTimeSelect timeIntervals={10} locale={es} />
+                    </Box>
+                    {/* //// */}
+                    <Box>
+                      <Heading size='md'>
+                        Hay reuniones, cursos o eventos importantes durante el tiempo que se encontrará fuera de la oficina?
+                      </Heading>
+                      <Select id="importante" w="90%" placeholder='Elegir motivo' mx="20px" mt="10px" onChange={(e)=>handle(e)}>
+                            <option>Si</option>
+                            <option>No</option>
+                      </Select>
+                    </Box>
+                    {/* //// */}
+                    <Box>
+                      <Heading size='lg'>
+                        Propuesta de compensación
+                      </Heading>
+                      <Input id="propuesta" w="90%" mx="20px" placeholder="Propuesta de compensacion" mt="10px" onChange={(e)=>handle(e)}></Input>
+                    </Box>
+                    {/* //// */}
+                    <Box>
+                      <Heading size='lg'>
+                        Documentacion de respaldo
+                      </Heading>
+                      <Select id="documentacion" w="90%" placeholder='Elegir motivo' mx="20px" mt="10px" onChange={(e)=>handle(e)}>
+                          {documentacion.map(mov=>(
+                            <option>{mov}</option>
+                          ))}
+                      </Select>
+                      {solicitudPermiso.documentacion==="Otros"&& <Input id="notaD" w="90%" mx="20px" placeholder="Ingrese la documentacion de respaldo" mt="10px" onChange={(e)=>handle(e)}></Input>}
+                    </Box>
+                    {/* //// */}
+                    <Box>
+                      <Flex justify="center">
+                        <Button colorScheme="blue" onClick={enviarSolPerm}>Guardar cambios</Button>
+                      </Flex>
+                    </Box>
+                    {/* //// */}
+                    
+                    
+                  </Stack>
+                </CardBody>
+              </Card>
+              </Flex>
 
-      <ContenedorBody>
+      }
+      
+      <Flex w="100%" minH="67vh" justify="space-between">
 
-        <ContenedorForms>
+        <Flex w="50%" justify="center" alignItems="center">
           <div>
-            <ContenedorBotones>
-              <Boton onClick={() => cambiarEstadoModal1(!estadoModal1)}>Propuesta de formación</Boton>
+            <Flex p="40px" w="100%" justify="center" wrap="wrap" align-items="center" direction="column" gap="20px">
+              <Button display="block" p="10px 30px" borderRadius="100px" color="#fff" border="none" onClick={() => cambiarEstadoModal1(!estadoModal1)}>Propuesta de formación</Button>
               
-              <ContenedorInternoBotones>
-                <Boton onClick={() => cambiarEstadoModal2(!estadoModal2)}>Reconocimientos</Boton>
+              <Flex w="100%" gap="1rem">
+                <Button display="block" p="10px 30px" borderRadius="100px" color="#fff" border="none" onClick={() => cambiarEstadoModal2(!estadoModal2)}>Reconocimientos</Button>
 
-                <Boton onClick={() => cambiarEstadoModal2(!estadoModal2)}>
+                <Button display="block" p="10px 30px" borderRadius="100px" color="#fff" border="none" onClick={() => cambiarEstadoModal2(!estadoModal2)}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trophy" viewBox="0 0 16 16">
                 <path d="M2.5.5A.5.5 0 0 1 3 0h10a.5.5 0 0 1 .5.5c0 .538-.012 1.05-.034 1.536a3 3 0 1 1-1.133 5.89c-.79 1.865-1.878 2.777-2.833 3.011v2.173l1.425.356c.194.048.377.135.537.255L13.3 15.1a.5.5 0 0 1-.3.9H3a.5.5 0 0 1-.3-.9l1.838-1.379c.16-.12.343-.207.537-.255L6.5 13.11v-2.173c-.955-.234-2.043-1.146-2.833-3.012a3 3 0 1 1-1.132-5.89A33.076 33.076 0 0 1 2.5.5zm.099 2.54a2 2 0 0 0 .72 3.935c-.333-1.05-.588-2.346-.72-3.935zm10.083 3.935a2 2 0 0 0 .72-3.935c-.133 1.59-.388 2.885-.72 3.935zM3.504 1c.007.517.026 1.006.056 1.469.13 2.028.457 3.546.87 4.667C5.294 9.48 6.484 10 7 10a.5.5 0 0 1 .5.5v2.61a1 1 0 0 1-.757.97l-1.426.356a.5.5 0 0 0-.179.085L4.5 15h7l-.638-.479a.501.501 0 0 0-.18-.085l-1.425-.356a1 1 0 0 1-.757-.97V10.5A.5.5 0 0 1 9 10c.516 0 1.706-.52 2.57-2.864.413-1.12.74-2.64.87-4.667.03-.463.049-.952.056-1.469H3.504z"/>
-                </svg> </Boton>
-              </ContenedorInternoBotones>
+                </svg> </Button>
+              </Flex>
             
-              <Boton onClick={() => cambiarEstadoModal3(!estadoModal3)}>Solicitud de permiso</Boton>
-            </ContenedorBotones>
+              <Button display="block" p="10px 30px" borderRadius="100px" color="#fff" border="none" onClick={() => cambiarEstadoModal3(!estadoModal3)}>Solicitud de permiso</Button>
+            </Flex>
 
             {/* Modal 1  */}
             <Modal 
@@ -38,9 +257,9 @@ export default function Solicitudes() {
               cambiarEstado = {cambiarEstadoModal1} 
               titulo = "Propuesta de formación"
             >
-              <Contenido>
+              <Flex>
                 <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdVpG8vqpveNyqSAzagyjO0VF9ehhmbcaP8lfr1AuFTr71hEQ/viewform?embedded=true" width="600" height="700" frameborder="0" marginheight="0" marginwidth="0">Cargando…</iframe>
-              </Contenido>
+              </Flex>
             </Modal>
 
             {/* Modal 2 */}
@@ -49,9 +268,9 @@ export default function Solicitudes() {
               cambiarEstado = {cambiarEstadoModal2} 
               titulo = "Reconocimientos"
             >
-              <Contenido>
+              <Flex>
                 <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdW-21Qz8XgTiDejBGCMF7BfPxJwEJnQLN24soIAlUCiXZXhQ/viewform?embedded=true" width="600" height="700" frameborder="0" marginheight="0" marginwidth="0">Cargando…</iframe>
-              </Contenido>
+              </Flex>
             </Modal>
 
             {/* Modal 3 */}
@@ -60,17 +279,17 @@ export default function Solicitudes() {
               cambiarEstado = {cambiarEstadoModal3} 
               titulo = "Solicitud de permiso"
             >
-              <Contenido>
+              <Flex>
                 <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSexKaWcE_MDOE_Ytk9w6L5i21J4QYBUSbjRT6X8z-SzkxRqIg/viewform?embedded=true" width="600" height="700" frameborder="0" marginheight="0" marginwidth="0">Cargando…</iframe>
-              </Contenido>
+              </Flex>
             </Modal>      
           </div>
-        </ContenedorForms>
+        </Flex>
         
-        <ContenedorMedia>        
+        {/* <Flex w="50%" justify="center" alignItems="center">        
           <iframe loading="lazy" src="https://www.canva.com/design/DAFLj4ommIg/watch?embed" width={560} height={315}></iframe>
-        </ContenedorMedia>
-      </ContenedorBody>
+        </Flex> */}
+      </Flex>
 
       <Footer />
 
@@ -78,82 +297,4 @@ export default function Solicitudes() {
   )
 }
 
-const ContenedorForms = styled.div`
-display: flex;
-width: 50%;
-justify-content: center;
-align-items: center;
-`;
-
-const ContenedorMedia = styled.div`
-  display: flex;
-  width: 50%;
-  /* height: 30vh; */
-  justify-content: center;
-  align-items: center;
-`
-
-const ContenedorBody = styled.div`
-  width: 100%;
-  display: flex;
-  min-height: 67vh;
-  justify-content: space-between;
-`;
-
-const ContenedorBotones = styled.div`
-  padding: 40px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  align-items: center;
-  flex-direction: column;
-  gap:20px;
-`;
-
-const ContenedorInternoBotones = styled.div`
-  display: flex;
-  width: 100%;
-  gap: 1rem;
-`
-
-const Boton = styled.button`
-  display: block;
-  padding: 10px 30px;
-  border-radius: 100px;
-  color: #fff;
-  border: none;
-  background: #1766DC;
-  cursor: pointer;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  font-weight: 500;
-  transition: .3s ease all;
-
-  &:hover {
-    background: #0066FF;
-  }
-`;
-
-const Contenido = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  h1 {
-    font-size: 42px;
-    font-weight: 700;
-    margin-bottom: 10px;
-  }
-
-  p {
-    font-size: 18px;
-    margin-bottom: 20px;
-  }
-
-  img {
-    width: 100%;
-    vertical-align: top;
-    border-radius: 3px;
-  }
-`;
 

@@ -59,8 +59,6 @@ export default function Micuenta() {
     const modificarUsuario = async () => {
         await axios.patch(urledit, {
             id: userSeleccionado.id,
-            nombre: userSeleccionado.nombre,
-            apellido: userSeleccionado.apellido,
             descripcion: userSeleccionado.descripcion,
             imagen: userSeleccionado.imagen
         }).then(res => {
@@ -125,19 +123,7 @@ export default function Micuenta() {
                             </Center>
                         </Stack>
                     </FormControl>
-                    <FormControl id="nombre" >
-                        <FormLabel>Nombre</FormLabel>
-                        <HStack justify="space-between">
-                            <Box w="100%" padding="8px" borderRadius="8px" bg={useColorModeValue("gray.200", "gray.500")} fontFamily="revert" fontWeight="500" fontSize="16px">{userData.nombre}</Box>
-                        </HStack>
-                    </FormControl>
-                    <FormControl id="apellido" >
-                        <FormLabel>Apellido</FormLabel>
-                        <HStack justify="space-between">
-                            <Box w="100%" padding="8px" borderRadius="8px" bg={useColorModeValue("gray.200", "gray.500")} fontFamily="revert" fontWeight="500" fontSize="16px">{userData.apellido}</Box>
-                        </HStack>
-                    </FormControl>
-                    <FormControl id="Email" >
+                    <FormControl id="descripcion" >
                         <FormLabel>Descripcion</FormLabel>
                         <HStack justify="space-between">
                             <Box w="100%" padding="8px" borderRadius="8px" bg={useColorModeValue("gray.200", "gray.500")} fontFamily="revert" fontWeight="500" fontSize="16px">{userData.descripcion}</Box>
@@ -165,14 +151,6 @@ export default function Micuenta() {
                     <FormControl>
                             <FormLabel>Imagen</FormLabel>
                             <Textarea name="imagen" onChange={handleChange} value={userSeleccionado&&userSeleccionado.imagen}/>
-                        </FormControl>
-                        <FormControl>
-                            <FormLabel>Nombre</FormLabel>
-                            <Input name="nombre" onChange={handleChange} value={userSeleccionado&&userSeleccionado.nombre}/>
-                        </FormControl>
-                        <FormControl>
-                            <FormLabel>Apellido</FormLabel>
-                            <Input name="apellido" onChange={handleChange} value={userSeleccionado&&userSeleccionado.apellido}/>
                         </FormControl>
                         <FormControl>
                             <FormLabel>Descripcion</FormLabel>

@@ -45,7 +45,7 @@ export default function Noticias() {
           </Heading>
         </Box>}
           {data.map(not => (
-            <Box p='5' borderWidth='1px' rounded='md' key={not.id} boxShadow={cambiarColoresShadow()} minW="300px" minHeight="200px" m="30px">
+            <Box p='5' borderWidth='1px' rounded='md' key={not.id} boxShadow={cambiarColoresShadow} minW="300px" minHeight="200px" m="30px">
               <Box>
                 {not.fecha}
               </Box>

@@ -8,7 +8,6 @@ import {
     FormLabel,
     Input,
     HStack,
-    Checkbox,
     Button,
     Image,
     Center,
@@ -49,19 +48,34 @@ const Login = () => {
             }).then((res) => {
                 setRedirect(true)
             }).catch(error => {
-                swal({icon:"error",title:"Usuario o contraseña incorrecta"})
+                swal({ icon: "error", title: "Usuario o contraseña incorrecta" })
                 setPassword("")
                 document.getElementById("inputpass").value = ""
                 document.getElementById("inputlogin").value = ""
             })
     }
-    if (redirect) {
-        return navigate("/index")
+    
+    useEffect(() => {
+        setUsername(localStorage.getItem("username")) 
+        if(localStorage.getItem("recordar")==="false"){
+            setUsername("")
+        }       
+    },[recordar])
+    
+    
+    const asd = localStorage.getItem("recordar")
+    
+    const handleRecordar = ()=>{
+        setRecordar(!recordar)
+        localStorage.setItem("recordar",JSON.stringify(!recordar))
+        localStorage.setItem("username",username)
     }
 
-    //console.log(recordar);
-    localStorage.setItem("recordar",JSON.stringify(recordar.checked))
-    
+    if (redirect) {
+        return navigate("/index")
+    }else{
+
+    }
     return (
         <Box>
             <video className='videologin' autoPlay loop muted>
@@ -83,19 +97,19 @@ const Login = () => {
                         <FormControl>
                             <FormControl>
                                 <FormLabel>Usuario</FormLabel>
-                                <Input rounded="none" variant="filled" name="username" onChange={e => setUsername(e.target.value)} id="inputlogin" />
+                                <Input rounded="none" variant="filled" name="username" onChange={e => setUsername(e.target.value)} value={username} id="inputlogin" />
                             </FormControl>
 
                             <FormControl>
                                 <FormLabel>Contraseña</FormLabel>
                                 <Input rounded="none" variant="filled" type="password" name="password" onChange={e => setPassword(e.target.value)} id="inputpass" />
                             </FormControl>
-                            <Button rounded="none" colorScheme="blue" w="full" alignSelf="end" onClick={loguearse} mt="1.8em">Login</Button>
+                            <Button rounded="lg" colorScheme="blue" w="full" alignSelf="end" onClick={loguearse} mt="1.8em" >Login</Button>
                         </FormControl>
                         <HStack w="full" justify="space-between">
-
-                            <Switch className="checkk" id="recordar" onChange={setRecordar}>Recordar usuario</Switch>
-                            
+                            {asd==="true" && <Switch id="recordar" onChange={handleRecordar} isChecked={true}>Recordar usuario</Switch>}
+                            {asd==="false" && <Switch id="recordar" onChange={handleRecordar} isChecked={false}>Recordar usuario</Switch>}
+                            {asd===null && <Switch id="recordar" onChange={handleRecordar} isChecked={false}>Recordar usuario</Switch>}
                             <Button variant="link" colorScheme="blue">
                                 Olvide mi contraseña
                             </Button>

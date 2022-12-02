@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { Image } from '@chakra-ui/react';
 import "./styles/navbar.css"
 import {
@@ -17,36 +17,78 @@ import {
   HStack,
   useColorMode,
   Center,
-  keyframes
+  useDisclosure,
+  IconButton
 } from '@chakra-ui/react';
-import { MoonIcon, SunIcon } from '@chakra-ui/icons';
+import { CloseIcon, HamburgerIcon, MoonIcon, SunIcon } from '@chakra-ui/icons';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import swal from "sweetalert";
- 
-const Links = [
-  <Link className="links" href="/index">Inicio</Link>,
-  <Link className="links" href="/solicitudes">Solicitudes</Link>,
-  <Link className="links" href="/comida">Comida</Link>,
-  <Link className="links" href="/agenda">Agenda</Link>,
-  <Link className="links" href="/notas">Mis notas</Link>,]; // Links a paginas
 
 
+////////// Links a paginas usuarios normales//////////////
+const Links = [{
+  id: "1",
+  url: "/index",
+  nombre: "Inicio",
+  clase: "links"
+},
+{
+  id: "2",
+  url: "/solicitudes",
+  nombre: "Solicitudes",
+  clase: "links"
+},
+{
+  id: "3",
+  url: "/comida",
+  nombre: "Comida",
+  clase: "links"
+},
+{
+  id: "4",
+  url: "/usuarios",
+  nombre: "Usuarios",
+  clase: "links"
+},
+{
+  id: "5",
+  url: "/notas",
+  nombre: "Mis notas",
+  clase: "links"
+}]; 
 
-const NavLink = ({ children }) => (
-  <Link
-    px={2}
-    py={1}
-    rounded={'md'}
-    _hover={{
-      textDecoration: 'none',
-      bg: useColorModeValue('gray.200', 'gray.700'),
-    }}
-    href={'#'}>
-    {children}
-  </Link>
-);
-
+//////LINKS ADMIN//////////
+const LinksAdmin = [{
+  id: "1",
+  url: "/index",
+  nombre: "Inicio",
+  clase: "links"
+},
+{
+  id: "2",
+  url: "/adminnoticias",
+  nombre: "Noticias",
+  clase: "links"
+},
+{
+  id: "3",
+  url: "/admincomida",
+  nombre: "Comida",
+  clase: "links"
+},
+{
+  id: "4",
+  url: "/usuarios",
+  nombre: "Usuarios",
+  clase: "links"
+},
+{
+  id: "4",
+  url: "/adminsolicitudes",
+  nombre: "Solicitudes",
+  clase: "links"
+}]; 
 
 
 // Que el nombre en el despegable de usuario sea personalizado
@@ -54,83 +96,84 @@ const NavLink = ({ children }) => (
 
 export default function NavBar() {
 
-  const urlauth="http://localhost:8000/api/authUser"
+  const urlauth = "http://localhost:8000/api/authUser"
   const { colorMode, toggleColorMode } = useColorMode();
-  const [nombre, setNombre]=useState("");
-  const [apellido, setApellido]=useState("");
-  const [imagen, setImagen]=useState("");
-  const [rol, setRol]=useState("");
+  const [nombre, setNombre] = useState("");
+  const [apellido, setApellido] = useState("");
+  const [imagen, setImagen] = useState("");
+  const [rol, setRol] = useState("");
   const navigate = useNavigate();
 
-  useEffect(() =>{
+  useEffect(() => {
     (
-      async ()=>{
-        await axios.get(urlauth,{withCredentials:true})
-        .then((res)=>{
-          const content = res.data
-          setNombre(content.nombre)
-          setApellido(content.apellido)
-          setImagen(content.imagen)
-          setRol(content.rol)
-        }).catch((error)=>{
-          swal({icon:"error",title:"No hay un usuario logeado"})
-          navigate("/")
-        })
+      async () => {
+        await axios.get(urlauth, { withCredentials: true })
+          .then((res) => {
+            const content = res.data
+            setNombre(content.nombre)
+            setApellido(content.apellido)
+            setImagen(content.imagen)
+            setRol(content.rol)
+          }).catch((error) => {
+            swal({ icon: "error", title: "No hay un usuario logeado" })
+            navigate("/")
+          })
       }
     )();
   });
 
-  
-  const cerrarSesion = async() =>{
-    await fetch("http://localhost:8000/api/logout",{
-              method:"POST",
-              headers:{"Content-Type":"application/json"},
-              credentials:"include",
-          });
-          window.location.href="/"
+///////////////CERRAR SESION////////////////
+  const cerrarSesion = async () => {
+    await fetch("http://localhost:8000/api/logout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    });
+    navigate("/")
   }
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <>
       <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <HStack spacing={8} alignItems={'center'}>
-              <Box >
-                <a href="/index">
-                <Image src='/resources/logos/logoSaidesHundido.png' width="60px"  alt='Logo Descar' id='logoDescar' />
-                </a>
-              </Box>
-              <HStack
-                as={'nav'}
-                spacing={4}
-                display={{ base: 'none', md: 'flex' }}>
-                  {rol === 1 &&<>
-                    {Links.map((link) => (
-                  <NavLink>{link}</NavLink>
-                ))}
+            <Box >
+              <a href="/index">
+                <Image src='/resources/logos/logoSaidesHundido.png' width="60px" alt='Logo Descar' id='logoDescar' />
+              </a>
+            </Box>
+            <IconButton
+            size={'lg'}
+            icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
+            aria-label={'Open Menu'}
+            display={{ md: 'none' }}
+            onClick={isOpen ? onClose : onOpen}
+          />
+            <HStack
+              as={'nav'}
+              spacing={4}
+              display={{ base: 'none', md: 'flex' }}>
+              {rol === 1 && <>
+                {Links.map((link) => (
+                  <Link key={link.id} className={link.clase} href={link.url}>{link.nombre}</Link>
                   
-                  </>}
-                
-                 
-              {rol === 2 &&
-                <>
-                <NavLink><Link className="links" href="/index">Inicio</Link></NavLink>
-                  <NavLink><Link className="links" href="/adminnoticias">Noticias</Link></NavLink>
-                  <NavLink><Link className="links" href="/admincomida">Comida</Link></NavLink>
-                  <NavLink><Link className="links" href="/adminusuarios">Usuarios</Link></NavLink>
-                </>
-              }
-
-              </HStack>
+                ))}
+              </>}
+              {rol === 2 &&<>
+                {LinksAdmin.map((link) => (
+                  <Box><Link key={link.id} className={link.clase} href={link.url}>{link.nombre}</Link></Box>
+                  
+                ))}
+              </>}
+            </HStack>
           </HStack>
-          
-
           <Flex alignItems={'center'}>
-            <Stack direction={'row'} spacing={7}>
-              <Button onClick={toggleColorMode}>
-              {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+            <HStack spacing={7}>
+              <Button onClick={toggleColorMode} size="md">
+                {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
               </Button>
-
               <Menu>
                 <MenuButton
                   as={Button}
@@ -139,7 +182,7 @@ export default function NavBar() {
                   cursor={'pointer'}
                   minW={0}>
                   <Avatar
-                    size={'sm'}
+                    size={'md'}
                     src={imagen}
                   />
                 </MenuButton>
@@ -161,12 +204,21 @@ export default function NavBar() {
                   <br />
                   <MenuDivider />
                   <MenuItem><a href="/micuenta"><Button className="linkscuenta" colorScheme="blue">Mi cuenta </Button></a></MenuItem>
-                  <MenuItem><Button className="linkscuenta" colorScheme='red' onClick={()=> cerrarSesion()}>Cerrar sesión</Button></MenuItem>
+                  <MenuItem><Button className="linkscuenta" colorScheme='red' onClick={() => cerrarSesion()}>Cerrar sesión</Button></MenuItem>
                 </MenuList>
               </Menu>
-            </Stack>
+            </HStack>
           </Flex>
         </Flex>
+        {isOpen ? (
+          <Box pb={4} display={{ md: 'none' }}>
+            <Stack as={'nav'} spacing={4}>
+              {Links.map((link) => (
+                <Link key={link.id} className={link.clase} href={link.url}>{link.nombre}</Link>
+              ))}
+            </Stack>
+          </Box>
+        ) : null}
       </Box>
     </>
   );

@@ -25,6 +25,7 @@ import {
   FormLabel,
   useToast,
   ModalContent,
+  HStack
 } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
 import { SiLinkedin } from 'react-icons/si';
@@ -32,7 +33,7 @@ import { SiLinkedin } from 'react-icons/si';
 
 
 
-export default function AdminUsuarios() {
+export default function Usuarios() {
   const ulrUsers = "http://localhost:8000/api/users"
   const urlauth = "http://localhost:8000/api/authUser"
   const urlregister = "http://localhost:8000/api/register"
@@ -88,10 +89,7 @@ export default function AdminUsuarios() {
       }
     )();
   },[]);
-  if (rol === 1) {
-    navigate("/index")
-    swal({ icon: "error", title: "No tienes permisos" })
-  }
+
 
   ////////////HANDLE DE CREAR USUARIO///////////
   function handle(e) {
@@ -216,43 +214,17 @@ export default function AdminUsuarios() {
                     color='gray.700'
                     px={3}>Rol: {user.rol}</Text>
 
-                  <Stack
+                  <HStack
                     width={'100%'}
                     mt={'2rem'}
-                    direction={'row'}
                     padding={2}
-                    justifyContent={'space-between'}
+                    justifyContent={'space-around'}
                     alignItems={'center'}>
-                    <Button
-                      flex={1}
-                      fontSize={'sm'}
-                      rounded={'full'}
-                      _focus={{
-                        bg: 'gray.200',
-                      }}><SiLinkedin></SiLinkedin>
-                      
-                    </Button>
-                    <Button
-                      flex={1}
-                      fontSize={'sm'}
-                      rounded={'full'}
-                      bg={'blue.400'}
-                      color={'white'}
-                      boxShadow={
-                        '0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)'
-                      }
-                      _hover={{
-                        bg: 'blue.500',
-                      }}
-                      _focus={{
-                        bg: 'blue.500',
-                      }}>
-                      Follow
-                    </Button>
+                    <Button variant="ghost" size="xs"><SiLinkedin fontSize="30px"></SiLinkedin></Button>
                     {rol === 2 &&
                       <Button onClick={() => seleccionarUsuario(user)}><DeleteIcon /></Button>
                     }
-                  </Stack>
+                  </HStack>
                 </Stack>
               </Stack>
             </Center>
@@ -293,7 +265,6 @@ export default function AdminUsuarios() {
               <Input id="imagen" onChange={(e) => handle(e)} ref={initialRef} placeholder='Imagen' />
             </FormControl>
           </ModalBody>
-
           <ModalFooter>
             <Button colorScheme='blue' mr={3} onClick={crearUsuario}>
               Crear usuario
@@ -302,6 +273,7 @@ export default function AdminUsuarios() {
           </ModalFooter>
         </ModalContent>
       </Modal>
+
       <Modal isOpen={isOpenBorrar} onClose={onCloseBorrar}>
         <ModalOverlay />
         <ModalContent>
