@@ -155,18 +155,20 @@ export default function NavBar() {
               as={'nav'}
               spacing={4}
               display={{ base: 'none', md: 'flex' }}>
-              {rol === 1 && <>
+              {rol === 1 ? 
+              <>
                 {Links.map((link) => (
                   <Link key={link.id} className={link.clase} href={link.url}>{link.nombre}</Link>
                   
                 ))}
-              </>}
-              {rol === 2 &&<>
+              </>:null}
+              {rol === 2 ?
+              <>
                 {LinksAdmin.map((link) => (
                   <Box><Link key={link.id} className={link.clase} href={link.url}>{link.nombre}</Link></Box>
                   
                 ))}
-              </>}
+              </>:null}
             </HStack>
           </HStack>
           <Flex alignItems={'center'}>

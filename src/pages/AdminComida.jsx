@@ -2,14 +2,16 @@ import React, { useState, useEffect } from "react";
 import Footer from "../components/Footer";
 import NavBar from "../components/NavBar";
 import axios from "axios";
-import { Heading, Flex, Text, Textarea, Button, Select, Box, Card, CardHeader, CardBody, StackDivider, Stack, Divider, useColorModeValue, TableContainer, Table, TableCaption, Tr, Th, Thead, Tbody, Td, useToast, useDisclosure,Modal,
+import {
+    Heading, Flex, Text, Textarea, Button, Select, Box, Card, CardHeader, CardBody, StackDivider, Stack, Divider, useColorModeValue, TableContainer, Table, TableCaption, Tr, Th, Thead, Tbody, Td, useToast, useDisclosure, Modal,
     ModalOverlay,
     ModalHeader,
     ModalCloseButton,
     ModalBody,
     ModalFooter,
-ModalContent,
-FormLabel } from "@chakra-ui/react";
+    ModalContent,
+    FormLabel
+} from "@chakra-ui/react";
 import swal from "sweetalert";
 import { useNavigate } from "react-router-dom";
 import "../components/styles/admincomida.css"
@@ -30,6 +32,9 @@ export default function AdminComida() {
     const urlDeshabilitarMes = "http://localhost:8000/api/updateSeleFalse"
     const urlHabilitarMes = "http://localhost:8000/api/updateSeleTrue"
     const urlBorrarComidaSelecUser = "http://localhost:8000/api/deleteMenu"
+    const urlBorrarComidaMes = "http://localhost:8000/api/deleteComidaMes"
+    const urlBorrarComidaDiaMes = "http://localhost:8000/api/deleteComidaSele"
+
     /////////////////////////////////////////////////////////
 
     const [data, setData] = useState([])
@@ -217,7 +222,7 @@ export default function AdminComida() {
         })
     }
     /////////////////////////////////////////////////////////
-    
+
     //////////DESHABILITAR MES//////////////
     const deshabilitarMes = async () => {
         await axios.patch(urlDeshabilitarMes, {
@@ -244,49 +249,103 @@ export default function AdminComida() {
     /////////////////////////////////////////////////////////
     ////////////////BORRAR DIA/USUARIO/MENU/NOTA//////////////
 
-    const borrarComidaUserSelec= async ()=>{
-        await axios.post(urlBorrarComidaSelecUser,{
-            id:comidaUserSelec
+    const borrarComidaUserSelec = async () => {
+        await axios.post(urlBorrarComidaSelecUser, {
+            id: comidaUserSelec
         })
-        .then((res)=>{
+            .then((res) => {
+                toast({
+                    title: "Comida borrada correctamente.",
+                    status: "success",
+                    position: "top",
+                    duration: 2000,
+                    isClosable: true,
+                })
+                onCloseBorrar()
+                axios.post(urlBuscarComida, {
+                    dia: formatDia,
+                    mes: formatMes,
+                    año: formatAño,
+                }).then(res => {
+                    setData2(res.data)
+                })
+                axios.post(urlCantComidas, {
+                    dia: formatDia,
+                    mes: formatMes,
+                    año: formatAño,
+                }).then(res => {
+                    setData3(res.data)
+                })
+            })
+            .catch((error) => {
+                toast({
+                    title: "Error. Intente nuevamente.",
+                    status: "error",
+                    position: "top",
+                    duration: 2000,
+                    isClosable: true,
+                })
+            })
+    }
+    const seleccionarComida = (comida) => {
+        setComidaUserSelec(comida);
+        onOpenBorrar()
+    }
+
+    //////////////////////////////////////
+    ///////////BORRAR MES GUARDADO POR SELE//////////////////
+    const borrarComidaMes = async () => {
+        await axios.post(urlBorrarComidaMes, {
+            mes: formatMes,
+            año: formatAño
+        }).then((res) => {
             toast({
-                title: "Comida borrada correctamente.",
+                title: "Mes borrado correctamente.",
                 status: "success",
                 position: "top",
                 duration: 2000,
                 isClosable: true,
             })
-            onCloseBorrar()
-            axios.post(urlBuscarComida, {
-                dia: formatDia,
-                mes: formatMes,
-                año: formatAño,
-            }).then(res => {
-                setData2(res.data)
-            })
-            axios.post(urlCantComidas, {
-                dia: formatDia,
-                mes: formatMes,
-                año: formatAño,
-            }).then(res => {
-                setData3(res.data)
-            })
-            })
-        .catch((error)=>{
+                .catch((err) => {
+                    toast({
+                        title: "Error. Intente nuevamente.",
+                        status: "error",
+                        position: "top",
+                        duration: 2000,
+                        isClosable: true,
+                    })
+                })
+        })
+    }
+
+    /////////////////////////////////////////////////////////
+    /////////////////BORRAR DIA GUARDADO POR SELE/////////////////
+    const borrarComidaDiaMes = async () => {
+        await axios.post(urlBorrarComidaDiaMes, {
+            dia: formatDia,
+            mes: formatMes,
+            año: formatAño
+        }).then((res) => {
             toast({
-                title: "Error. Intente nuevamente.",
-                status: "error",
+                title: "Dia borrado correctamente.",
+                status: "success",
                 position: "top",
                 duration: 2000,
                 isClosable: true,
             })
+                .catch((err) => {
+                    toast({
+                        title: "Error. Intente nuevamente.",
+                        status: "error",
+                        position: "top",
+                        duration: 2000,
+                        isClosable: true,
+                    })
+                })
         })
     }
-    const seleccionarComida = (comida)=>{
-        setComidaUserSelec(comida);
-        onOpenBorrar()
-    }
     /////////////////////////////////////////////////////////
+
     //////////////HANDLE DE LAS PAG/////////////
     const handlePag = () => {
         setPag(1)
@@ -304,207 +363,202 @@ export default function AdminComida() {
         setPag(5)
     }
 
-    
-//////////////DEVUELVE LA FECHA DE SELECCIONADOR DE FECHAS///////////////
+
+    //////////////DEVUELVE LA FECHA DE SELECCIONADOR DE FECHAS///////////////
     const formatDia = fecha.getDate()
     const formatMes = fecha.getMonth() + 1
     const formatAño = fecha.getFullYear()
     /////////////////////////////////////////////////////////
 
-    
+
     const { isOpen: isOpenBorrar, onOpen: onOpenBorrar, onClose: onCloseBorrar } = useDisclosure()
     return (
         <>
             <NavBar />
+            <Box minH="100vh">
 
-            {/*////////////////// CARGA DE LOS MENUS DEL MES////////////////////////// */}
-            <Heading fontSize={[25, 35, 45, 60]} my="3%" ml="7%" >Cargar Comidas</Heading>
-            <Flex ml="8%" wrap="wrap">
-                <Button onClick={handlePag} boxShadow={asd2} mx="10px" mb="2%">Cargar menus por dia</Button>
-                <Button onClick={handlePag2} boxShadow={asd2} mx="10px" mb="2%">Habilitar-deshabilitar menus por mes</Button>
-                <Button onClick={handlePag3} boxShadow={asd2} mx="10px" mb="2%">Eliminar menus por dia</Button>
-                <Button onClick={handlePag4} boxShadow={asd2} mx="10px" mb="2%">Cargar Comidas del distribuidor</Button>
-                <Button onClick={handlePag5} boxShadow={asd2} mx="10px" mb="2%">Eliminar mes guardado</Button>
+                {/*////////////////// CARGA DE LOS MENUS DEL MES////////////////////////// */}
+                <Heading fontSize={[25, 35, 45, 60]} my="3%" ml="7%" >Cargar Comidas</Heading>
+                <Flex ml="8%" wrap="wrap">
+                    <Button onClick={handlePag} boxShadow={asd2} mx="10px" mb="2%">Cargar menus por dia</Button>
+                    <Button onClick={handlePag2} boxShadow={asd2} mx="10px" mb="2%">Habilitar-deshabilitar</Button>
+                    <Button onClick={handlePag3} boxShadow={asd2} mx="10px" mb="2%">Cargar Comidas del distribuidor</Button>
+                    <Button onClick={handlePag4} boxShadow={asd2} mx="10px" mb="2%">Eliminar menus por dia</Button>
+                    <Button onClick={handlePag5} boxShadow={asd2} mx="10px" mb="2%">Eliminar mes guardado por usuarios</Button>
 
-            </Flex>
+                </Flex>
 
-            {pag === 1 &&
-                <Flex justify="center">
-                    <Card w="auto" boxShadow={asd2}>
-                        <Flex direction="column" align="center" p="20px">
-                            <Flex>
-                                <Flex direction="column" align="center" mx="10px">
-                                    <Text fontFamily="sans-serif" fontWeight="bold" fontSize={[20, 30, 32, 38]}>Elegir dia</Text>
+                {pag === 1 ?
+                    <Flex justify="center">
+                        <Card w="auto" boxShadow={asd2}>
+                            <Flex direction="column" align="center" p="20px">
+                                <Flex>
+                                    <Flex direction="column" align="center" mx="10px">
+                                        <Text fontFamily="sans-serif" fontWeight="bold" fontSize={[20, 30, 32, 38]}>Elegir dia</Text>
+                                        <DatePicker className="datepicker" selected={fecha} onChange={(date) => setFecha(date)} dateFormat="dd/MM/yyyy" locale={es} />
+                                    </Flex>
+                                </Flex>
+                                <Divider orientation="horizontal" my="20px" borderWidth="2px" />
+                                <Flex>
+                                    <Flex direction="column" mx="10px">
+                                        <Text fontFamily="sans-serif" fontWeight="bold" fontSize={[20, 30, 32, 38]}>Elegir primera opcion</Text>
+                                        <Select placeholder='Seleccionar opcion' id="opcion1" onChange={(e) => handle(e)} w={[150, 250, 350, 450]}>
+                                            {data.map(opciones => (
+                                                <option key={opciones.id}>{opciones.comidas}</option>
+                                            ))}
+                                        </Select>
+                                    </Flex>
+                                    <Flex direction="column" mx="10px">
+                                        <Text fontFamily="sans-serif" fontWeight="bold" fontSize={[20, 30, 32, 38]}>Elegir segunda opcion</Text>
+                                        <Select placeholder='Seleccionar opcion' id="opcion2" onChange={(e) => handle(e)} w={[150, 250, 350, 450]}>
+                                            {data.map(opciones => (
+                                                <option key={opciones.id}>{opciones.comidas}</option>
+                                            ))}
+                                        </Select>
+                                    </Flex>
+                                </Flex>
+                                <Button colorScheme="blue" size="lg" onClick={() => cargarDiaMes()} mt="20px">Guardar</Button>
+                            </Flex>
+                        </Card>
+                    </Flex>
+                    : null}
+                {pag === 2 ?
+                    <Flex justify="center">
+                        <Card w="auto" boxShadow={asd2}>
+                            <Flex direction="column" align="center" p="20px">
+                                <Flex>
+                                    <Flex direction="column" mx="10px" align="center">
+                                        <Text fontFamily="sans-serif" fontWeight="bold" fontSize={[20, 30, 32, 38]}>Elegir mes y año</Text>
+                                        <DatePicker className="datepicker" selected={fecha} onChange={(date) => setFecha(date)} dateFormat="MM/yyyy" showMonthYearPicker locale={es} />
+                                    </Flex>
+
+                                </Flex>
+                                <Divider orientation="horizontal" my="20px" borderWidth="2px" />
+                                <Flex direction="row" wrap="wrap">
+                                    <Button colorScheme="blue" size="lg" onClick={() => habilitarMes()} mt="5px" mr="20px">Habilitar</Button>
+                                    <Button colorScheme="red" size="lg" onClick={() => deshabilitarMes()} mt="5px">Deshabilitar</Button>
+                                </Flex>
+                            </Flex>
+                        </Card>
+                    </Flex>
+                    : null}
+                {pag === 3 ?
+                    <Flex justify="center">
+                        <Card w="50%" boxShadow={asd2}>
+                            <Flex direction="column" align="center">
+                                <CardHeader>
+                                    <Heading fontSize={[20, 30, 32, 38]}>Ingresar comida</Heading>
+                                </CardHeader>
+                                <CardBody w="100%">
+                                    <Stack divider={<StackDivider />} spacing='4'>
+                                        <Box>
+                                            <Textarea w="100%" id="comidaAdd" onChange={e => setComidaAdd(e.target.value)}></Textarea>
+                                        </Box>
+                                        <Box align="center">
+                                            <Button colorScheme="blue" size="lg" onClick={cargarComida}>Guardar cambios</Button>
+                                        </Box>
+                                    </Stack>
+                                </CardBody>
+                            </Flex>
+                        </Card>
+                    </Flex>
+                    : null}
+                {pag === 4 ?
+                    <Flex justify="center">
+                        <Card w="auto" boxShadow={asd2}>
+                            <Flex direction="column" align="center" p="20px">
+                                <Flex direction="column" mx="10px" align="center">
+                                    <Text fontFamily="sans-serif" fontWeight="bold" fontSize={[20, 30, 32, 38]}>Elegir dia a borrar</Text>
+                                    <DatePicker className="datepicker" selected={fecha} onChange={(date) => setFecha(date)} dateFormat="dd/MM/yyyy" locale={es} />
+                                </Flex>
+                                <Divider orientation="horizontal" my="20px" borderWidth="2px" />
+                                <Button colorScheme="red" size="lg" onClick={() => borrarComidaDiaMes()} mt="5px">Borrar</Button>
+                            </Flex>
+                        </Card>
+                    </Flex>
+                    : null}
+                {pag === 5 ?
+                    <Flex justify="center">
+                        <Card w="auto" boxShadow={asd2}>
+                            <Flex direction="column" align="center" p="20px">
+                                <Flex direction="column" mx="10px" align="center">
+                                    <Text fontFamily="sans-serif" fontWeight="bold" fontSize={[20, 30, 32, 38]}>Elegir mes a borrar</Text>
+                                    <DatePicker className="datepicker" selected={fecha} onChange={(date) => setFecha(date)} dateFormat="MM/yyyy" showMonthYearPicker locale={es} />
+                                </Flex>
+                                <Divider orientation="horizontal" my="20px" borderWidth="2px" />
+                                <Button colorScheme="red" size="lg" onClick={() => borrarComidaMes()} mt="5px">Borrar</Button>
+                            </Flex>
+                        </Card>
+                    </Flex>
+                    : null}
+                <Heading fontSize={[25, 35, 45, 60]} my="3%" ml="7%">Ver comidas del mes</Heading>
+                <Flex justify="center" wrap="wrap" mb="2%">
+                    <Box minW="50%">
+                        <Card mt="15px" boxShadow={asd2}>
+                            <CardHeader fontFamily="sans-serif" fontWeight="bold" fontSize={[20, 30, 32, 38]}>Menu por dia - mes</CardHeader>
+                            <Flex justify="center" mb="2%">
+                                <Flex w="40%">
                                     <DatePicker className="datepicker" selected={fecha} onChange={(date) => setFecha(date)} dateFormat="dd/MM/yyyy" locale={es} />
                                 </Flex>
                             </Flex>
-                            <Divider orientation="horizontal" my="20px" borderWidth="2px" />
-                            <Flex>
-                                <Flex direction="column" mx="10px">
-                                    <Text fontFamily="sans-serif" fontWeight="bold" fontSize={[20, 30, 32, 38]}>Elegir primera opcion</Text>
-                                    <Select placeholder='Seleccionar opcion' id="opcion1" onChange={(e) => handle(e)} w={[150, 250, 350, 450]}>
-                                        {data.map(opciones => (
-                                            <option key={opciones.id}>{opciones.comidas}</option>
-                                        ))}
-                                    </Select>
-                                </Flex>
-                                <Flex direction="column" mx="10px">
-                                    <Text fontFamily="sans-serif" fontWeight="bold" fontSize={[20, 30, 32, 38]}>Elegir segunda opcion</Text>
-                                    <Select placeholder='Seleccionar opcion' id="opcion2" onChange={(e) => handle(e)} w={[150, 250, 350, 450]}>
-                                        {data.map(opciones => (
-                                            <option key={opciones.id}>{opciones.comidas}</option>
-                                        ))}
-                                    </Select>
-                                </Flex>
-                            </Flex>
-                            <Button colorScheme="blue" size="lg" onClick={() => cargarDiaMes()} mt="20px">Guardar</Button>
-                        </Flex>
-                    </Card>
-                </Flex>
-            }
-            {pag === 2 &&
-                <Flex justify="center">
-                    <Card w="auto" boxShadow={asd2}>
-                        <Flex direction="column" align="center" p="20px">
-                            <Flex>
-                                <Flex direction="column" mx="10px" align="center">
-                                    <Text fontFamily="sans-serif" fontWeight="bold" fontSize={[20, 30, 32, 38]}>Elegir mes y año</Text>
-                                    <DatePicker className="datepicker" selected={fecha} onChange={(date) => setFecha(date)} dateFormat="MM/yyyy" showMonthYearPicker locale={es} />
-                                </Flex>
-
-                            </Flex>
-                            <Divider orientation="horizontal" my="20px" borderWidth="2px" />
-                            <Flex direction="row" wrap="wrap">
-                                <Button colorScheme="blue" size="lg" onClick={() => habilitarMes()} mt="5px" mr="20px">Habilitar</Button>
-                                <Button colorScheme="red" size="lg" onClick={() => deshabilitarMes()} mt="5px">Deshabilitar</Button>
-                            </Flex>
-                        </Flex>
-                    </Card>
-                </Flex>
-            }
-            {pag === 3 &&
-
-                <Flex justify="center">
-                    <Card w="auto" boxShadow={asd2}>
-                        <Flex direction="column" align="center" p="20px">
-                            <Flex direction="column" mx="10px" align="center">
-                                <Text fontFamily="sans-serif" fontWeight="bold" fontSize={[20, 30, 32, 38]}>Elegir dia a borrar</Text>
-                                <DatePicker className="datepicker" selected={fecha} onChange={(date) => setFecha(date)} dateFormat="dd/MM/yyyy" locale={es} />
-                            </Flex>
-                            <Divider orientation="horizontal" my="20px" borderWidth="2px" />
-                            <Button colorScheme="red" size="lg" onClick={() => cargarDiaMes()} mt="5px">Borrar</Button>
-                        </Flex>
-                    </Card>
-                </Flex>
-            }
-            {pag === 4 &&
-                <Flex justify="center">
-                    <Card w="50%" boxShadow={asd2}>
-                        <Flex direction="column" align="center">
-                            <CardHeader>
-                                <Heading fontSize={[20, 30, 32, 38]}>Ingresar comida</Heading>
-                            </CardHeader>
-                            <CardBody w="100%">
-                                <Stack divider={<StackDivider />} spacing='4'>
-                                    <Box>
-                                        <Textarea w="100%" id="comidaAdd" onChange={e => setComidaAdd(e.target.value)}></Textarea>
-                                    </Box>
-                                    <Box align="center">
-                                        <Button colorScheme="blue" size="lg" onClick={cargarComida}>Guardar cambios</Button>
-                                    </Box>
-                                </Stack>
-                            </CardBody>
-                        </Flex>
-                    </Card>
-                </Flex>
-            }
-            {pag === 5 &&
-                <Flex justify="center">
-                    <Card w="50%" boxShadow={asd2}>
-                        <Flex direction="column" align="center">
-                            <CardHeader>
-                                <Heading fontSize={[20, 30, 32, 38]}>Eliminar mes guardado</Heading>
-                            </CardHeader>
-                            <CardBody w="100%">
-                                <Stack divider={<StackDivider />} spacing='4'>
-                                    <Box>
-                                        <Textarea w="100%" id="comidaAdd" onChange={e => setComidaAdd(e.target.value)}></Textarea>
-                                    </Box>
-                                    <Box align="center">
-                                        <Button colorScheme="blue" size="lg" onClick={cargarComida}>Guardar cambios</Button>
-                                    </Box>
-                                </Stack>
-                            </CardBody>
-                        </Flex>
-                    </Card>
-                </Flex>
-            }
-            <Heading fontSize={[25, 35, 45, 60]} my="3%" ml="7%">Ver comidas del mes</Heading>
-            <Flex justify="center" wrap="wrap">
-                <Box minW="50%">
-                    <Card mt="15px" boxShadow={asd2}>
-                        <CardHeader fontFamily="sans-serif" fontWeight="bold" fontSize={[20, 30, 32, 38]}>Menu por dia - mes</CardHeader>
-                        <Flex justify="center" mb="2%">
-                            <Flex w="40%">
-                                <DatePicker className="datepicker" selected={fecha} onChange={(date) => setFecha(date)} dateFormat="dd/MM/yyyy" locale={es} />
-                            </Flex>
-                        </Flex>
-                        <Button colorScheme="blue" size="lg" onClick={() => buscarComida()} >Buscar</Button>
-                        <TableContainer>
-                            <Table variant='striped' colorScheme='blue'>
-                                <Thead>
-                                    <Tr>
-                                        <Th>Fecha</Th>
-                                        <Th>Usuario</Th>
-                                        <Th>Menu</Th>
-                                        <Th>Nota</Th>
-                                        <Th>Borrar</Th>
-                                    </Tr>
-                                </Thead>
-                                <Tbody>
-                                    {data2.map(comDia => (
+                            <Button colorScheme="blue" size="lg" onClick={() => buscarComida()} >Buscar</Button>
+                            <TableContainer>
+                                <Table variant='striped' colorScheme='blue'>
+                                    <Thead>
                                         <Tr>
-                                            <Td>{comDia.dia}/{comDia.mes}/{comDia.año}</Td>
-                                            <Td key={comDia.id}>{comDia.nombre}</Td>
-                                            <Td>{comDia.opcion}</Td>
-                                            <Td>{comDia.nota}</Td>
-                                            <Td><Button colorScheme="red" size="sm" onClick={()=>seleccionarComida(comDia)}><DeleteIcon></DeleteIcon></Button></Td>
+                                            <Th>Fecha</Th>
+                                            <Th>Usuario</Th>
+                                            <Th>Menu</Th>
+                                            <Th>Nota</Th>
+                                            <Th>Borrar</Th>
                                         </Tr>
-                                    ))}
-                                </Tbody>
-                                <TableCaption>
-                                    {data3.map(cant => (
-                                        <>
-                                            <Flex justify="center">
-                                                <Text fontWeight="bold" color={cantColores} p="5px" borderRadius="7px">{cant.opcion}</Text>
-                                                <Text p="5px" borderRadius="7px">Cantidad: {cant.cantidad}</Text>
-                                            </Flex>
-                                        </>
-                                    ))}
-                                </TableCaption>
-                            </Table>
-                        </TableContainer>
-                    </Card>
-                </Box>
-            </Flex>
+                                    </Thead>
+                                    <Tbody>
+                                        {data2.map(comDia => (
+                                            <Tr>
+                                                <Td>{comDia.dia}/{comDia.mes}/{comDia.año}</Td>
+                                                <Td key={comDia.id}>{comDia.nombre}</Td>
+                                                <Td>{comDia.opcion}</Td>
+                                                <Td>{comDia.nota}</Td>
+                                                <Td><Button colorScheme="red" size="sm" onClick={() => seleccionarComida(comDia)}><DeleteIcon></DeleteIcon></Button></Td>
+                                            </Tr>
+                                        ))}
+                                    </Tbody>
+                                    <TableCaption>
+                                        {data3.map(cant => (
+                                            <>
+                                                <Flex justify="center">
+                                                    <Text fontWeight="bold" color={cantColores} p="5px" borderRadius="7px">{cant.opcion}</Text>
+                                                    <Text p="5px" borderRadius="7px">Cantidad: {cant.cantidad}</Text>
+                                                </Flex>
+                                            </>
+                                        ))}
+                                    </TableCaption>
+                                </Table>
+                            </TableContainer>
+                        </Card>
+                    </Box>
+                </Flex>
+            </Box>
 
             <Footer />
+
+
+
             <Modal isOpen={isOpenBorrar} onClose={onCloseBorrar}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Borrar usuario</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <FormLabel>Estas seguro que deseas borrar la comida?</FormLabel>
-          </ModalBody>
-          <ModalFooter>
-            <Button colorScheme='red' mr={3} onClick={() => borrarComidaUserSelec()}>Borrar usuario</Button>
-            <Button onClick={onCloseBorrar}>Cancelar</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-
-
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Borrar usuario</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        <FormLabel>Estas seguro que deseas borrar la comida?</FormLabel>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button colorScheme='red' mr={3} onClick={() => borrarComidaUserSelec()}>Borrar usuario</Button>
+                        <Button onClick={onCloseBorrar}>Cancelar</Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
         </>
     )
 }

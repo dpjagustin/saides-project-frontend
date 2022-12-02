@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import Modal from "../components/Solicitudes/Modal";
-import { Flex, Button, Heading, Card, CardHeader, Divider, CardBody, Stack, StackDivider, Box, Select, Input, useColorModeValue, useToast } from "@chakra-ui/react";
+import { Flex, Button, Heading, Card, CardHeader, Divider, CardBody, Stack, StackDivider, Box, Select, Input, useColorModeValue, useToast, Text } from "@chakra-ui/react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"
 import es from "date-fns/locale/es";
@@ -10,10 +10,13 @@ import axios from "axios";
 
 export default function Solicitudes() {
   const urlEnvSolPerm="http://localhost:8000/api/crearSolicitud"
+  const urlTraerSolPerm="http://localhost:8000/api/findSolicitudNombre"
   const [estadoModal1, cambiarEstadoModal1] = useState(false);
   const [estadoModal2, cambiarEstadoModal2] = useState(false);
   const [estadoModal3, cambiarEstadoModal3] = useState(false);
-  const [pag, setPag]=useState(0)
+  const [histPerm, setHistPerm]=useState([])
+  const [actualizar, setActualizar]=useState(0)
+  const [pag, setPag]=useState(1)
   const toast = useToast()
   const [fecha, setFecha] = useState(new Date())
   const [fecha2, setFecha2] = useState(new Date())
@@ -54,18 +57,28 @@ export default function Solicitudes() {
         setApellido(content.apellido)
       }
     )();
-  }, []);
-
-  /////////CONSTANTE QUE ARMA EL NOMBRE COMPLETO///////////
+  }, );
+   /////////CONSTANTE QUE ARMA EL NOMBRE COMPLETO///////////
   const nombrecompleto = nombre + " " + apellido
-
-
-
+  /////////////TRAE EL HISTORIAL DE LAS SOLICITUDES DEL USUARIO////////////
+  const traerHistPerm= async ()=>{
+    await axios.post(urlTraerSolPerm,{
+      nombre:nombrecompleto
+    }).then((res)=>{
+      setHistPerm(res.data)
+    })
+  }
+  useEffect(() => {
+    traerHistPerm();
+  },[nombre])
+  
+  /////////////////HANDLE DE ENVIO DE SOLICITUD//////////////////////
   function handle(e) {
     const solPerm = { ...solicitudPermiso }
     solPerm[e.target.id] = e.target.value
     setSolicitudPermiso(solPerm)
   }
+  ////////////////ENVIA LA SOLICITUD DE PERM//////////////////
 
   const enviarSolPerm = async()=>{
     await axios.post(urlEnvSolPerm,{
@@ -76,8 +89,8 @@ export default function Solicitudes() {
       DoH:solicitudPermiso.DoH,
       cantDoH:solicitudPermiso.cantDoH,
       inicia:fecha,
-      finaliza:solicitudPermiso.finaliza,
-      vuelve:solicitudPermiso.vuelve,
+      finaliza:fecha2,
+      vuelve:fecha3,
       importante:solicitudPermiso.importante,
       propuesta:solicitudPermiso.propuesta,
       documentacion:solicitudPermiso.documentacion,
@@ -90,6 +103,16 @@ export default function Solicitudes() {
         duration: 2000,
         isClosable: true,
       })
+      document.getElementById("motivo").value=""
+      document.getElementById("notaM").value=""
+      document.getElementById("detalle").value=""
+      document.getElementById("DoH").value=""
+      document.getElementById("cantDoH").value=""
+      document.getElementById("importante").value=""
+      document.getElementById("propuesta").value=""
+      document.getElementById("documentacion").value=""
+      document.getElementById("notaD").value=""
+      setActualizar(actualizar+1)
     }).catch((error)=>{
       toast({
         title: "Error. Intente nuevamente.",
@@ -101,6 +124,7 @@ export default function Solicitudes() {
     })
   }
 
+  ///////////////CAMBIO DE PAGINAS//////////////
   const handlePag = () => {
     setPag(1)
   }
@@ -108,17 +132,16 @@ export default function Solicitudes() {
     setPag(2)
   }
 
-  console.log(solicitudPermiso)
-
   return(
     <>
       <NavBar /> 
       <Heading fontSize={[25, 35, 45, 60]} my="2%" ml="7%">Solicitudes</Heading>
+      <Box minH="100vh">
       <Flex ml="10%" wrap="wrap">
         <Button borderRadius="20px" value="1" id="sida" onClick={handlePag} mr="1%">Cargar solicitud permiso</Button>
         <Button borderRadius="20px" onClick={handlePag2} >Ver historial de solicitudes</Button>
       </Flex>
-      {pag===1&&
+      {pag===1?
       <Flex justify="center">
       <Card my="30px" w="35%" boxShadow={asd2}>
                 <CardHeader>
@@ -178,14 +201,14 @@ export default function Solicitudes() {
                       <Heading size='lg'>
                         Finaliza
                       </Heading>
-                      <DatePicker className="datepicker" selected={fecha2} onChange={(date) => setFecha2(date)} dateFormat="dd/MM/yyyy" showTimeSelect timeIntervals={10} locale={es} />
+                      <DatePicker className="datepicker" selected={fecha2} onChange={(date2) => setFecha2(date2)} dateFormat="dd/MM/yyyy" showTimeSelect timeIntervals={10} locale={es} />
                     </Box>
                     {/* //// */}
                     <Box>
                       <Heading size='lg'>
                         Regresa al puesto de trabajo
                       </Heading>
-                      <DatePicker className="datepicker" selected={fecha3} onChange={(date) => setFecha3(date)} dateFormat="dd/MM/yyyy" showTimeSelect timeIntervals={10} locale={es} />
+                      <DatePicker className="datepicker" selected={fecha3} onChange={(date3) => setFecha3(date3)} dateFormat="dd/MM/yyyy" showTimeSelect timeIntervals={10} locale={es} />
                     </Box>
                     {/* //// */}
                     <Box>
@@ -229,10 +252,132 @@ export default function Solicitudes() {
                 </CardBody>
               </Card>
               </Flex>
+      :null}
+      {pag===2?
+        <>
+       <Heading textAlign="center" my="1%">Historial de solicitudes</Heading>
+       <Flex justify="center">
+        <Flex justify="space-around" w="60%" >
+          {histPerm.map(perm=>(
+            <Card w="40%">
+              <CardBody>
+              <Stack divider={<StackDivider />} spacing='4'>
+                {perm.estado==="Pendiente"?
+                <Box bg={"yellow.400"} borderRadius="10px">
+                  <Heading size="lg" textAlign="center">{perm.estado}</Heading>
+                </Box>
+              :null}
+              {perm.estado==="Rechazado"?
+                <Box bg={"red.400"} borderRadius="10px">
+                  <Heading size="lg" textAlign="center">{perm.estado}</Heading>
+                </Box>
+              :null}
+              {perm.estado==="Aprovado"?
+                <Box bg={"green.400"} borderRadius="10px">
+                  <Heading size="lg" textAlign="center">{perm.estado}</Heading>
+                </Box>
+              :null}
+              
+                {/*  */}
+                <Box>
+                  <Heading size='lg'>
+                    Motivo
+                  </Heading>
+                  <Text>{perm.motivo}</Text>
+                </Box>
+                {/*  */}
+                {perm.notaM.length!==0 ?
+                <Box>
+                <Heading size='lg'>
+                  Nota del motivo
+                </Heading>
+                <Text>{perm.notaM}</Text>
+              </Box>
+              :null}
+              {/*  */}
+              <Box>
+                  <Heading size='lg'>
+                    Detalle específico del motivo
+                  </Heading>
+                  <Text>{perm.detalle}</Text>
+                </Box>
+                {/*  */}
+                <Box>
+                  <Heading size='lg'>
+                    Dias u horas
+                  </Heading>
+                  <Text>{perm.DoH}</Text>
+                </Box>
+                {/*  */}
+                <Box>
+                  <Heading size='lg'>
+                    Cantidad dias u horas
+                  </Heading>
+                  <Text>{perm.cantDoH}</Text>
+                </Box>
+                {/*  */}
+                <Box>
+                  <Heading size='lg'>
+                    Inicia
+                  </Heading>
+                  <Text>{perm.inicia}</Text>
+                </Box>
+                {/*  */}
+                <Box>
+                  <Heading size='lg'>
+                  Finaliza
+                  </Heading>
+                  <Text>{perm.finaliza}</Text>
+                </Box>
+                {/*  */}
+                <Box>
+                  <Heading size='lg'>
+                    Regresa al puesto de trabajo
+                  </Heading>
+                  <Text>{perm.vuelve}</Text>
+                </Box>
+                {/*  */}
+                <Box>
+                  <Heading size='md'>
+                    Reuniones, cursos o eventos importantes
+                  </Heading>
+                  <Text>{perm.importante}</Text>
+                </Box>
+                {/*  */}
+                <Box>
+                  <Heading size='lg'>
+                    Propuesta de compensación
+                  </Heading>
+                  <Text>{perm.propuesta}</Text>
+                </Box>
+                {/*  */}
+                <Box>
+                  <Heading size='lg'>
+                    Documentacion de respaldo
+                  </Heading>
+                  <Text>{perm.documentacion}</Text>
+                </Box>
+                {/*  */}
+                {perm.notaD.length!==0 ?
+                <Box>
+                <Heading size='lg'>
+                  Nota de la documentacion
+                </Heading>
+                <Text>{perm.notaD}</Text>
+              </Box>
+              :null}
+                </Stack>
+              </CardBody>
+            </Card>
 
-      }
+          ))}
+        
+        </Flex>
+        </Flex>
+        </>
+      :null}
       
-      <Flex w="100%" minH="67vh" justify="space-between">
+      {/* <Flex w="100%" minH="67vh" justify="space-between">
 
         <Flex w="50%" justify="center" alignItems="center">
           <div>
@@ -249,10 +394,10 @@ export default function Solicitudes() {
               </Flex>
             
               <Button display="block" p="10px 30px" borderRadius="100px" color="#fff" border="none" onClick={() => cambiarEstadoModal3(!estadoModal3)}>Solicitud de permiso</Button>
-            </Flex>
+            </Flex> */}
 
             {/* Modal 1  */}
-            <Modal 
+            {/* <Modal 
               estado = {estadoModal1}
               cambiarEstado = {cambiarEstadoModal1} 
               titulo = "Propuesta de formación"
@@ -260,10 +405,10 @@ export default function Solicitudes() {
               <Flex>
                 <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdVpG8vqpveNyqSAzagyjO0VF9ehhmbcaP8lfr1AuFTr71hEQ/viewform?embedded=true" width="600" height="700" frameborder="0" marginheight="0" marginwidth="0">Cargando…</iframe>
               </Flex>
-            </Modal>
+            </Modal> */}
 
             {/* Modal 2 */}
-            <Modal 
+            {/* <Modal 
               estado = {estadoModal2}
               cambiarEstado = {cambiarEstadoModal2} 
               titulo = "Reconocimientos"
@@ -271,10 +416,10 @@ export default function Solicitudes() {
               <Flex>
                 <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdW-21Qz8XgTiDejBGCMF7BfPxJwEJnQLN24soIAlUCiXZXhQ/viewform?embedded=true" width="600" height="700" frameborder="0" marginheight="0" marginwidth="0">Cargando…</iframe>
               </Flex>
-            </Modal>
+            </Modal> */}
 
             {/* Modal 3 */}
-            <Modal 
+            {/* <Modal 
               estado = {estadoModal3}
               cambiarEstado = {cambiarEstadoModal3} 
               titulo = "Solicitud de permiso"
@@ -284,13 +429,13 @@ export default function Solicitudes() {
               </Flex>
             </Modal>      
           </div>
-        </Flex>
+        </Flex> */}
         
         {/* <Flex w="50%" justify="center" alignItems="center">        
           <iframe loading="lazy" src="https://www.canva.com/design/DAFLj4ommIg/watch?embed" width={560} height={315}></iframe>
         </Flex> */}
-      </Flex>
-
+      {/* </Flex> */}
+      </Box>
       <Footer />
 
     </>

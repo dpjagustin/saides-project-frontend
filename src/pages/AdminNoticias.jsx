@@ -17,7 +17,9 @@ import {
   FormLabel,
   Textarea,
   ModalContent,
-  useColorModeValue
+  useColorModeValue,
+  useToast,
+  Image
 } from '@chakra-ui/react';
 import { EditIcon, DeleteIcon, InfoIcon } from "@chakra-ui/icons";
 import axios from "axios";
@@ -25,6 +27,9 @@ import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css"
+import es from "date-fns/locale/es";
 function cambiarColoresShadow() {
     let colorMode = localStorage.getItem("chakra-ui-color-mode")
     let coloresShadow = ""
@@ -35,12 +40,16 @@ function cambiarColoresShadow() {
     }
     return coloresShadow
   }
-  const urldelete = "http://localhost:8000/api/deleteNoticia"
-  const urlmodificar = "http://localhost:8000/api/updateNoticia"
-  const urlauth="http://localhost:8000/api/authUser"
+
+ 
 
 
 function AdminNoticias(){
+  const urlCrearNoticia="http://localhost:8000/api/addNoticia"
+  const urlDeleteNoticia = "http://localhost:8000/api/deleteNoticia"
+  const urlModificarNoticia = "http://localhost:8000/api/updateNoticia"
+  const urlTraerNoticias="http://localhost:8000/api/FindNoticias"
+  const urlauth="http://localhost:8000/api/authUser"
   const [data, setData] = useState([])
   const [actualizar, setActualizar] = useState(0)
   const [novAdd, setNovAdd] = useState({
@@ -63,6 +72,8 @@ function AdminNoticias(){
   const [rol, setRol]=useState("");
   const navigate = useNavigate();
   const asd3 =useColorModeValue("2xl", "0px 3px 13px 2px rgba(139, 193, 255, 0.2)")
+  const toast= useToast()
+  const [fecha, setFecha] = useState(new Date())
 
   ///////// CAPTURA LO QUE LOS USUARIOS ESCRIBEN EN LOS INPUTS/////////////////
 
@@ -99,51 +110,60 @@ function AdminNoticias(){
   ///////////// TRAE LAS NOTICIAS///////////////
 
   useEffect(() => {
-    (
-      async () => {
-        const response = await fetch("http://localhost:8000/api/FindNoticias", {
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-        });
-
-        const content = await response.json();
-        setData(content)
-      }
-    )();
+    const traerNoticias = async()=>{
+      await axios.get(urlTraerNoticias)
+      .then((res)=>{
+        setData(res.data)
+      })
+    }
+    return traerNoticias
   }, [actualizar]);
 
   //////////////CREAR NOTICIA//////////////
-  const crearNoticia = async (e) => {
-    e.preventDefault();
-    await fetch("http://localhost:8000/api/addNoticia", {
-      method: "POST",
-      headers: { "Content-type": "application/json" },
-      credentials: "include",
-      body: JSON.stringify({
-        fecha: novAdd.fecha,
+  const crearNoticia = async ()=>{
+    await axios.post(urlCrearNoticia,{
+      fecha: fechaCompleta,
         titulo: novAdd.titulo,
         subtitulo: novAdd.subtitulo,
         item1: novAdd.item1,
         item2: novAdd.item2,
         item3: novAdd.item3,
-      })
-    });
-    setActualizar(actualizar + 1)
-    onCloseCrear();
+        imagen: novAdd.imagen
+    })
+    .then((res)=>{
+      toast({
+        title: "Noticia creada correctamente",
+        status: "success",
+        position: "top",
+        duration: 2000,
+        isClosable: true,
+    })
+    setActualizar(actualizar+1)
+    onCloseCrear()
     setNovAdd([0])
-  }
+    }).catch((err)=>{
+      toast({
+        title: "Error. Intente nuevamente.",
+        status: "error",
+        position: "top",
+        duration: 2000,
+        isClosable: true,
+    })
 
+    })
+  }
   /////////////// MODIFICAR NOTICIA/////////////
 
   const peticionPut = async () => {
-    await axios.put(urlmodificar, {
+    await axios.put(urlModificarNoticia, {
       id: novSeleccionada.id,
       fecha: novSeleccionada.fecha,
       titulo: novSeleccionada.titulo,
       subtitulo: novSeleccionada.subtitulo,
       item1: novSeleccionada.item1,
       item2: novSeleccionada.item2,
-      item3: novSeleccionada.item3
+      item3: novSeleccionada.item3,
+      imagen: novSeleccionada.imagen
     })
       .then((response) => {
         setActualizar(actualizar + 1)
@@ -156,7 +176,7 @@ function AdminNoticias(){
   ////////////////BORRAR NOTICIA///////////////
 
   const peticionDelete = async () => {
-    await axios.post(urldelete, {
+    await axios.post(urlDeleteNoticia, {
       id: novSeleccionada.id
     })
       .then(response => {
@@ -182,16 +202,24 @@ function AdminNoticias(){
   const { isOpen: isOpenEditar, onOpen: onOpenEditar, onClose: onCloseEditar } = useDisclosure()
   const { isOpen: isOpenBorrar, onOpen: onOpenBorrar, onClose: onCloseBorrar } = useDisclosure()
   const initialRef = React.useRef(null)
+  //////////////DEVUELVE LA FECHA DE SELECCIONADOR DE FECHAS///////////////
+  const formatDia = fecha.getDate()
+  const formatMes = fecha.getMonth() + 1
+  const formatAño = fecha.getFullYear()
+  const fechaCompleta=formatDia+"/"+formatMes+"/"+formatAño
+  /////////////////////////////////////////////////////////
+
   
     return(
         <>
         <NavBar/>
+        <Box minH="100vh">
         <Box>
           <Heading fontSize="70px" my="50px" ml="100px">Noticias</Heading>
         <Flex justify="end" mr="100px">
-          <Button size="lg" ml="10%" onClick={onOpenCrear} boxShadow={asd3}>Crear usuario</Button>
+          <Button size="lg" ml="10%" onClick={onOpenCrear} boxShadow={asd3}>Crear noticia</Button>
         </Flex>
-        {data.length === 0 &&
+        {data.length === 0 ?
           <Box textAlign="center" py={10} px={6}>
           <InfoIcon boxSize={'50px'} color={'blue.300'} />
           <Heading as="h2" size="xl" mt={6} mb={2}>
@@ -201,7 +229,7 @@ function AdminNoticias(){
             Para crear una noticia presione en crear noticia.
           </Text>
         </Box>
-        }
+        :null}
         <Flex wrap="wrap" w="90%" justify="center">
           {data.map(nov => (
             <Box p='5' borderWidth='1px' rounded='md' key={nov.id} boxShadow={cambiarColoresShadow()} minW="300px" minHeight="200px" m="30px">
@@ -215,6 +243,7 @@ function AdminNoticias(){
               <Text>•{nov.item1}<br /></Text>
               <Text>•{nov.item2}<br /></Text>
               <Text>•{nov.item3}<br /></Text>
+              <Box><Image src={nov.imagen} w="100px"></Image></Box>
               <Box >
                 <Button onClick={() => seleccionarNov(nov, "Editar")} mx="5px"><EditIcon /></Button>
                 <Button mx="5px" onClick={() => seleccionarNov(nov, "Eliminar")}><DeleteIcon /></Button>
@@ -226,12 +255,14 @@ function AdminNoticias(){
 
 
       </Box>
-      {/* ----------------------------------------------------*/}
+      
+      </Box>
+        <Footer/>
+        {/* ----------------------------------------------------*/}
       {/* ------------------------- MODALES ------------------*/}
       {/* ----------------------------------------------------*/}
 
       <Modal isOpen={isOpenCrear} onClose={onCloseCrear}>
-        <form onSubmit={crearNoticia}>
           <ModalOverlay />
           <ModalContent>
             <ModalHeader>Crear novedad</ModalHeader>
@@ -239,7 +270,7 @@ function AdminNoticias(){
             <ModalBody pb={6} >
               <FormControl>
                 <FormLabel>Fecha</FormLabel>
-                <Input id="fecha" onChange={(e) => handle(e)} value={novAdd.fecha} ref={initialRef} placeholder='Fecha' />
+                <DatePicker className="datepicker" selected={fecha} onChange={(date) => setFecha(date)} dateFormat="dd/MM/yyyy" locale={es} />
               </FormControl>
               <FormControl>
                 <FormLabel>Titulo</FormLabel>
@@ -261,16 +292,19 @@ function AdminNoticias(){
                 <FormLabel>Item 3</FormLabel>
                 <Textarea id="item3" onChange={(e) => handle(e)} value={novAdd.item3} placeholder='Item 3'></Textarea>
               </FormControl>
+              <FormControl mt={4}>
+                <FormLabel>Imagen</FormLabel>
+                <Input id="imagen" onChange={(e) => handle(e)} value={novAdd.imagen} placeholder='Imagen'></Input>
+              </FormControl>
             </ModalBody>
 
             <ModalFooter>
-              <Button colorScheme='blue' mr={3} type="submit">
+              <Button colorScheme='blue' mr={3} onClick={crearNoticia}>
                 Crear novedad
               </Button>
               <Button onClick={onCloseCrear}>Cancelar</Button>
             </ModalFooter>
           </ModalContent>
-        </form>
       </Modal>
 
       <Modal isOpen={isOpenEditar} onClose={onCloseEditar}>
@@ -281,7 +315,7 @@ function AdminNoticias(){
           <ModalBody pb={6}>
             <FormControl>
               <FormLabel>Fecha</FormLabel>
-              <Input name="fecha" onChange={handleChange} value={novSeleccionada && novSeleccionada.fecha} />
+              <DatePicker className="datepicker" selected={fecha} onChange={(date) => setFecha(date)} dateFormat="dd/MM/yyyy" locale={es} />
             </FormControl>
             <FormControl>
               <FormLabel>Titulo</FormLabel>
@@ -304,6 +338,10 @@ function AdminNoticias(){
             <FormControl mt={4}>
               <FormLabel>Item 3</FormLabel>
               <Textarea name="item3" onChange={handleChange} value={novSeleccionada && novSeleccionada.item3}></Textarea>
+            </FormControl>
+            <FormControl mt={4}>
+              <FormLabel>Imagen</FormLabel>
+              <Input name="imagen" onChange={handleChange} value={novSeleccionada && novSeleccionada.imagen}></Input>
             </FormControl>
           </ModalBody>
 
@@ -329,8 +367,6 @@ function AdminNoticias(){
           </ModalFooter>
         </ModalContent>
       </Modal>
-            
-        <Footer/>
         </>
     )
 }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
-import { Box, Select, Button, Flex, Text, Input, Stack, Card, CardBody, CardHeader, StackDivider, Heading, useToast, Divider, useColorModeValue, TableContainer, Table, Tr, Th, Thead, Tbody, Td } from "@chakra-ui/react";
+import { Box, Select, Button, Flex, Input, Stack, Card, CardBody, CardHeader, StackDivider, Heading, useToast, Divider, useColorModeValue, TableContainer, Table, Tr, Th, Thead, Tbody, Td } from "@chakra-ui/react";
 import "../components/styles/comida.css"
 import axios from "axios";
 import DatePicker from "react-datepicker";

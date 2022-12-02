@@ -25,7 +25,8 @@ import {
   FormLabel,
   useToast,
   ModalContent,
-  HStack
+  HStack,
+  Box
 } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
 import { SiLinkedin } from 'react-icons/si';
@@ -169,6 +170,7 @@ export default function Usuarios() {
       {rol === 2 &&
         <Button size="lg" ml="10%" onClick={onOpenCrear} boxShadow={asd3}>Crear usuario</Button>
       }
+      <Box minH="100vh">
       <Flex justifyContent="center">
         <Flex justify="space-evenly" wrap="wrap" w="80%">
           {usuarios.map(user => (
@@ -231,6 +233,7 @@ export default function Usuarios() {
           ))}
         </Flex>
       </Flex>
+      </Box>
       <Footer />
 
 
