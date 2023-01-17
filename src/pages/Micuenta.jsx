@@ -126,7 +126,7 @@ export default function Micuenta() {
                     <FormControl id="descripcion" >
                         <FormLabel>Descripcion</FormLabel>
                         <HStack justify="space-between">
-                            <Box w="100%" padding="8px" borderRadius="8px" bg={useColorModeValue("gray.200", "gray.500")} fontFamily="revert" fontWeight="500" fontSize="16px">{userData.descripcion}</Box>
+                            <Box w="100%" padding="8px" borderRadius="8px" bg={useColorModeValue("gray.200", "gray.500")} fontFamily="revert" fontWeight="500" fontSize="16px" h="auto">{userData.descripcion}</Box>
                         </HStack>
                     </FormControl>
 

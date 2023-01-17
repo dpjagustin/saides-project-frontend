@@ -120,7 +120,7 @@ export default function NavBar() {
           })
       }
     )();
-  });
+  },[]);
 
 ///////////////CERRAR SESION////////////////
   const cerrarSesion = async () => {

@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import Modal from "../components/Solicitudes/Modal";
-import { Flex, Button, Heading, Card, CardHeader, Divider, CardBody, Stack, StackDivider, Box, Select, Input, useColorModeValue, useToast, Text } from "@chakra-ui/react";
+import { Flex, Button, Heading, Card, CardHeader, Divider, CardBody, Stack, StackDivider, Box, Select, Input, useColorModeValue, useToast, Text} from "@chakra-ui/react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"
 import es from "date-fns/locale/es";
@@ -23,6 +23,7 @@ export default function Solicitudes() {
   const [fecha3, setFecha3] = useState(new Date())
   const [nombre, setNombre] = useState("");
   const [apellido, setApellido] = useState("");
+  
   
   const [solicitudPermiso, setSolicitudPermiso]= useState({
     nombre:"",
@@ -77,6 +78,7 @@ export default function Solicitudes() {
     const solPerm = { ...solicitudPermiso }
     solPerm[e.target.id] = e.target.value
     setSolicitudPermiso(solPerm)
+    
   }
   ////////////////ENVIA LA SOLICITUD DE PERM//////////////////
 
@@ -104,14 +106,12 @@ export default function Solicitudes() {
         isClosable: true,
       })
       document.getElementById("motivo").value=""
-      document.getElementById("notaM").value=""
       document.getElementById("detalle").value=""
       document.getElementById("DoH").value=""
       document.getElementById("cantDoH").value=""
       document.getElementById("importante").value=""
       document.getElementById("propuesta").value=""
       document.getElementById("documentacion").value=""
-      document.getElementById("notaD").value=""
       setActualizar(actualizar+1)
     }).catch((error)=>{
       toast({
@@ -131,19 +131,28 @@ export default function Solicitudes() {
   const handlePag2 = () => {
     setPag(2)
   }
+  if(fecha2<fecha){
+    toast({
+      title: "Error. Ingrese correctamente las fechas",
+      status: "error",
+      position: "top",
+      duration: 2000,
+      isClosable: true,
+    })
+  }
 
   return(
     <>
       <NavBar /> 
       <Heading fontSize={[25, 35, 45, 60]} my="2%" ml="7%">Solicitudes</Heading>
       <Box minH="100vh">
-      <Flex ml="10%" wrap="wrap">
+      <Flex ml="10%" wrap="wrap" gap="10px">
         <Button borderRadius="20px" value="1" id="sida" onClick={handlePag} mr="1%">Cargar solicitud permiso</Button>
         <Button borderRadius="20px" onClick={handlePag2} >Ver historial de solicitudes</Button>
       </Flex>
       {pag===1?
-      <Flex justify="center">
-      <Card my="30px" w="35%" boxShadow={asd2}>
+      <Flex justify="center" w="100vw">
+      <Card my="30px" w={["90vw","70vw","60vw","50vw"]} boxShadow={asd2}>
                 <CardHeader>
                   <Heading size='xl'>Solicitud de permiso</Heading>
                 </CardHeader>
@@ -177,7 +186,7 @@ export default function Solicitudes() {
                       <Heading size='lg'>
                         Especifique si son días u horas
                       </Heading>
-                      <Select id="DoH" w="90%" placeholder='Elegir motivo' mx="20px" mt="10px" onChange={(e)=>handle(e)}>
+                      <Select id="DoH" w="90%" placeholder='Elegir opcion' mx="20px" mt="10px" onChange={(e)=>handle(e)}>
                             <option>Dias</option>
                             <option>Horas</option>
                       </Select>
@@ -187,7 +196,7 @@ export default function Solicitudes() {
                       <Heading size='lg'>
                         Indique la cantidad de dias/horas
                       </Heading>
-                      <Input id="cantDoH" w="90%" mx="20px" placeholder="cantidad de dias/horas" mt="10px" onChange={(e)=>handle(e)}></Input>
+                      <Input id="cantDoH" w="90%" mx="20px" placeholder="Cantidad de dias/horas" mt="10px" onChange={(e)=>handle(e)}></Input>
                     </Box>
                     {/* //// */}
                     <Box>
@@ -215,7 +224,7 @@ export default function Solicitudes() {
                       <Heading size='md'>
                         Hay reuniones, cursos o eventos importantes durante el tiempo que se encontrará fuera de la oficina?
                       </Heading>
-                      <Select id="importante" w="90%" placeholder='Elegir motivo' mx="20px" mt="10px" onChange={(e)=>handle(e)}>
+                      <Select id="importante" w="90%" placeholder='Elegir opcion' mx="20px" mt="10px" onChange={(e)=>handle(e)}>
                             <option>Si</option>
                             <option>No</option>
                       </Select>
@@ -232,7 +241,7 @@ export default function Solicitudes() {
                       <Heading size='lg'>
                         Documentacion de respaldo
                       </Heading>
-                      <Select id="documentacion" w="90%" placeholder='Elegir motivo' mx="20px" mt="10px" onChange={(e)=>handle(e)}>
+                      <Select id="documentacion" w="90%" placeholder='Elegir opcion' mx="20px" mt="10px" onChange={(e)=>handle(e)}>
                           {documentacion.map(mov=>(
                             <option>{mov}</option>
                           ))}
@@ -256,119 +265,130 @@ export default function Solicitudes() {
       {pag===2?
         <>
        <Heading textAlign="center" my="1%">Historial de solicitudes</Heading>
-       <Flex justify="center">
-        <Flex justify="space-around" w="60%" >
+       <Flex justify="center" wrap="wrap">
+        <Flex justify="space-around" w="80%" wrap="wrap">
           {histPerm.map(perm=>(
-            <Card w="40%">
-              <CardBody>
+            <Card w="48%" my="2%" key={perm.id} pb="1%">
+            <CardBody>
               <Stack divider={<StackDivider />} spacing='4'>
-                {perm.estado==="Pendiente"?
-                <Box bg={"yellow.400"} borderRadius="10px">
-                  <Heading size="lg" textAlign="center">{perm.estado}</Heading>
-                </Box>
-              :null}
-              {perm.estado==="Rechazado"?
-                <Box bg={"red.400"} borderRadius="10px">
-                  <Heading size="lg" textAlign="center">{perm.estado}</Heading>
-                </Box>
-              :null}
-              {perm.estado==="Aprovado"?
-                <Box bg={"green.400"} borderRadius="10px">
-                  <Heading size="lg" textAlign="center">{perm.estado}</Heading>
-                </Box>
-              :null}
-              
-                {/*  */}
-                <Box>
-                  <Heading size='lg'>
-                    Motivo
-                  </Heading>
-                  <Text>{perm.motivo}</Text>
-                </Box>
-                {/*  */}
-                {perm.notaM.length!==0 ?
-                <Box>
-                <Heading size='lg'>
-                  Nota del motivo
+                {perm.estado === "Pendiente" ?
+                  <Box bg={"yellow.400"} borderRadius="10px">
+                    <Heading size="md" textAlign="center" p="1%" fontSize="x-large">{perm.estado}</Heading>
+                  </Box>
+                  : null}
+                {perm.estado === "Rechazado" ?
+                  <Box bg={"red.400"} borderRadius="10px">
+                    <Heading size="md" textAlign="center" p="1%" fontSize="x-large">{perm.estado}</Heading>
+                  </Box>
+                  : null}
+                {perm.estado === "Confirmado" ?
+                  <Box bg={"green.400"} borderRadius="10px">
+                    <Heading size="md" textAlign="center" p="1%" fontSize="x-large">Aprobado</Heading>
+                  </Box>
+                  : null}
+                <Heading size='md'>
+                  {perm.nombre}
                 </Heading>
-                <Text>{perm.notaM}</Text>
-              </Box>
-              :null}
-              {/*  */}
-              <Box>
-                  <Heading size='lg'>
-                    Detalle específico del motivo
-                  </Heading>
-                  <Text>{perm.detalle}</Text>
-                </Box>
-                {/*  */}
-                <Box>
-                  <Heading size='lg'>
-                    Dias u horas
-                  </Heading>
-                  <Text>{perm.DoH}</Text>
-                </Box>
-                {/*  */}
-                <Box>
-                  <Heading size='lg'>
-                    Cantidad dias u horas
-                  </Heading>
-                  <Text>{perm.cantDoH}</Text>
-                </Box>
-                {/*  */}
-                <Box>
-                  <Heading size='lg'>
-                    Inicia
-                  </Heading>
-                  <Text>{perm.inicia}</Text>
-                </Box>
-                {/*  */}
-                <Box>
-                  <Heading size='lg'>
-                  Finaliza
-                  </Heading>
-                  <Text>{perm.finaliza}</Text>
-                </Box>
-                {/*  */}
-                <Box>
-                  <Heading size='lg'>
-                    Regresa al puesto de trabajo
-                  </Heading>
-                  <Text>{perm.vuelve}</Text>
-                </Box>
-                {/*  */}
-                <Box>
-                  <Heading size='md'>
-                    Reuniones, cursos o eventos importantes
-                  </Heading>
-                  <Text>{perm.importante}</Text>
-                </Box>
-                {/*  */}
-                <Box>
-                  <Heading size='lg'>
-                    Propuesta de compensación
-                  </Heading>
-                  <Text>{perm.propuesta}</Text>
-                </Box>
-                {/*  */}
-                <Box>
-                  <Heading size='lg'>
-                    Documentacion de respaldo
-                  </Heading>
-                  <Text>{perm.documentacion}</Text>
-                </Box>
-                {/*  */}
-                {perm.notaD.length!==0 ?
-                <Box>
-                <Heading size='lg'>
-                  Nota de la documentacion
-                </Heading>
-                <Text>{perm.notaD}</Text>
-              </Box>
-              :null}
-                </Stack>
-              </CardBody>
-            </Card>
+                <Flex direction="row" >
+                  <Flex direction="column" w="50%">
+                    {/*  */}
+                    <Box>
+                      <Heading size='md'>
+                        Motivo
+                      </Heading>
+                      <Text>{perm.motivo}</Text>
+                    </Box>
+                    {/*  */}
+                    {perm.notaM.length !== 0 ?
+                      <Box>
+                        <Heading size='md'>
+                          Nota del motivo
+                        </Heading>
+                        <Text>{perm.notaM}</Text>
+                      </Box>
+                      : null}
+                    {/*  */}
+                    <Box>
+                      <Heading size='md'>
+                        Detalle específico del motivo
+                      </Heading>
+                      <Text>{perm.detalle}</Text>
+                    </Box>
+                    {/*  */}
+                    <Box>
+                      <Heading size='md'>
+                        Dias u horas
+                      </Heading>
+                      <Text>{perm.DoH}</Text>
+                    </Box>
+                    {/*  */}
+                    <Box>
+                      <Heading size='md'>
+                        Cantidad dias u horas
+                      </Heading>
+                      <Text>{perm.cantDoH}</Text>
+                    </Box>
+                    {/*  */}
+                    <Box>
+                      <Heading size='md'>
+                        Inicia
+                      </Heading>
+                      <Text>{perm.inicia}</Text>
+                    </Box>
+                    {/*  */}
+                  </Flex>
+
+                  {/* /////////////////////////////////////////////////// */}
+                  <Flex direction="column"  w="50%">
+                    <Box>
+                      <Heading size='md'>
+                        Finaliza
+                      </Heading>
+                      <Text>{perm.finaliza}</Text>
+                    </Box>
+                    {/*  */}
+
+                    <Box>
+                      <Heading size='md'>
+                        Regresa al puesto de trabajo
+                      </Heading>
+                      <Text>{perm.vuelve}</Text>
+                    </Box>
+                    {/*  */}
+                    <Box>
+                      <Heading size='md'>
+                        Reuniones, cursos o eventos importantes
+                      </Heading>
+                      <Text>{perm.importante}</Text>
+                    </Box>
+                    {/*  */}
+                    <Box>
+                      <Heading size='md'>
+                        Propuesta de compensación
+                      </Heading>
+                      <Text>{perm.propuesta}</Text>
+                    </Box>
+                    {/*  */}
+                    <Box>
+                      <Heading size='md'>
+                        Documentacion de respaldo
+                      </Heading>
+                      <Text>{perm.documentacion}</Text>
+                    </Box>
+                    {/*  */}
+                    {perm.notaD.length !== 0 ?
+                      <Box>
+                        <Heading size='md'>
+                          Nota de la documentacion
+                        </Heading>
+                        <Text>{perm.notaD}</Text>
+                      </Box>
+                      : null}
+                  </Flex>
+                </Flex>
+              </Stack>
+            </CardBody>
+          </Card>
 
           ))}
         

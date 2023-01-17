@@ -55,13 +55,15 @@ export default function Usuarios() {
     id: "",
   })
 
-  const asd1 = useColorModeValue('white', 'gray.900')
+  
   const { isOpen: isOpenCrear, onOpen: onOpenCrear, onClose: onCloseCrear } = useDisclosure()
   const { isOpen: isOpenBorrar, onOpen: onOpenBorrar, onClose: onCloseBorrar } = useDisclosure()
   const initialRef = React.useRef(null)
   const toast = useToast()
-  const asd2 = useColorModeValue("2xl", "0px 0px 13px 2px rgba(255,255,255,0.2)")
-  const asd3 = useColorModeValue("2xl", "0px 3px 13px 2px rgba(139, 193, 255, 0.2)")
+  const bgCard = useColorModeValue('white', 'gray.900')
+  const sombraCard = useColorModeValue("2xl", "0px 0px 13px 2px rgba(255,255,255,0.2)")
+  const sombraButton = useColorModeValue("2xl", "0px 3px 13px 2px rgba(139, 193, 255, 0.2)")
+  const asd4= useColorModeValue("gray.600","gray.400")
 
   /////////////////////TRAE LOS USUARIOS//////////////
   useEffect(() => {
@@ -168,7 +170,7 @@ export default function Usuarios() {
       <NavBar />
       <Heading fontSize={[25, 35, 45, 60]} my="2%" ml="7%">Usuarios</Heading>
       {rol === 2 &&
-        <Button size="lg" ml="10%" onClick={onOpenCrear} boxShadow={asd3}>Crear usuario</Button>
+        <Button size="lg" ml="10%" onClick={onOpenCrear} boxShadow={sombraButton}>Crear usuario</Button>
       }
       <Box minH="100vh">
       <Flex justifyContent="center">
@@ -181,10 +183,10 @@ export default function Usuarios() {
                 w={{ sm: '100%', md: '540px' }}
                 height={{ sm: '476px', md: '20rem' }}
                 direction={{ base: 'column', md: 'row' }}
-                bg={asd1}
-                boxShadow={asd2}
+                bg={bgCard}
+                boxShadow={sombraCard}
                 padding={4}>
-                <Flex flex={1} bg={asd1}>
+                <Flex flex={1} bg={bgCard}>
                   <Image
                     objectFit="cover"
                     boxSize="100%"
@@ -208,7 +210,7 @@ export default function Usuarios() {
                   </Text>
                   <Text
                     textAlign={'center'}
-                    color='gray.700'
+                    color={asd4}
                     px={3}>
                     {user.descripcion}
                   </Text>

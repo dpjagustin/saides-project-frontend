@@ -44,6 +44,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import es from "date-fns/locale/es";
 import {  ExternalLinkIcon, DeleteIcon } from "@chakra-ui/icons";
+import { act } from "@testing-library/react";
 import DescargaExcel from '../components/DescargaExcel'
 
 export default function AdminComida() {

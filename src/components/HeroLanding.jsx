@@ -9,14 +9,9 @@ import {
   useBreakpointValue,
 } from '@chakra-ui/react';
 import styled from "styled-components";
-// import { useNavigate } from "react-router-dom";
 
 
 export default function HeroLanding() {
-  // const navegar = useNavigate();
-  // const irLogin= ()=>{
-  //   navegar("/login");
-  // }
   return(
     <Flex
         w={'full'}

@@ -13,7 +13,8 @@ import { InfoIcon } from "@chakra-ui/icons";
 export default function Noticias() {
   const urlnoticias="http://10.0.0.47:8000/api/FindNoticias"
   const [data, setData] = useState([])
-  const cambiarColoresShadow= useColorModeValue("0px 0px 8px 2px rgba(255,255,255,0.5)", "xl")
+  const cambiarColoresShadow= useColorModeValue("xl","0px 0px 8px 2px rgba(255,255,255,0.5)")
+  
   
   ///////////// TRAE LAS NOTICIAS///////////////
 
@@ -42,21 +43,31 @@ export default function Noticias() {
             No hay noticias actualmente
           </Heading>
         </Box>:null}
-          {data.map(nov => (
-            <Box p='5' borderWidth='1px' rounded='md' key={nov.id} boxShadow={cambiarColoresShadow} minW="300px" minHeight="200px" m="30px">
-              <Box>
-                {nov.fecha}
-              </Box>
-              <Heading size='md' my='2'>
-                <h2>{nov.titulo}</h2>
-              </Heading>
-              <Text className="subtitulo" mb="3">{nov.subtitulo}</Text>
-              <Text>•{nov.item1}<br /></Text>
-              <Text>•{nov.item2}<br /></Text>
-              <Text>•{nov.item3}<br /></Text>
-              <Image src={nov.imagen} w="100px"></Image>
-            </Box>
-          ))}
+        {data.map(nov => (
+                <Box rounded='md' key={nov.id} boxShadow={cambiarColoresShadow} minW="300px" minHeight="200px" maxW="400px" overflow="hidden" m="30px">
+                  <Box>
+                    <Image src={nov.imagen} w="100%"/>
+                  </Box>
+                  <Box p="5%">
+                    <Box fontWeight="medium" fontSize="lg">
+                      {nov.fecha}
+                    </Box>
+                    <Heading size='lg' my='2'>
+                      <h2>{nov.titulo}</h2>
+                    </Heading>
+                    <Text className="subtitulo" mb="3">{nov.subtitulo}</Text>
+                    {nov.item1.length!==0?
+                    <Text>•{nov.item1}<br /></Text>
+                    :null}
+                    {nov.item2.length!==0?
+                    <Text>•{nov.item2}<br /></Text>
+                    :null}
+                    {nov.item3.length!==0?
+                    <Text>•{nov.item3}<br /></Text>
+                    :null}
+                  </Box>
+                </Box>
+              ))}
         </Flex>
         </Flex>
     </>
