@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 
 export default function Landing() {
-  const urlauth = "http://localhost:8000/api/authUser"
+  const urlauth = "http://10.0.0.47:8000/api/authUser"
   const navigate = useNavigate();
   useEffect(() =>{
     (

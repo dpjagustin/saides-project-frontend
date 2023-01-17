@@ -15,11 +15,11 @@ import { CheckIcon, CloseIcon, DeleteIcon } from "@chakra-ui/icons";
 
 
 export default function AdminSolicitudes(){
-    const urlauth = "http://localhost:8000/api/authUser"
-    const urlTraerAllSolPerm="http://localhost:8000/api/findSolicitudes"
-    const urlAprobarPerm="http://localhost:8000/api/confirmarSolicitud"
-    const urlRechazarPerm="http://localhost:8000/api/rechazarSolicitud"
-    const urlBorrarPerm="http://localhost:8000/api/eliminarSolicitud"
+    const urlauth = "http://10.0.0.47:8000/api/authUser"
+    const urlTraerAllSolPerm="http://10.0.0.47:8000/api/findSolicitudes"
+    const urlAprobarPerm="http://10.0.0.47:8000/api/confirmarSolicitud"
+    const urlRechazarPerm="http://10.0.0.47:8000/api/rechazarSolicitud"
+    const urlBorrarPerm="http://10.0.0.47:8000/api/eliminarSolicitud"
 
     const [rol, setRol] = useState("");
     const [allPerm, setAllPerm]=useState([])
@@ -133,7 +133,7 @@ export default function AdminSolicitudes(){
     ////////////////////////////////////////////////////////
     //////////////////BORRAR PERMISO/////////////////////
     const borrarPerm= async ()=>{
-        await axios.patch(urlBorrarPerm,{
+        await axios.delete(urlBorrarPerm,{
             id:permSelec
         })
         .then((res)=>{

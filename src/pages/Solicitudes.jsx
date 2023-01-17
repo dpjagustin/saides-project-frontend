@@ -9,8 +9,8 @@ import es from "date-fns/locale/es";
 import axios from "axios";
 
 export default function Solicitudes() {
-  const urlEnvSolPerm="http://localhost:8000/api/crearSolicitud"
-  const urlTraerSolPerm="http://localhost:8000/api/findSolicitudNombre"
+  const urlEnvSolPerm="http://10.0.0.47:8000/api/crearSolicitud"
+  const urlTraerSolPerm="http://10.0.0.47:8000/api/findSolicitudNombre"
   const [estadoModal1, cambiarEstadoModal1] = useState(false);
   const [estadoModal2, cambiarEstadoModal2] = useState(false);
   const [estadoModal3, cambiarEstadoModal3] = useState(false);
@@ -48,7 +48,7 @@ export default function Solicitudes() {
   useEffect(() => {
     (
       async () => {
-        const response = await fetch("http://localhost:8000/api/authUser", {
+        const response = await fetch("http://10.0.0.47:8000/api/authUser", {
           headers: { "Content-Type": "application/json" },
           credentials: "include",
         });

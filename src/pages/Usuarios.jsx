@@ -35,10 +35,10 @@ import { SiLinkedin } from 'react-icons/si';
 
 
 export default function Usuarios() {
-  const ulrUsers = "http://localhost:8000/api/users"
-  const urlauth = "http://localhost:8000/api/authUser"
-  const urlregister = "http://localhost:8000/api/register"
-  const urldeleteuser = "http://localhost:8000/api/deleteUser"
+  const ulrUsers = "http://10.0.0.47:8000/api/users"
+  const urlauth = "http://10.0.0.47:8000/api/authUser"
+  const urlregister = "http://10.0.0.47:8000/api/register"
+  const urldeleteuser = "http://10.0.0.47:8000/api/deleteUser"
   const [actualizar, setActualizar]=useState(0)
   const [usuarios, setUsuarios] = useState([])
   const [newUser, setNewUser] = useState({

@@ -11,7 +11,7 @@ import axios from "axios";
 import { InfoIcon } from "@chakra-ui/icons";
 
 export default function Noticias() {
-  const urlnoticias="http://localhost:8000/api/FindNoticias"
+  const urlnoticias="http://10.0.0.47:8000/api/FindNoticias"
   const [data, setData] = useState([])
   const cambiarColoresShadow= useColorModeValue("0px 0px 8px 2px rgba(255,255,255,0.5)", "xl")
   

@@ -30,8 +30,8 @@ import axios from "axios";
 import { useState } from "react";
 
 export default function Micuenta() {
-    const urlauth = "http://localhost:8000/api/authUser"
-    const urledit = "http://localhost:8000/api/editUser"
+    const urlauth = "http://10.0.0.47:8000/api/authUser"
+    const urledit = "http://10.0.0.47:8000/api/editUser"
     const [userData, setUserData] = useState({})
     const [userSeleccionado, setUserSeleccionado] = useState({
         id: "",

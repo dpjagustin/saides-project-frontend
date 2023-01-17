@@ -51,8 +51,8 @@ function cambiarColoresEditar() {
 }
 
 
-const urldelete = "http://localhost:8000/api/deleteNota"
-const urlmodificar = "http://localhost:8000/api/updateNota"
+const urldelete = "http://10.0.0.47:8000/api/deleteNota"
+const urlmodificar = "http://10.0.0.47:8000/api/updateNota"
 
 export default function Notas() {
     /////////// CONSTANTES CON ACTUALIZACION DE DATOS////////////
@@ -92,7 +92,7 @@ export default function Notas() {
     useEffect(() =>{
         (
           async ()=>{
-            const response = await fetch("http://localhost:8000/api/authUserNotes",{
+            const response = await fetch("http://10.0.0.47:8000/api/authUserNotes",{
                 headers:{"Content-Type":"application/json"},
                 credentials:"include",
             });
@@ -109,7 +109,7 @@ export default function Notas() {
     useEffect(() =>{
         (
           async ()=>{
-            const response = await fetch("http://localhost:8000/api/authUser",{
+            const response = await fetch("http://10.0.0.47:8000/api/authUser",{
                 headers:{"Content-Type":"application/json"},
                 credentials:"include",
             });
@@ -124,7 +124,7 @@ export default function Notas() {
     const crearNota = async (e)=>{
         e.preventDefault();
 
-        await fetch("http://localhost:8000/api/addNota",{
+        await fetch("http://10.0.0.47:8000/api/addNota",{
             method:"POST",
             headers:{"Content-type":"application/json"},
             credentials:"include",

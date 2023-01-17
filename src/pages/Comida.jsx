@@ -10,9 +10,9 @@ import es from "date-fns/locale/es";
 import { InfoIcon } from "@chakra-ui/icons";
 
 export default function Comida() {
-  const urladd = "http://localhost:8000/api/addMenu"
-  const urlbusqueda = "http://localhost:8000/api/busquedaPorPersonayMes"
-  const urlmenusdisponibles = "http://localhost:8000/api/menuTrue"
+  const urladd = "http://10.0.0.47:8000/api/addMenu"
+  const urlbusqueda = "http://10.0.0.47:8000/api/busquedaPorPersonayMes"
+  const urlmenusdisponibles = "http://10.0.0.47:8000/api/menuTrue"
   const [nombre, setNombre] = useState("");
   const [apellido, setApellido] = useState("");
   const [data, setData] = useState([]);
@@ -58,7 +58,7 @@ export default function Comida() {
   useEffect(() => {
     (
       async () => {
-        const response = await fetch("http://localhost:8000/api/authUser", {
+        const response = await fetch("http://10.0.0.47:8000/api/authUser", {
           headers: { "Content-Type": "application/json" },
           credentials: "include",
         });

@@ -96,7 +96,7 @@ const LinksAdmin = [{
 
 export default function NavBar() {
 
-  const urlauth = "http://localhost:8000/api/authUser"
+  const urlauth = "http://10.0.0.47:8000/api/authUser"
   const { colorMode, toggleColorMode } = useColorMode();
   const [nombre, setNombre] = useState("");
   const [apellido, setApellido] = useState("");
@@ -124,7 +124,7 @@ export default function NavBar() {
 
 ///////////////CERRAR SESION////////////////
   const cerrarSesion = async () => {
-    await fetch("http://localhost:8000/api/logout", {
+    await fetch("http://10.0.0.47:8000/api/logout", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",

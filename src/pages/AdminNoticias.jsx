@@ -45,11 +45,11 @@ function cambiarColoresShadow() {
 
 
 function AdminNoticias(){
-  const urlCrearNoticia="http://localhost:8000/api/addNoticia"
-  const urlDeleteNoticia = "http://localhost:8000/api/deleteNoticia"
-  const urlModificarNoticia = "http://localhost:8000/api/updateNoticia"
-  const urlTraerNoticias="http://localhost:8000/api/FindNoticias"
-  const urlauth="http://localhost:8000/api/authUser"
+  const urlCrearNoticia="http://10.0.0.47:8000/api/addNoticia"
+  const urlDeleteNoticia = "http://10.0.0.47:8000/api/deleteNoticia"
+  const urlModificarNoticia = "http://10.0.0.47:8000/api/updateNoticia"
+  const urlTraerNoticias="http://10.0.0.47:8000/api/FindNoticias"
+  const urlauth="http://10.0.0.47:8000/api/authUser"
   const [data, setData] = useState([])
   const [actualizar, setActualizar] = useState(0)
   const [novAdd, setNovAdd] = useState({

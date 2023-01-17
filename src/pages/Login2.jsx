@@ -29,7 +29,7 @@ function cambiarColores() {
     }
     return colores
 }
-const urllog = "http://localhost:8000/api/login"
+const urllog = "http://10.0.0.47:8000/api/login"
 
 const Login = () => {
     const [username, setUsername] = useState("")
