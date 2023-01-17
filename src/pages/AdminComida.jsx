@@ -19,6 +19,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"
 import es from "date-fns/locale/es";
 import { DeleteIcon } from "@chakra-ui/icons";
+import { act } from "@testing-library/react";
 
 
 export default function AdminComida() {
@@ -87,7 +88,7 @@ export default function AdminComida() {
                     })
             }
         )();
-    });
+    },[]);
 
     if (rol === 1) {
         navigate("/index")
@@ -345,7 +346,6 @@ export default function AdminComida() {
         })
     }
     /////////////////////////////////////////////////////////
-
     //////////////HANDLE DE LAS PAG/////////////
     const handlePag = () => {
         setPag(1)
@@ -362,15 +362,11 @@ export default function AdminComida() {
     const handlePag5 = () => {
         setPag(5)
     }
-
-
     //////////////DEVUELVE LA FECHA DE SELECCIONADOR DE FECHAS///////////////
     const formatDia = fecha.getDate()
     const formatMes = fecha.getMonth() + 1
     const formatAño = fecha.getFullYear()
     /////////////////////////////////////////////////////////
-
-
     const { isOpen: isOpenBorrar, onOpen: onOpenBorrar, onClose: onCloseBorrar } = useDisclosure()
     return (
         <>
@@ -379,7 +375,7 @@ export default function AdminComida() {
 
                 {/*////////////////// CARGA DE LOS MENUS DEL MES////////////////////////// */}
                 <Heading fontSize={[25, 35, 45, 60]} my="3%" ml="7%" >Cargar Comidas</Heading>
-                <Flex ml="8%" wrap="wrap">
+                <Flex ml="8%" wrap="wrap"mb="1%">
                     <Button onClick={handlePag} boxShadow={asd2} mx="10px" mb="2%">Cargar menus por dia</Button>
                     <Button onClick={handlePag2} boxShadow={asd2} mx="10px" mb="2%">Habilitar-deshabilitar</Button>
                     <Button onClick={handlePag3} boxShadow={asd2} mx="10px" mb="2%">Cargar Comidas del distribuidor</Button>
@@ -387,7 +383,7 @@ export default function AdminComida() {
                     <Button onClick={handlePag5} boxShadow={asd2} mx="10px" mb="2%">Eliminar mes guardado por usuarios</Button>
 
                 </Flex>
-
+                <Box minH="37vh">
                 {pag === 1 ?
                     <Flex justify="center">
                         <Card w="auto" boxShadow={asd2}>
@@ -491,6 +487,7 @@ export default function AdminComida() {
                         </Card>
                     </Flex>
                     : null}
+                    </Box>
                 <Heading fontSize={[25, 35, 45, 60]} my="3%" ml="7%">Ver comidas del mes</Heading>
                 <Flex justify="center" wrap="wrap" mb="2%">
                     <Box minW="50%">
@@ -540,11 +537,7 @@ export default function AdminComida() {
                     </Box>
                 </Flex>
             </Box>
-
             <Footer />
-
-
-
             <Modal isOpen={isOpenBorrar} onClose={onCloseBorrar}>
                 <ModalOverlay />
                 <ModalContent>

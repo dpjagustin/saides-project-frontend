@@ -57,11 +57,12 @@ export default function Footer() {
                 <Image src='/resources/logos/logoSaidesHundido.png' width="60px" alt='Logo Descar' id='logoDescar' />
               </a>
             </Box>
-        <Stack direction={'row'} spacing={6}>
-          <Link href={'#'}>Home</Link>
-          <Link href={'#'}>About</Link>
-          <Link href={'#'}>Blog</Link>
-          <Link href={'#'}>Contact</Link>
+        <Stack direction={'row'} spacing={6} wrap="wrap">
+          <Link href={'/index'} className="links">Inicio</Link>
+          <Link href={'/solicitudes'} className="links">Solicitudes</Link>
+          <Link href={'/comida'} className="links">Comidas</Link>
+          <Link href={'/usuarios'} className="links">Usuarios</Link>
+          <Link href={'/notas'} className="links">Mis notas</Link>
         </Stack>
       </Container>
 
@@ -77,7 +78,7 @@ export default function Footer() {
           spacing={4}
           justify={{ base: 'center', md: 'space-between' }}
           align={{ base: 'center', md: 'center' }}>
-          <Text>© 2022 Chakra Templates. All rights reserved</Text>
+          <Text>© 2022 Descar Argentina SRL. Todos los derechos reservados.</Text>
           <Stack direction={'row'} spacing={6}>
             <SocialButton label={'Twitter'} href={'#'}>
               <FaTwitter />
@@ -85,7 +86,7 @@ export default function Footer() {
             <SocialButton label={'YouTube'} href={'#'}>
               <FaYoutube />
             </SocialButton>
-            <SocialButton label={'Instagram'} href={'#'}>
+            <SocialButton label={'Instagram'} href={'https://www.instagram.com/descar_argentina/?hl=es'}>
               <FaInstagram />
             </SocialButton>
           </Stack>

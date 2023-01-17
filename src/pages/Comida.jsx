@@ -167,11 +167,13 @@ export default function Comida() {
   return (
     <>
       <NavBar />
+      <Box minH="100vh">
       <Heading fontSize={[25, 35, 45, 60]} my="2%" ml="7%">Comidas del mes</Heading>
       <Flex ml="10%" wrap="wrap">
         <Button borderRadius="20px" value="1" id="sida" onClick={handlePag} mr="1%">Cargar comidas</Button>
         <Button borderRadius="20px" onClick={handlePag2} >Ver comidas</Button>
       </Flex>
+      
       {pag === 1 && 
       <Flex justify="center" wrap="wrap">
         <Box w="70%">
@@ -258,6 +260,7 @@ export default function Comida() {
           </Box>
         </Flex>
       }
+      </Box>
       <Footer />
     </>
 
