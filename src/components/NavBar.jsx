@@ -155,7 +155,7 @@ export default function NavBar() {
               as={'nav'}
               spacing={4}
               display={{ base: 'none', md: 'flex' }}>
-              {rol === 1 ? 
+              {rol === 1 || rol === 3 || rol === 4 || rol === 5 ? 
               <>
                 {Links.map((link) => (
                   <Link key={link.id} className={link.clase} href={link.url}>{link.nombre}</Link>

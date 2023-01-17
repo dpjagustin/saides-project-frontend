@@ -39,7 +39,8 @@ export default function NuestraVision() {
     </Box>
     </Flex>
     
-    <Box p={4} mb={"5rem"} >
+    <Flex justifyContent="center" >
+    <Flex direction="column" p={4} w="90%" mb={"5rem"} >
       <SimpleGrid columns={{ base: 1, md: 3 }} spacing={10}>
         <Feature
           icon={<Icon as={FcBusinessman} w={10} h={10} />}
@@ -87,7 +88,8 @@ export default function NuestraVision() {
           }
         />
       </SimpleGrid>
-    </Box>
+    </Flex>
+    </Flex>
     </>
   )
 }

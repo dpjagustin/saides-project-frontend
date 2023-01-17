@@ -3,6 +3,7 @@ import Hero from "../components/Hero";
 import Footer from "../components/Footer";
 import Noticias from "../components/Noticias";
 import { Box } from "@chakra-ui/react";
+import LineaDivisora from "../components/LineaDivisora";
 const Home = () =>{
     return(
       <>

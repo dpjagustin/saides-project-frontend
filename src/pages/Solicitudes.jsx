@@ -7,10 +7,12 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"
 import es from "date-fns/locale/es";
 import axios from "axios";
+import PageSolicitudes from '../components/PageSolicitudes'
 
 export default function Solicitudes() {
   const urlEnvSolPerm="http://10.0.0.47:8000/api/crearSolicitud"
   const urlTraerSolPerm="http://10.0.0.47:8000/api/findSolicitudNombre"
+  const urlTraerSolRol="http://10.0.0.47:8000/api/findSolicitudesRol"
   const [estadoModal1, cambiarEstadoModal1] = useState(false);
   const [estadoModal2, cambiarEstadoModal2] = useState(false);
   const [estadoModal3, cambiarEstadoModal3] = useState(false);
@@ -23,6 +25,8 @@ export default function Solicitudes() {
   const [fecha3, setFecha3] = useState(new Date())
   const [nombre, setNombre] = useState("");
   const [apellido, setApellido] = useState("");
+  const [rol, setRol] = useState("");
+  const [histPermRol, setHistPermRol] = useState([])
   
   
   const [solicitudPermiso, setSolicitudPermiso]= useState({
@@ -56,11 +60,19 @@ export default function Solicitudes() {
         const content = await response.json();
         setNombre(content.nombre)
         setApellido(content.apellido)
+        setRol(content.rol)
       }
     )();
   }, );
    /////////CONSTANTE QUE ARMA EL NOMBRE COMPLETO///////////
   const nombrecompleto = nombre + " " + apellido
+  //////////////////////////////////////////////////////////////
+  let rolBuscado = rol;
+  if(rol === 3){
+    rolBuscado = 1;
+  } else if(rol === 5){
+    rolBuscado = 4;
+  }
   /////////////TRAE EL HISTORIAL DE LAS SOLICITUDES DEL USUARIO////////////
   const traerHistPerm= async ()=>{
     await axios.post(urlTraerSolPerm,{
@@ -69,8 +81,19 @@ export default function Solicitudes() {
       setHistPerm(res.data)
     })
   }
+
+  const traerHistPermRol= async (rolBuscado)=>{
+    await axios.post(urlTraerSolRol,{
+      rol: rolBuscado
+    }).then((res)=>{
+      setHistPermRol(res.data)
+
+    })
+  }
+  
   useEffect(() => {
     traerHistPerm();
+    traerHistPermRol();
   },[nombre])
   
   /////////////////HANDLE DE ENVIO DE SOLICITUD//////////////////////
@@ -85,6 +108,7 @@ export default function Solicitudes() {
   const enviarSolPerm = async()=>{
     await axios.post(urlEnvSolPerm,{
       nombre: nombrecompleto,
+      rol: rol,
       motivo: solicitudPermiso.motivo,
       notaM:solicitudPermiso.notaM,
       detalle:solicitudPermiso.detalle,
@@ -131,6 +155,9 @@ export default function Solicitudes() {
   const handlePag2 = () => {
     setPag(2)
   }
+  const handlePag3 = () => {
+    setPag(3)
+  }
   if(fecha2<fecha){
     toast({
       title: "Error. Ingrese correctamente las fechas",
@@ -149,6 +176,9 @@ export default function Solicitudes() {
       <Flex ml="10%" wrap="wrap" gap="10px">
         <Button borderRadius="20px" value="1" id="sida" onClick={handlePag} mr="1%">Cargar solicitud permiso</Button>
         <Button borderRadius="20px" onClick={handlePag2} >Ver historial de solicitudes</Button>
+        {rol === 3 ?
+        <Button borderRadius="20px" onClick={handlePag3} >Ver permisos del area</Button>
+      :null}
       </Flex>
       {pag===1?
       <Flex justify="center" w="100vw">
@@ -396,7 +426,140 @@ export default function Solicitudes() {
         </Flex>
         </>
       :null}
-      
+      {pag === 3?
+      <>
+        <Heading textAlign="center" my="1%">Historial de solicitudes</Heading>
+       <Flex justify="center" wrap="wrap">
+        <Flex justify="space-around" w="80%" wrap="wrap">
+          {histPermRol.map(perm=>(
+            <Card w="48%" my="2%" key={perm.id} pb="1%">
+            <CardBody>
+              <Stack divider={<StackDivider />} spacing='4'>
+                {perm.estado === "Pendiente" ?
+                  <Box bg={"yellow.400"} borderRadius="10px">
+                    <Heading size="md" textAlign="center" p="1%" fontSize="x-large">{perm.estado}</Heading>
+                  </Box>
+                  : null}
+                {perm.estado === "Rechazado" ?
+                  <Box bg={"red.400"} borderRadius="10px">
+                    <Heading size="md" textAlign="center" p="1%" fontSize="x-large">{perm.estado}</Heading>
+                  </Box>
+                  : null}
+                {perm.estado === "Confirmado" ?
+                  <Box bg={"green.400"} borderRadius="10px">
+                    <Heading size="md" textAlign="center" p="1%" fontSize="x-large">Aprobado</Heading>
+                  </Box>
+                  : null}
+                <Heading size='md'>
+                  {perm.nombre}
+                </Heading>
+                <Flex direction="row" >
+                  <Flex direction="column" w="50%">
+                    {/*  */}
+                    <Box>
+                      <Heading size='md'>
+                        Motivo
+                      </Heading>
+                      <Text>{perm.motivo}</Text>
+                    </Box>
+                    {/*  */}
+                    {perm.notaM.length !== 0 ?
+                      <Box>
+                        <Heading size='md'>
+                          Nota del motivo
+                        </Heading>
+                        <Text>{perm.notaM}</Text>
+                      </Box>
+                      : null}
+                    {/*  */}
+                    <Box>
+                      <Heading size='md'>
+                        Detalle específico del motivo
+                      </Heading>
+                      <Text>{perm.detalle}</Text>
+                    </Box>
+                    {/*  */}
+                    <Box>
+                      <Heading size='md'>
+                        Dias u horas
+                      </Heading>
+                      <Text>{perm.DoH}</Text>
+                    </Box>
+                    {/*  */}
+                    <Box>
+                      <Heading size='md'>
+                        Cantidad dias u horas
+                      </Heading>
+                      <Text>{perm.cantDoH}</Text>
+                    </Box>
+                    {/*  */}
+                    <Box>
+                      <Heading size='md'>
+                        Inicia
+                      </Heading>
+                      <Text>{perm.inicia}</Text>
+                    </Box>
+                    {/*  */}
+                  </Flex>
+
+                  {/* /////////////////////////////////////////////////// */}
+                  <Flex direction="column"  w="50%">
+                    <Box>
+                      <Heading size='md'>
+                        Finaliza
+                      </Heading>
+                      <Text>{perm.finaliza}</Text>
+                    </Box>
+                    {/*  */}
+
+                    <Box>
+                      <Heading size='md'>
+                        Regresa al puesto de trabajo
+                      </Heading>
+                      <Text>{perm.vuelve}</Text>
+                    </Box>
+                    {/*  */}
+                    <Box>
+                      <Heading size='md'>
+                        Reuniones, cursos o eventos importantes
+                      </Heading>
+                      <Text>{perm.importante}</Text>
+                    </Box>
+                    {/*  */}
+                    <Box>
+                      <Heading size='md'>
+                        Propuesta de compensación
+                      </Heading>
+                      <Text>{perm.propuesta}</Text>
+                    </Box>
+                    {/*  */}
+                    <Box>
+                      <Heading size='md'>
+                        Documentacion de respaldo
+                      </Heading>
+                      <Text>{perm.documentacion}</Text>
+                    </Box>
+                    {/*  */}
+                    {perm.notaD.length !== 0 ?
+                      <Box>
+                        <Heading size='md'>
+                          Nota de la documentacion
+                        </Heading>
+                        <Text>{perm.notaD}</Text>
+                      </Box>
+                      : null}
+                  </Flex>
+                </Flex>
+              </Stack>
+            </CardBody>
+          </Card>
+
+          ))}
+        
+        </Flex>
+        </Flex>
+        </>
+      :null}
       {/* <Flex w="100%" minH="67vh" justify="space-between">
 
         <Flex w="50%" justify="center" alignItems="center">

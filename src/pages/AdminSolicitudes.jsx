@@ -32,6 +32,7 @@ export default function AdminSolicitudes(){
     const [pag, setPag]= useState(1)
     const [actualizar, setActualizar]=useState(0)
     const [permSelec, setPermSelec]= useState()
+    const [fecha, setFecha] = useState("")
     
     /////////////////VERIFICA QUE ES ADMIN///////////////////
     useEffect(() => {

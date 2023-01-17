@@ -5,16 +5,16 @@ import {
   Box,
   Heading,
   useColorModeValue,
-  Image
+  Image,
 } from '@chakra-ui/react';
 import axios from "axios";
 import { InfoIcon } from "@chakra-ui/icons";
-
+import LineaDivisora from "./LineaDivisora";
 export default function Noticias() {
   const urlnoticias="http://10.0.0.47:8000/api/FindNoticias"
   const [data, setData] = useState([])
   const cambiarColoresShadow= useColorModeValue("xl","0px 0px 8px 2px rgba(255,255,255,0.5)")
-  
+
   
   ///////////// TRAE LAS NOTICIAS///////////////
 
@@ -33,7 +33,8 @@ export default function Noticias() {
   
   return (
     <>
-    <Heading fontSize="40px" ml="10%">Noticias</Heading>
+    <LineaDivisora />
+      <Heading fontSize={[25, 35, 45, 60]} ml="7%">Noticias</Heading>
       <Flex w="100%" justify="center" alignItems="center" gap="1rem" wrap="wrap">
         <Flex wrap="wrap" w="90%" justify="center">
           {data.length===0?
