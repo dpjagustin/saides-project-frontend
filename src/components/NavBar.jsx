@@ -188,7 +188,7 @@ export default function NavBar() {
                     src={imagen}
                   />
                 </MenuButton>
-                <MenuList alignItems={'center'}>
+                <MenuList className="userMenu" alignItems={'center'} >
                   <br />
                   <Center>
                     <Avatar
@@ -203,10 +203,11 @@ export default function NavBar() {
                   <Center>
                     <p className="nombreyrol">{rol}</p>
                   </Center>
-                  <br />
+                  
                   <MenuDivider />
-                  <MenuItem><a href="/micuenta"><Button className="linkscuenta" colorScheme="blue">Mi cuenta </Button></a></MenuItem>
-                  <MenuItem><Button className="linkscuenta" colorScheme='red' onClick={() => cerrarSesion()}>Cerrar sesión</Button></MenuItem>
+                  <a href="/micuenta" w="auto"><Button className="linkscuenta" colorScheme="blue" w="100%" mb="2">Mi cuenta </Button></a>
+                  <br />
+                  <a href="/" w="auto"><Button className="linkscuenta" colorScheme='red' onClick={cerrarSesion} w="100%">Cerrar sesión</Button></a>
                 </MenuList>
               </Menu>
             </HStack>

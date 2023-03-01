@@ -102,7 +102,7 @@ const Login = () => {
 
                             <FormControl>
                                 <FormLabel>Contraseña</FormLabel>
-                                <Input rounded="none" variant="filled" type="password" name="password" onChange={e => setPassword(e.target.value)} id="inputpass" />
+                                <Input rounded="none" variant="filled" type="password" name="password" onChange={e => setPassword(e.target.value)} onSubmit={loguearse} id="inputpass" />
                             </FormControl>
                             <Button rounded="lg" colorScheme="blue" w="full" alignSelf="end" onClick={loguearse} mt="1.8em" >Login</Button>
                         </FormControl>

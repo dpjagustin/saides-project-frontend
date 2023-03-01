@@ -7,7 +7,6 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"
 import es from "date-fns/locale/es";
 import axios from "axios";
-import PageSolicitudes from '../components/PageSolicitudes'
 
 export default function Solicitudes() {
   const urlEnvSolPerm="http://10.0.0.47:8000/api/crearSolicitud"

@@ -15,6 +15,7 @@ import styled from "styled-components";
 import NuestraVision from './NuestraVision';
 import Noticias from './Noticias';
 import HeroLanding from './HeroLanding';
+import SliderLanding from './SliderLanding'
 
 
 export default function HomeLanding() {
@@ -40,7 +41,8 @@ export default function HomeLanding() {
             <Image alt={'Planta industrial'} src={'/resources/logos/logoDeplmPng.png'} w={"16rem"} h={"7rem"}/> 
           </Flex>
       </Flex>
-          <NuestraVision />
+          {/* <NuestraVision /> */}
+          <SliderLanding/>
     </>
   );
 }

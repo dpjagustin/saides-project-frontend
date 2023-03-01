@@ -11,7 +11,7 @@ import {
   ModalBody,
   ModalFooter,
   ModalContent,
-  useDisclosure, useToast, Divider
+  useDisclosure, useToast, Divider, useColorModeValue
 } from "@chakra-ui/react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"
@@ -33,6 +33,10 @@ export default function AdminSolicitudes(){
     const [actualizar, setActualizar]=useState(0)
     const [permSelec, setPermSelec]= useState()
     const [fecha, setFecha] = useState("")
+    const asd2 = useColorModeValue(
+      "2xl",
+      "0px 0px 13px 5px rgba(255,255,255,0.3)"
+    );
     
     /////////////////VERIFICA QUE ES ADMIN///////////////////
     useEffect(() => {
@@ -175,7 +179,7 @@ export default function AdminSolicitudes(){
   return (
     <>
       <NavBar />
-      <Box minH="100vh">
+      <Box minH="100vh" >
         <Heading fontSize={[25, 35, 45, 60]} my="2%" ml="7%">Solicitudes de permiso</Heading>
         <Flex ml="10%" wrap="wrap">
           <Button borderRadius="20px" value="1" id="sida" onClick={handlePag} mr="1%">Ver solicitudes de permisos</Button>
@@ -186,7 +190,7 @@ export default function AdminSolicitudes(){
             <Flex justify="center" wrap="wrap">
               <Flex justify="space-around" w="80%" wrap="wrap" >
                 {allPerm.map(perm => (
-                  <Card w="48%" my="2%" key={perm.id} pb="1%">
+                  <Card w="48%" my="2%" key={perm.id} pb="1%" boxShadow={asd2}>
                     <CardBody>
                       <Stack divider={<StackDivider />} spacing='4'>
                         {perm.estado === "Pendiente" ?

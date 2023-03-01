@@ -47,6 +47,7 @@ import {  ExternalLinkIcon, DeleteIcon } from "@chakra-ui/icons";
 import { act } from "@testing-library/react";
 import DescargaExcel from '../components/DescargaExcel'
 
+
 export default function AdminComida() {
   /////////////URLS API///////////////////////////////////
   const urlauth = "http://10.0.0.47:8000/api/authUser";

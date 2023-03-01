@@ -25,17 +25,17 @@ const Feature = ({ title, text, icon }) => {
 export default function NuestraVision() {
   return(
     <>
-    <Flex>
+    <Flex justifyContent="center">
           <Box textAlign="center" py={10} px={6} mb={"5rem"}>
       {/* <InfoIcon boxSize={'50px'} color={'blue.500'} /> */}
       <Heading as="h2" size="xl" mt={1} mb={2}>
         Nuestra visión
       </Heading>
-      <Text color={'gray.500'}>
+      {/* <Text color={'gray.500'}>
         Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
         eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
         voluptua.
-      </Text>
+      </Text> */}
     </Box>
     </Flex>
     

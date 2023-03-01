@@ -9,7 +9,7 @@ import {
   VisuallyHidden,
   Image
 } from '@chakra-ui/react';
-import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
+import { FaInstagram, FaLinkedin, FaTwitter, FaYoutube } from 'react-icons/fa';
 import "./styles/navbar.css"
 
 
@@ -80,10 +80,10 @@ export default function Footer() {
           align={{ base: 'center', md: 'center' }}>
           <Text>© 2022 Descar Argentina SRL. Todos los derechos reservados.</Text>
           <Stack direction={'row'} spacing={6}>
-            <SocialButton label={'Twitter'} href={'#'}>
-              <FaTwitter />
+            <SocialButton label={'Twitter'} href={'https://www.linkedin.com/company/descararg/mycompany/'}>
+              <FaLinkedin />
             </SocialButton>
-            <SocialButton label={'YouTube'} href={'#'}>
+            <SocialButton label={'YouTube'} href={'https://www.youtube.com/@DescarDeplm'}>
               <FaYoutube />
             </SocialButton>
             <SocialButton label={'Instagram'} href={'https://www.instagram.com/descar_argentina/?hl=es'}>
