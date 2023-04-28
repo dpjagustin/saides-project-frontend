@@ -40,13 +40,11 @@ export default function Comida() {
   const urlbusqueda = "http://10.0.0.47:8000/api/busquedaPorPersonayMes";
   const urlmenusdisponibles = "http://10.0.0.47:8000/api/menuTrue";
   const urlMenuLimpio = "http://10.0.0.47:8000/api/menuTrueLimpio";
+  const urlauth ="http://10.0.0.47:8000/api/authUser"
   const [data3, setData3] = useState([]);
   const [añoLimpio, setAñoLimpio] = useState("");
   const [mesLimpio, setMesLimpio] = useState("");
-  const [nombre, setNombre] = useState("");
-  const [apellido, setApellido] = useState("");
   const [nombrecompleto, setNombrecompleto] = useState("");
-  const [data, setData] = useState([]);
   const [envCom, setEnvCom] = useState({
     dia: "",
     mes: "",
@@ -123,40 +121,39 @@ export default function Comida() {
 
   useEffect(() => {
     (async () => {
-      const response = await fetch("http://10.0.0.47:8000/api/authUser", {
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-      });
-      const content = await response.json();
-      setNombre(content.nombre);
-      setApellido(content.apellido);
-      setNombrecompleto(`${content.nombre} ${content.apellido}`);
-      console.log(content);
-      
-      axios
-      .get(urlmenusdisponibles)
+      await axios.get(urlauth, { withCredentials: true })
+          .then((res) => {
+            const content = res.data
+            setNombrecompleto(`${content.nombre} ${content.apellido}`);
+          })
+      axios.get(urlmenusdisponibles)
       .then((res) => {
-        setAñoLimpio(res.data.año)
-        setMesLimpio(res.data.mes)
+        console.log(res.data)
+        if(res.data.length =! 0){
+          setAñoLimpio(res.data[0].año)
+          setMesLimpio(res.data[0].mes)
+          setActualizador(actualizador + 1);
+        }
       })
-      setActualizador(actualizador + 1);
     })();
   }, []);
-
+  
   useEffect(() => {
+    console.log(nombrecompleto);
+    console.log(mesLimpio, añoLimpio)
     axios
-      .post(urlMenuLimpio, {
-        nombre: nombrecompleto,
-        mes: mesLimpio,
-        año: añoLimpio,
-      })
+    .post(urlMenuLimpio, {
+      nombre: nombrecompleto,
+      mes: mesLimpio,
+      año: añoLimpio,
+    })
       .then((res) => {
         console.log(res);
         setData3(res.data);
         if (res.data.length === 0) {
           toast({
             title:
-              "No se encontraron resultados. No tiene comida pendiente por cargar.",
+            "No se encontraron resultados. No tiene comida pendiente por cargar.",
             status: "error",
             position: "top",
             duration: 2000,
@@ -184,7 +181,7 @@ export default function Comida() {
       },
     ]);
   }, [actualizador]);
-
+  
   //////////////TRAER LAS COMIDAS DISPONIBLES DEL MES//////////////////
 
   //////////////////MANEJAR LO QUE EL USUARIO ELIGE Y PONERLO EN LA VARIABLE PARA MANDAR///////////////

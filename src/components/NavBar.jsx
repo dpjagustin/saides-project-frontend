@@ -94,7 +94,7 @@ const LinksAdmin = [{
 // Que el nombre en el despegable de usuario sea personalizado
 
 
-export default function NavBar() {
+export default function NavBar({userOnline}) {
 
   const urlauth = "http://10.0.0.47:8000/api/authUser"
   const { colorMode, toggleColorMode } = useColorMode();
@@ -114,6 +114,7 @@ export default function NavBar() {
             setApellido(content.apellido)
             setImagen(content.imagen)
             setRol(content.rol)
+            userOnline()
           }).catch((error) => {
             swal({ icon: "error", title: "No hay un usuario logeado" })
             navigate("/")
